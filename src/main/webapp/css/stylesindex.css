@@ -1,0 +1,26 @@
+.navbar {
+    background: linear-gradient(to bottom, #00009A, #FFFFFF);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 350px;
+    /* Elige la altura que desees */
+    object-fit: cover;
+    /* Esto asegura que la imagen mantenga su relación de aspecto */
+}
+#myCarousel {
+    width: 1500px; /* El ancho deseado */
+    margin: 0 auto; /* Esto centrará el carrusel horizontalmente */
+}
+.navbar li{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: larger;
+}
+.card{
+    text-align: center;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.footer{
+    background: linear-gradient(to top, #500CD4, #FFFFFF);
+}

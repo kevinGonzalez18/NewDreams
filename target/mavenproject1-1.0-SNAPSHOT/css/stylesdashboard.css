@@ -1,0 +1,30 @@
+.card {
+    padding: 50px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom, #cccafd 20%, #cccafd , #cccafd , #FFFFFF);
+}
+
+.card-body {
+    font-size: 50px;
+}
+
+.card-footer {
+    padding: 30px;
+    border-top: 20px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-footer a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.card-footer a:hover {
+    color: #FFFFFF;
+}
+
+.col-lg-5, .col-md-5 {
+    margin-bottom: 20px;
+}
