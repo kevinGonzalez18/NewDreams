@@ -79,7 +79,7 @@
                     <span class="fas fa-key"></span>
                     <input type="password" name="password" id="pwd" placeholder="Contraseña">
                 </div>
-                <button class="btn mt-3">Ingresar</button>
+                <button class="btn mt-3" id="tryLogIn">Ingresar</button>
             </form>
             <div class="text-center fs-6">
                 <a href="reestablecerContraseña.jsp">¿Olvidaste la contraseña?</a>
