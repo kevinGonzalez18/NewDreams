@@ -60,7 +60,7 @@
                 </div>
                 <!-- Botón de inicio de sesión -->
                 <a href="login.jsp">
-                    <button class="btn btn-outline-light ms-auto" type="button">Iniciar sesión</button>
+                    <button class="btn btn-outline-light ms-auto" type="button" id="logIn">Iniciar sesión</button>
                 </a>
             </div>
         </nav>
