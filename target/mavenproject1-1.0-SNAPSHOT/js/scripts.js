@@ -82,14 +82,3 @@ document.getElementById('toggle_date_icon').addEventListener('click', function (
         icon.classList.add('fa-calendar-alt');
     }
 });
-
-//Crear cliente
-$(document).ready(function() {
-    $('.crear-cliente-btn').click(function() {
-        $('#formulario-crear').modal('show');
-    });
-
-    $('#btn-guardar').click(function() {
-    });
-});
-
