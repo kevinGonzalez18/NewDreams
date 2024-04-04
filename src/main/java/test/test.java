@@ -6,7 +6,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.WebElement;
 
 public class test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
         System.setProperty("webdriver.edge.driver", "C:\\Users\\Felipe Rodriguez\\Documents\\NetBeansProjects\\mavenproject1\\src\\main\\resources\\drivers\\edgedriver_win64\\msedgedriver.exe");
         
         //Inicializar el driver
@@ -26,6 +26,7 @@ public class test {
         
         //Acciones
         loginBtn1.click();
+        Thread.sleep(2000);
         
         //Localizador por ID
         WebElement userBtn = driver.findElement(By.id("userName"));
@@ -35,7 +36,11 @@ public class test {
         //Acciones
         userBtn.sendKeys(user);
         passwordBtn.sendKeys(password);
+        Thread.sleep(2000);
+        
         loginBtn2.click();
+        Thread.sleep(5000);
+        
         
         WebElement logOut = driver.findElement(By.xpath("//*[@id=\"logoutButton\"]"));
         
