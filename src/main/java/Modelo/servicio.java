@@ -9,18 +9,21 @@ package Modelo;
  * @author Felipe Rodriguez
  */
 public class servicio {
+
     private String servicioId;
     private int servicioValor;
     private String servicioTipo;
+    private String servicioNombre;
     private String servicioDescripcion;
 
     public servicio() {
     }
 
-    public servicio(String servicioId, int servicioValor, String servicioTipo, String servicioDescripcion) {
+    public servicio(String servicioId, int servicioValor, String servicioTipo, String servicioNombre, String servicioDescripcion) {
         this.servicioId = servicioId;
         this.servicioValor = servicioValor;
         this.servicioTipo = servicioTipo;
+        this.servicioNombre = servicioNombre;
         this.servicioDescripcion = servicioDescripcion;
     }
 
@@ -55,6 +58,12 @@ public class servicio {
     public void setServicioDescripcion(String servicioDescripcion) {
         this.servicioDescripcion = servicioDescripcion;
     }
-    
-    
+
+    public String getServicioNombre() {
+        return servicioNombre;
+    }
+
+    public void setServicioNombre(String servicioNombre) {
+        this.servicioNombre = servicioNombre;
+    }
 }

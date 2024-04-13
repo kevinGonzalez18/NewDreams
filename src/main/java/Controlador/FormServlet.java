@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class serviciosServlet extends HttpServlet {
+public class FormServlet extends HttpServlet {
 
     servicioDAO servicioDAO = new servicioDAO();
 
@@ -21,7 +21,13 @@ public class serviciosServlet extends HttpServlet {
             switch (accion) {
                 case "listar":
                     List<servicio> lista = servicioDAO.consultarTodosServicios();
+                    List<servicio> manteleria = servicioDAO.consultarServiciosManteleria();
+                    List<servicio> mesasysillas = servicioDAO.consultarServiciosMesasSillas();
+                    List<servicio> decoracion = servicioDAO.consultarServiciosDecoracion();
                     request.setAttribute("servicios", lista);
+                    request.setAttribute("manteleria", manteleria);
+                    request.setAttribute("mesasysillas", mesasysillas);
+                    request.setAttribute("decoracion", decoracion);
             }
             request.getRequestDispatcher("form.jsp").forward(request, response);
         }

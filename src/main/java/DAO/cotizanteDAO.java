@@ -37,7 +37,7 @@ public class cotizanteDAO {
     }
     
     public int agregar (cotizante cot){
-        String sql = "CALL SP_INSERT_COTIZANTE (?, ?, ?, ?, ?)";
+        String sql = "CALL SP_INSERT_COTIZANTE (?, ?, ?, ?)";
         try{
             ps = con.prepareStatement(sql);
             ps.setString(1, cot.getCotizanteCorreo());

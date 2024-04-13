@@ -16,7 +16,7 @@ public class conexion {
             Class.forName("com.mysql.cj.jdbc.Driver");
             cn = DriverManager.getConnection(servidor, usuario, clave);
         }catch(Exception e){
-            System.out.println("Error al conectar" + e.toString());
+            System.out.println("Error al conectar " + e.toString());
         }
         return cn;
     }
