@@ -1,6 +1,7 @@
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Controlador\PrincipalServlet.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Modelo\cliente.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Modelo\comprobar.java
+C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Controlador\FormServlet.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Controlador\ValidarOtpServlet.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Modelo\servicio.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Controlador\NuevaContrasenaServlet.java
@@ -14,7 +15,6 @@ C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\DAO\administradorDAO.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Modelo\cotizante.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\DAO\cotizanteDAO.java
-C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Controlador\serviciosServlet.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\DAO\servicioDAO.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\DAO\cotizacionDAO.java
 C:\Users\Felipe Rodriguez\Documents\NetBeansProjects\mavenproject1\src\main\java\Modelo\cotizacion.java
