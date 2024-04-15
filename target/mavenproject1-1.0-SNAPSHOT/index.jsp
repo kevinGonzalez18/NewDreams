@@ -76,9 +76,9 @@
                     <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
-                <div class="carousel-inner">
+                <div id="imagen" class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="images/bodas.webp" class="d-block w-100" alt="Slide 1" style="max-height: 60vh;">
+                        <img id="imagen" src="images/xvaños6.jpg" class="d-block w-100" alt="Slide 1" style="max-height: 60vh;">
                         <div class="container">
                             <div class="carousel-caption text-start">
                                 <h1>Example headline.</h1>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img src="images/bautizos.webp" class="d-block w-100 img-fluid" alt="img"
+                        <img id="imagen" src="images/bautizo5.jpg" class="d-block w-100 img-fluid" alt="img"
                              style="max-height: 60vh;">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>Hola</h5>
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img src="images/quinces.webp" class="d-block w-100" alt="Slide 3" style="max-height: 60vh;">
+                        <img id="imagen" src="images/bautizo4.jpg" class="d-block w-100" alt="Slide 3" style="max-height: 60vh;">
                         <div class="container">
                             <div class="carousel-caption text-end">
                                 <h1>One more for good measure.</h1>
@@ -149,8 +149,8 @@
 
 
         <!-- Page Content-->
-        <div class="pt-4 p-5" class="py-5">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 mt-3 g-4">
+        <div class="pt-4 p-5 contenedor_card" class="py-5">
+            <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 mt-3 g-4">
                 <!-- Primera columna -->
                 <div class="col">
                     <!-- Tarjeta de contenido -->
@@ -162,7 +162,7 @@
                             <!-- Título de la tarjeta -->
                             <h5 class="card-title">XV AÑOS</h5>
                             <!-- Texto descriptivo en la tarjeta -->
-                            <p class="card-text">"Los XV años: un sueño hecho realidad, un momento para brillar y recordar toda la vida."</p>
+                            <p class="card-text">"Los XV años: un sueño hecho realidad, un momento para brillar y recordar toda la vida."</p> <br>
                             <!-- Enlace a eventosInfo.html dentro de la tarjeta -->
                             <a href="infoXV.html" class="btn btn-primary">Más información</a>
                         </div>
@@ -196,7 +196,7 @@
                             <!-- Título de la tarjeta -->
                             <h5 class="card-title">BAUTIZOS</h5>
                             <!-- Texto descriptivo en la tarjeta -->
-                            <p class="card-text">"En el dulce y sagrado día del bautizo, creamos un ambiente de amor y bendiciones, marcando el inicio de una vida llena de fe y alegría."</p>
+                            <p class="card-text">"En el dulce y sagrado día del bautizo, creamos un ambiente de amor y bendiciones, marcando el inicio de una vida llena de fe y alegría."</p> <br>
                             <!-- Enlace a eventosInfo.html dentro de la tarjeta -->
                             <a href="infoComunion.html" class="btn btn-primary">Más información</a>
                         </div>
@@ -230,7 +230,7 @@
                             <!-- Título de la tarjeta -->
                             <h5 class="card-title">GRADOS</h5>
                             <!-- Texto descriptivo en la tarjeta -->
-                            <p class="card-text">"En la graduación, celebramos el esfuerzo, la dedicación y los logros, marcando el inicio de un nuevo capítulo lleno de oportunidades y éxitos."</p>
+                            <p class="card-text">"En la graduación, celebramos el esfuerzo, la dedicación y los logros, marcando el inicio de un nuevo capítulo lleno de oportunidades y éxitos."</p> <br>
                             <!-- Enlace a eventosInfo.html dentro de la tarjeta -->
                             <a href="infoGrado.html" class="btn btn-primary">Más información</a>
                         </div>
