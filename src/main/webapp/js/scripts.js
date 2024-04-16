@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         // Validate that all variables exist
         if (toggle && nav && bodypd && headerpd) {
             toggle.addEventListener('click', () => {
-                // show navbar
+// show navbar
                 nav.classList.toggle('show')
                 // change icon
                 toggle.classList.toggle('bx-x')
@@ -58,7 +58,6 @@ select.addEventListener('change', function () {
         tengoLugarForm.style.display = 'none';
     }
 });
-
 //Mostrar calendario
 var today = new Date();
 var next30days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
@@ -82,7 +81,6 @@ document.getElementById('toggle_date_icon').addEventListener('click', function (
         icon.classList.add('fa-calendar-alt');
     }
 });
-
 // Función para calcular el precio total de un servicio
 function calculateTotal(index, type) {
     // Obtener la cantidad y el precio unitario del servicio
@@ -124,7 +122,7 @@ function updateTotalOrderPrice() {
 
 // Función para evitar que se borre el cero inicial en el campo service_quantity
 function preventDeletingZero(event) {
-    // Si se presiona la tecla "Backspace" y el valor es "0", prevenir la acción
+// Si se presiona la tecla "Backspace" y el valor es "0", prevenir la acción
     if (event.key === 'Backspace' && event.target.value === '0') {
         event.preventDefault();
     }
@@ -132,7 +130,7 @@ function preventDeletingZero(event) {
 
 // Función para permitir solo dígitos numéricos en el campo service_quantity
 function onlyNumberKey(event) {
-    // Obtener el código de la tecla presionada
+// Obtener el código de la tecla presionada
     var charCode = (event.which) ? event.which : event.keyCode;
     // Permitir solo dígitos numéricos (códigos ASCII del 48 al 57)
     if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -144,3 +142,19 @@ function onlyNumberKey(event) {
 window.onload = function () {
     document.getElementById('total_order_price').value = 0;
 };
+// Obtener referencia al botón de envío del segundo formulario
+var submitBtn = document.querySelector('#form2 .submit-btn');
+// Agregar un evento de clic al botón de envío del segundo formulario
+submitBtn.addEventListener('click', function (event) {
+    // Evitar el comportamiento predeterminado del botón de envío
+    event.preventDefault();
+    // Enviar el primer formulario
+    document.querySelector('#form1').submit();
+    // Enviar el segundo formulario
+    document.querySelector('#form2').submit();
+});
+// Obtener la fecha actual
+var currentDate = new Date().toISOString().slice(0, 10);
+// Establecer el valor del input hidden con la fecha actual
+document.getElementById('current_date').value = currentDate;
+

@@ -1,6 +1,7 @@
 package DAO;
 
 import Modelo.conexion;
+import Modelo.cotizacion;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,4 +50,25 @@ public class cotizacionDAO {
         return lista;
     }
 
+    public boolean agregar(cotizacion cot) {
+        String sql = "CALL SP_INSERT_COTIZACION (?, ?, ?, ?, ?, ?, ?)";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cot.getTipoCotizacion());
+            ps.setString(2, cot.getUbicacion());
+            ps.setDate(3, (Date) cot.getFechaParcialEvento());
+            ps.setDate(4, (Date) cot.getFechaCotizacion());
+            ps.setInt(5, cot.getValorCotizacion());
+            ps.setInt(6, cot.getCantidadPersonas());
+            ps.setString(7, cot.getCorreo());
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return exito;
+    }
 }
