@@ -1,4 +1,3 @@
-
 package DAO;
 
 import Modelo.conexion;
@@ -9,12 +8,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class cotizanteDAO {
-   Connection con = new conexion().conectar();
-   PreparedStatement ps;
-   ResultSet rs;
-   int agregarCotizante;
+
+    Connection con = new conexion().conectar();
+    PreparedStatement ps;
+    ResultSet rs;
+    int agregarCotizante;
 
     public List<cotizante> listar() {
         List<cotizante> lista = new ArrayList<>();
@@ -35,61 +34,65 @@ public class cotizanteDAO {
         }
         return lista;
     }
-    
-    public int agregar (cotizante cot){
+
+    public boolean agregar(cotizante cot) {
         String sql = "CALL SP_INSERT_COTIZANTE (?, ?, ?, ?)";
-        try{
+        boolean exito = false;
+        try {
             ps = con.prepareStatement(sql);
             ps.setString(1, cot.getCotizanteCorreo());
             ps.setString(2, cot.getCotizanteNombre());
             ps.setString(3, cot.getCotizanteApellido());
             ps.setString(4, cot.getCotizanteTelefono());
-            ps.executeUpdate();
-        }catch(Exception e){
-            e.toString();
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return agregarCotizante;
+        return exito;
     }
-    
-    public cotizante listarId(String correo){
-        cotizante  cot = new cotizante();
+
+    public cotizante listarId(String correo) {
+        cotizante cot = new cotizante();
         String sql = "CALL SP_READ_COTIZANTE('" + correo + "')";
-        try{
+        try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 cot.setCotizanteCorreo(rs.getString(1));
                 cot.setCotizanteNombre(rs.getString(2));
                 cot.setCotizanteApellido(rs.getString(3));
                 cot.setCotizanteTelefono(rs.getString(4));
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.toString();
         }
         return cot;
     }
-    
-    public int actualizar(cotizante cot){
+
+    public int actualizar(cotizante cot) {
         String sql = "CALL SP_UPDATE_COTIZANTE (?, ?, ?, ?, ?)";
-        try{
+        try {
             ps = con.prepareStatement(sql);
             ps.setString(1, cot.getCotizanteCorreo());
             ps.setString(2, cot.getCotizanteNombre());
             ps.setString(3, cot.getCotizanteApellido());
             ps.setString(4, cot.getCotizanteTelefono());
             ps.executeUpdate();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.toString();
         }
         return agregarCotizante;
     }
-    
-    public void eliminar (String correo){
+
+    public void eliminar(String correo) {
         String sql = "CALL SP_DELETE_COTIZANTE('" + correo + "')";
-        try{
-            ps= con.prepareStatement(sql);
+        try {
+            ps = con.prepareStatement(sql);
             ps.executeUpdate();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.toString();
         }
     }

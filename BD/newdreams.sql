@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-04-2024 a las 23:08:29
+-- Tiempo de generación: 16-04-2024 a las 03:42:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -336,25 +336,32 @@ INSERT INTO `cliente` (`idCliente`, `Contraseña_Cliente`, `Correo_cotizante`) V
 ('CL004', 'd2fg6f9d8Ee', 'valentinapaez@gmail.com'),
 ('CL005', 'EFrfg3548eD54', 'santiagocastellanos@gmail.com'),
 ('CL014', '1345', 'mariamartinez2@gmail.com'),
-('CL015', '4321', 'dfelipebr737@gmail.com');
+('CL015', '4321', 'dfelipebr737@gmail.com'),
+('CL016', '123asc', 'andresmartinez@gmail.com');
 
 --
 -- Disparadores `cliente`
 --
 DELIMITER $$
-CREATE TRIGGER `generar_idCliente` BEFORE INSERT ON `cliente` FOR EACH ROW BEGIN
-    DECLARE nuevo_idCliente CHAR(5);
-    DECLARE nuevo_contador INT;
+CREATE TRIGGER `trg_generate_idCliente` BEFORE INSERT ON `cliente` FOR EACH ROW BEGIN
+    DECLARE last_id INT;
+    DECLARE new_id INT;
 
-    -- Obtener el nuevo valor del contador y actualizarlo
-    SELECT contador + 1 INTO nuevo_contador FROM Contador_Cliente;
-    UPDATE Contador_Cliente SET contador = nuevo_contador;
+    -- Obtiene el último número de cliente insertado
+    SELECT SUBSTRING(idCliente, 3) INTO last_id
+    FROM cliente
+    ORDER BY idCliente DESC
+    LIMIT 1;
 
-    -- Generar el nuevo idCliente
-    SET nuevo_idCliente = CONCAT('CL', LPAD(nuevo_contador, 3, '0'));
+    -- Si no hay registros, asigna el valor inicial
+    IF last_id IS NULL THEN
+        SET new_id = 1;
+    ELSE
+        SET new_id = last_id + 1;
+    END IF;
 
-    -- Asignar el nuevo idCliente al registro que se está insertando
-    SET NEW.idCliente = nuevo_idCliente;
+    -- Formatea el nuevo id con el prefijo "CL" y el número incrementado
+    SET NEW.idCliente = CONCAT('CL', LPAD(new_id, 3, '0'));
 END
 $$
 DELIMITER ;
@@ -385,22 +392,32 @@ INSERT INTO `comprobante` (`No_Comprobante`, `Fecha_hora_comprobante`, `Valor_Co
 ('C04', '2023-07-28 10:15:00', 2500000, 'P0004', 4, 'CL004'),
 ('C05', '2023-08-02 02:30:00', 4500000, 'P0005', 5, 'CL005');
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `contador_cliente`
+-- Disparadores `comprobante`
 --
+DELIMITER $$
+CREATE TRIGGER `trg_generate_No_Comprobante` BEFORE INSERT ON `comprobante` FOR EACH ROW BEGIN
+    DECLARE last_id INT;
+    DECLARE new_id INT;
 
-CREATE TABLE `contador_cliente` (
-  `contador` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    -- Obtiene el último número de comprobante insertado
+    SELECT SUBSTRING(No_Comprobante, 2) INTO last_id
+    FROM comprobante
+    ORDER BY No_Comprobante DESC
+    LIMIT 1;
 
---
--- Volcado de datos para la tabla `contador_cliente`
---
+    -- Si no hay registros, asigna el valor inicial
+    IF last_id IS NULL THEN
+        SET new_id = 1;
+    ELSE
+        SET new_id = last_id + 1;
+    END IF;
 
-INSERT INTO `contador_cliente` (`contador`) VALUES
-(15);
+    -- Formatea el nuevo número de comprobante con el prefijo "C" y el número incrementado
+    SET NEW.No_Comprobante = CONCAT('C', LPAD(new_id, 4, '0'));
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -449,7 +466,35 @@ INSERT INTO `cotización` (`No_Cotizacion`, `Tipo_Cotizacion`, `Ubicacion`, `Fec
 ('COT1002', 'Grado', 'Salon comunal bella vista', '2024-06-23 06:00:00', '2023-04-18 03:35:00', 7000000, 150, 'pepitoperez@gmail.com'),
 ('COT1003', 'Boda', 'Salon comunal perseverancia', '2024-02-03 02:00:00', '2023-05-01 08:00:00', 3500000, 80, 'valentinapaez@gmail.com'),
 ('COT1004', 'Bautizo', 'Salon comunal puente aranda', '2023-07-15 07:30:00', '2023-07-28 10:15:00', 2500000, 70, 'santiagocastellanos@gmail.com'),
-('COT1005', 'Xv años', 'Salon comunal bosa', '2023-12-30 12:45:00', '2023-08-02 02:30:00', 4500000, 80, 'mauriciotorres@gmail.com');
+('COT1005', 'Xv años', 'Salon comunal bosa', '2023-12-30 12:45:00', '2023-08-02 02:30:00', 4500000, 80, 'mauriciotorres@gmail.com'),
+('COT1006', '', 'santa rosa', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 5000000, 30, 'alfsan@gmail.com');
+
+--
+-- Disparadores `cotización`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_generate_No_Cotizacion` BEFORE INSERT ON `cotización` FOR EACH ROW BEGIN
+    DECLARE last_id INT;
+    DECLARE new_id INT;
+
+    -- Obtiene el último número de cotización insertado
+    SELECT SUBSTRING(No_Cotizacion, 4) INTO last_id
+    FROM cotización
+    ORDER BY No_Cotizacion DESC
+    LIMIT 1;
+
+    -- Si no hay registros, asigna el valor inicial
+    IF last_id IS NULL THEN
+        SET new_id = 1;
+    ELSE
+        SET new_id = last_id + 1;
+    END IF;
+
+    -- Formatea el nuevo número de cotización con el prefijo "COT" y el número incrementado
+    SET NEW.No_Cotizacion = CONCAT('COT', LPAD(new_id, 4, '0'));
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -469,7 +514,11 @@ CREATE TABLE `cotizante` (
 --
 
 INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotizante`, `Telefono_Cotizante`) VALUES
+('alfsan@gmail.com', 'Alfonso', 'Snachez', '0759485'),
+('andresmartinez@gmail.com', 'Andres', 'Martinez', '3112104578'),
 ('dfelipebr737@gmail.com', 'Damian', 'Bernal', '12345'),
+('franro@gmail.com', 'Francisco', 'Rojas Rey', '012345'),
+('franro@htomail.com', 'Francisco', 'Rojas', '0321457'),
 ('mariamartinez2@gmail.com', 'maria', 'martinez', '12345'),
 ('mariamartinez@gmail.com', 'Maria', 'Martinez', '3224532545'),
 ('mauriciotorres@gmail.com', 'Mauricio', 'Torres', '3229851236'),
@@ -590,6 +639,33 @@ INSERT INTO `pagos` (`No_Pagos`, `Nombre_Pagos`, `Apellido_Pagos`, `Dia_hora_pag
 ('P0004', 'Santiago', 'Castellanos', '2023-07-28 10:15:00', 250000, 4, 'CL004'),
 ('P0005', 'Mauricio', 'Torres', '2023-08-02 02:30:00', 450000, 5, 'CL005');
 
+--
+-- Disparadores `pagos`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_generate_No_Pagos` BEFORE INSERT ON `pagos` FOR EACH ROW BEGIN
+    DECLARE last_id INT;
+    DECLARE new_id INT;
+
+    -- Obtiene el último número de pago insertado
+    SELECT SUBSTRING(No_Pagos, 2) INTO last_id
+    FROM pagos
+    ORDER BY No_Pagos DESC
+    LIMIT 1;
+
+    -- Si no hay registros, asigna el valor inicial
+    IF last_id IS NULL THEN
+        SET new_id = 1;
+    ELSE
+        SET new_id = last_id + 1;
+    END IF;
+
+    -- Formatea el nuevo número de pago con el prefijo "P" y el número incrementado
+    SET NEW.No_Pagos = CONCAT('P', LPAD(new_id, 4, '0'));
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -599,7 +675,8 @@ INSERT INTO `pagos` (`No_Pagos`, `Nombre_Pagos`, `Apellido_Pagos`, `Dia_hora_pag
 CREATE TABLE `servicio` (
   `idServicio` char(4) NOT NULL,
   `Valor_Servicio` int(11) NOT NULL,
-  `Tipo_Servicio` varchar(45) NOT NULL,
+  `Nombre_Servicio` varchar(45) NOT NULL,
+  `Tipo_Servicio` varchar(40) NOT NULL,
   `Descripcion_servicio` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -607,12 +684,54 @@ CREATE TABLE `servicio` (
 -- Volcado de datos para la tabla `servicio`
 --
 
-INSERT INTO `servicio` (`idServicio`, `Valor_Servicio`, `Tipo_Servicio`, `Descripcion_servicio`) VALUES
-('S01', 500, 'Silla Blanca', 'Silla blanca, marca rimax, con espaldar y reposabrazos'),
-('S02', 2000, 'Mesa 8 puestos', 'Mesa larga 8 puestos marca rimax'),
-('S03', 1000, 'Mantel cuadrado', 'Mantel cuadrado en tela de seda'),
-('S04', 800, 'Centro de mesa de vidrio', 'Centro de mesa de vidrio cilindricio'),
-('S05', 700, 'Tapas mesa', 'Tapas de mesa en tela seda');
+INSERT INTO `servicio` (`idServicio`, `Valor_Servicio`, `Nombre_Servicio`, `Tipo_Servicio`, `Descripcion_servicio`) VALUES
+('S01', 7000, 'Mantel y Tapa Mesa Rectangular', 'Manteleria', '???'),
+('S02', 15000, 'Mantel y Tapa Mesa Redonda', 'Manteleria', '???'),
+('S03', 3500, 'Forro y Cinta silla', 'Manteleria', '?????'),
+('S04', 12000, 'Faldón', 'Manteleria', '??'),
+('S05', 10000, 'Mesa Rectangular ', 'Mesas y sillas', '???'),
+('S06', 15000, 'Mesa Redonda', 'Mesas y Sillas', '???'),
+('S07', 1200, 'Silla Rimax', 'Mesas y Sillas', '???'),
+('S08', 5000, 'Silla Tiffani', 'Mesas y Sillas', '???'),
+('S09', 50000, 'Backing redondo', 'Decoracion', '???'),
+('S10', 80000, 'Mesas decorativas x3', 'Decoracion', '???'),
+('S11', 40000, 'Arco de madera cuadrado', 'Decoracion', '???'),
+('S12', 45000, 'Arco diseño blanco', 'Decoracion', '???'),
+('S13', 45000, 'Mamparas x3', 'Decoracion', '???'),
+('S14', 35000, 'Mampara de madera semiredonda', 'Decoracion', '???'),
+('S15', 60000, 'Cilindros x3', 'Decoracion', '???'),
+('S16', 2000, 'Base de cristal', 'Decoracion', '???'),
+('S17', 10000, 'Base dorada de madera', 'Decoracion', '???'),
+('S18', 12000, 'Base metalica dorada', 'Decoracion', '???'),
+('S19', 7000, 'Base de metalicos blanca', 'Decoracion', '???'),
+('S20', 1000, 'Servilleta de tela', 'Decoracion', '???');
+
+--
+-- Disparadores `servicio`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_generate_idServicio` BEFORE INSERT ON `servicio` FOR EACH ROW BEGIN
+    DECLARE last_id INT;
+    DECLARE new_id INT;
+
+    -- Obtiene el último número de servicio insertado
+    SELECT SUBSTRING(idServicio, 2) INTO last_id
+    FROM servicio
+    ORDER BY idServicio DESC
+    LIMIT 1;
+
+    -- Si no hay registros, asigna el valor inicial
+    IF last_id IS NULL THEN
+        SET new_id = 1;
+    ELSE
+        SET new_id = last_id + 1;
+    END IF;
+
+    -- Formatea el nuevo número de servicio con el prefijo "S" y el número incrementado
+    SET NEW.idServicio = CONCAT('S', LPAD(new_id, 3, '0'));
+END
+$$
+DELIMITER ;
 
 --
 -- Índices para tablas volcadas

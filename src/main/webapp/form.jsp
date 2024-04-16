@@ -84,13 +84,13 @@
                                     <div class="card-body bg-light">
 
                                         <div class = "container">
-                                            <form id="contact-form" role="form">
+                                            <form id="form1" role="form" action="FormServlet?crearcotizacion=crearcotizacion" method="POST">
                                                 <div class="controls">
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
                                                                 <label for="form_name">Tipo de evento</label>
-                                                                <select id="item_type" name="item_type" class="form-control"
+                                                                <select name="item_type" id="item_type" name="item_type" class="form-control"
                                                                         required="required" data-error="Please select item type">
                                                                     <option value="" selected disabled>Seleccione el evento</option>
                                                                     <option value="xvaños">XV años</option>
@@ -105,7 +105,7 @@
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
                                                                 <label for="event_location">Lugar del evento</label>
-                                                                <select id="event_location" class="form-control">
+                                                                <select name="event_location" id="event_location" class="form-control">
                                                                     <option value="" selected disabled>Seleccione una opción</option>
                                                                     <option value="buscar">La empresa buscará el lugar del evento</option>
                                                                     <option value="tengo">Tengo el lugar del evento</option>
@@ -141,7 +141,7 @@
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
                                                                 <label for="form_email">Cantidad de personas</label>
-                                                                <input id="quantity" type="number" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
+                                                                <input name="" id="quantity" type="number" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6">
@@ -150,6 +150,8 @@
                                                                 <i id="toggle_date_icon" class="fas fa-calendar-alt" style="cursor: pointer;"></i>
                                                                 <div id="date_container" style="display: none;">
                                                                     <input id="event_date" type="text" name="event_date" class="form-control" required="required">
+                                                                    <!-- Input oculto para almacenar la fecha actual -->
+                                                                    <input id="current_date" type="hidden" name="current_date">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -256,26 +258,26 @@
                 <div class="col3 col-md-3 col-xl-3">
                     <div class="get-in-touch">
                         <h1 class="title">Datos de Contacto</h1>
-                        <form class="contact-form row">
+                        <form id="form2" class="contact-form row" action="FormServlet?crearcotizante=crearcotizante" method="POST">
                             <div class="form-field col-lg-6">
-                                <input id="name" class="input-text js-input" type="text" required>
+                                <input name="name" id="name" class="input-text js-input" type="text" required>
                                 <label class="label" for="name">Nombre</label>
                             </div>
                             <div class="form-field col-lg-6 ">
-                                <input id="last-name" class="input-text js-input" type="text" required>
+                                <input name="last-name" id="last-name" class="input-text js-input" type="text" required>
                                 <label class="label" for="last-name">Apellidos</label>
                             </div>
                             <div class="form-field col-lg-6 ">
-                                <input id="email" class="input-text js-input" type="email" required>
+                                <input name="email" id="email" class="input-text js-input" type="email" required>
                                 <label class="label" for="email">E-mail</label>
                             </div>
                             <div class="form-field col-lg-6 ">
-                                <input id="phone" class="input-text js-input" type="text" required>
+                                <input name="phone" id="phone" class="input-text js-input" type="text" required>
                                 <label class="label" for="phone">Telefono</label>
                             </div>
                             <div class="form-field col-lg-6 ">
                                 <label class="label" for="total_order_price">Precio total del pedido</label>
-                                <input id="total_order_price" type="number" class="input-text js-input" placeholder="0" readonly>
+                                <input name="total_order_price" id="total_order_price" type="number" class="input-text js-input" placeholder="0" readonly>
                             </div>
                             <div class="form-field col-lg-12">
                                 <input class="submit-btn" type="submit" value="Submit">
