@@ -32,7 +32,7 @@
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-lg-5">
-                <a href="IndexResponsive.html"
+                <a href="index.jsp"
                    class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <img src="images/Logo.png" alt="Logo" class="img-fluid me-2" width="150">
                 </a>
@@ -68,160 +68,226 @@
                     <button class="btn btn-outline-light ms-auto" type="button">Iniciar sesión</button>
                 </a>
             </div>
-        </nav>
+        </nav
 
-        <div class="row p-5 m-5">
-            <div class="col9 col-md-9 col-xl-9">
-                <div class="container">
-                    <div class=" text-center mt-5 ">
-                        <h1>Formulario de Cotizacion</h1>
-                    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col9 col-md-9 col-xl-9">
+                    <div class="container">
+                        <div class=" text-center mt-5 ">
+                            <h1>Formulario de Cotizacion</h1>
+                        </div>
 
-                    <div class="row ">
-                        <div class="col-lg-7 mx-auto">
-                            <div class="card mt-2 mx-auto p-4 bg-light">
-                                <div class="card-body bg-light">
+                        <div class="row ">
+                            <div class="col-lg-7 mx-auto">
+                                <div class="card mt-2 mx-auto p-4 bg-light">
+                                    <div class="card-body bg-light">
 
-                                    <div class = "container">
-                                        <form id="contact-form" role="form">
-                                            <div class="controls">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="form_name">Tipo de evento</label>
-                                                            <select id="item_type" name="item_type" class="form-control"
-                                                                    required="required" data-error="Please select item type">
-                                                                <option value="" selected disabled>Seleccione el evento</option>
-                                                                <option value="xvaños">XV años</option>
-                                                                <option value="boda">Boda</option>
-                                                                <option value="bautizo">Bautizo</option>
-                                                                <option value="comunion">Primera Comunión</option>
-                                                                <option value="grado">Grado</option>
-                                                                <option value="empresarial">Reunión empresarial</option>
-                                                            </select>
+                                        <div class = "container">
+                                            <form id="form1" role="form" action="FormServlet?crearcotizacion=crearcotizacion" method="POST">
+                                                <div class="controls">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="form_name">Tipo de evento</label>
+                                                                <select name="item_type" id="item_type" name="item_type" class="form-control"
+                                                                        required="required" data-error="Please select item type">
+                                                                    <option value="" selected disabled>Seleccione el evento</option>
+                                                                    <option value="xvaños">XV años</option>
+                                                                    <option value="boda">Boda</option>
+                                                                    <option value="bautizo">Bautizo</option>
+                                                                    <option value="comunion">Primera Comunión</option>
+                                                                    <option value="grado">Grado</option>
+                                                                    <option value="empresarial">Reunión empresarial</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="event_location">Lugar del evento</label>
+                                                                <select name="event_location" id="event_location" class="form-control">
+                                                                    <option value="" selected disabled>Seleccione una opción</option>
+                                                                    <option value="buscar">La empresa buscará el lugar del evento</option>
+                                                                    <option value="tengo">Tengo el lugar del evento</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div id="tengo_lugar_form" style="display: none;">
+                                                                <!-- Segundo formulario para cuando el usuario tiene el lugar del evento -->
+                                                                <div class="form-group">
+                                                                    <label for="event_name">Nombre del lugar del evento</label>
+                                                                    <input id="event_name" type="text" name="event_name"
+                                                                           class="form-control"
+                                                                           placeholder="Nombre del lugar del evento">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="event_address">Dirección del lugar del
+                                                                        evento</label>
+                                                                    <input id="event_address" type="text" name="event_address"
+                                                                           class="form-control"
+                                                                           placeholder="Dirección del lugar del evento">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="event_neighborhood">Nombre del barrio</label>
+                                                                    <input id="event_neighborhood" type="text"
+                                                                           name="event_neighborhood" class="form-control"
+                                                                           placeholder="Nombre del barrio">
+                                                                </div>
+                                                            </div>
+
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="event_location">Lugar del evento</label>
-                                                            <select id="event_location" class="form-control">
-                                                                <option value="" selected disabled>Seleccione una opción</option>
-                                                                <option value="buscar">La empresa buscará el lugar del evento</option>
-                                                                <option value="tengo">Tengo el lugar del evento</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div id="tengo_lugar_form" style="display: none;">
-                                                            <!-- Segundo formulario para cuando el usuario tiene el lugar del evento -->
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
                                                             <div class="form-group">
-                                                                <label for="event_name">Nombre del lugar del evento</label>
-                                                                <input id="event_name" type="text" name="event_name"
-                                                                       class="form-control"
-                                                                       placeholder="Nombre del lugar del evento">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="event_address">Dirección del lugar del
-                                                                    evento</label>
-                                                                <input id="event_address" type="text" name="event_address"
-                                                                       class="form-control"
-                                                                       placeholder="Dirección del lugar del evento">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="event_neighborhood">Nombre del barrio</label>
-                                                                <input id="event_neighborhood" type="text"
-                                                                       name="event_neighborhood" class="form-control"
-                                                                       placeholder="Nombre del barrio">
+                                                                <label for="form_email">Cantidad de personas</label>
+                                                                <input name="" id="quantity" type="number" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
                                                             </div>
                                                         </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="toggle_date">Fecha</label>
+                                                                <i id="toggle_date_icon" class="fas fa-calendar-alt" style="cursor: pointer;"></i>
+                                                                <div id="date_container" style="display: none;">
+                                                                    <input id="event_date" type="text" name="event_date" class="form-control" required="required">
+                                                                    <!-- Input oculto para almacenar la fecha actual -->
+                                                                    <input id="current_date" type="hidden" name="current_date">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h3>Manteleria - Manteles</h3>
+                                                    <div class="row">
+                                                        <p class="col-2 col-md-2">Cant</p>
+                                                        <p class="col-4 col-md-4">Servicio</p>
+                                                        <p class="col-3 col-md-3">V.Unitario</p>
+                                                        <p class="col-3 col-md-3">V.Total</p>
 
+                                                        <c:forEach var="manteleria" items="${manteleria}" varStatus="loop">
+                                                            <div class="col-2 col-md-2">
+                                                                <div class="form-group">
+                                                                    <input id="service_quantity_manteleria_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'manteleria')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-4">
+                                                                <div class="form-group">
+                                                                    <input id="service_name_manteleria_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${manteleria.getServicioNombre()}" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-3 col-md-3">
+                                                                <div class="form-group">
+                                                                    <input id="service_price_manteleria_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" placeholder="0" value="${manteleria.getServicioValor()}" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-3 col-md-3">
+                                                                <div class="form-group">
+                                                                    <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                                                    </div>
+                                                    <h3>Mobiliario - Mesas y Sillas</h3>
+                                                    <div class="row">
+                                                        <p class="col-2 col-md-2">Cant</p>
+                                                        <p class="col-4 col-md-4">Servicio</p>
+                                                        <p class="col-3 col-md-3">V.Unitario</p>
+                                                        <p class="col-3 col-md-3">V.Total</p>
+
+                                                        <c:forEach var="mesasSillas" items="${mesasysillas}" varStatus="loop">
+                                                            <div class="col-2 col-md-2">
+                                                                <div class="form-group">
+                                                                    <input id="service_quantity_mesasSillas_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'mesasSillas')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-4">
+                                                                <div class="form-group">
+                                                                    <input id="service_name_mesasSillas_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${mesasSillas.getServicioNombre()}" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-3 col-md-3">
+                                                                <div class="form-group">
+                                                                    <input id="service_price_mesasSillas_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" placeholder="0" value="${mesasSillas.getServicioValor()}" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-3 col-md-3">
+                                                                <div class="form-group">
+                                                                    <input id="service_total_price_mesasSillas_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                                                    </div>
+                                                    <h3>Decoración</h3>
+                                                    <div class="row">
+                                                        <p class="col-2 col-md-2">Cant</p>
+                                                        <p class="col-4 col-md-4">Servicio</p>
+                                                        <p class="col-3 col-md-3">V.Unitario</p>
+                                                        <p class="col-3 col-md-3">V.Total</p>
+
+                                                        <c:forEach var="decoracion" items="${decoracion}" varStatus="loop">
+                                                            <div class="col-2 col-md-2">
+                                                                <div class="form-group">
+                                                                    <input id="service_quantity_decoracion_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'decoracion')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 col-md-4">
+                                                                <div class="form-group">
+                                                                    <input id="service_name_decoracion_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${decoracion.getServicioNombre()}" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-3 col-md-3">
+                                                                <div class="form-group">
+                                                                    <input id="service_price_decoracion_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" placeholder="0" value="${decoracion.getServicioValor()}" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-3 col-md-3">
+                                                                <div class="form-group">
+                                                                    <input id="service_total_price_decoracion_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="form_email">Cantidad de personas</label>
-                                                            <input id="quantity" type="number" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="toggle_date">Fecha</label>
-                                                            <i id="toggle_date_icon" class="fas fa-calendar-alt" style="cursor: pointer;"></i>
-                                                            <div id="date_container" style="display: none;">
-                                                                <input id="event_date" type="text" name="event_date" class="form-control" required="required">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <h1>Menaje-Vajilla</h1>
-                                                <div class="row">
-                                                    <c:forEach var="servicio" items="${servicios}">
-                                                        <div class="col-md-2">
-                                                            <div class="form-group">
-                                                                <label for="service_quantity">Cantidad</label>
-                                                                <input id="service_quantity" type="text" name="service_quantity" class="form-control" placeholder="0" required="required">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="service_name">Nombre del servicio</label>
-                                                                <input id="service_quantity" type="text" name="service_quantity" class="form-control" placeholder="0" required="required" value="${servicio.getServicioTipo()}" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="service_unit_price">Precio unitario</label>
-                                                                <input id="service_quantity" type="text" name="service_quantity" class="form-control" placeholder="0" required="required" value="${servicio.getServicioValor()}" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="service_total_price">Precio total</label>
-                                                                <input type="number" class="form-control" placeholder="Precio total calculado" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col3 col-md-3 col-xl-3">
-                <div class="get-in-touch">
-                    <h1 class="title">Datos de Contacto</h1>
-                    <form class="contact-form row">
-                        <div class="form-field col-lg-6">
-                            <input id="name" class="input-text js-input" type="text" required>
-                            <label class="label" for="name">Name</label>
-                        </div>
-                        <div class="form-field col-lg-6 ">
-                            <input id="email" class="input-text js-input" type="email" required>
-                            <label class="label" for="email">E-mail</label>
-                        </div>
-                        <div class="form-field col-lg-6 ">
-                            <input id="company" class="input-text js-input" type="text" required>
-                            <label class="label" for="company">Company Name</label>
-                        </div>
-                        <div class="form-field col-lg-6 ">
-                            <input id="phone" class="input-text js-input" type="text" required>
-                            <label class="label" for="phone">Contact Number</label>
-                        </div>
-                        <div class="form-field col-lg-12">
-                            <input id="message" class="input-text js-input" type="text" required>
-                            <label class="label" for="message">Message</label>
-                        </div>
-                        <div class="form-field col-lg-12">
-                            <input class="submit-btn" type="submit" value="Submit">
-                        </div>
-                    </form>
+                <div class="col3 col-md-3 col-xl-3">
+                    <div class="get-in-touch">
+                        <h1 class="title">Datos de Contacto</h1>
+                        <form id="form2" class="contact-form row" action="FormServlet?crearcotizante=crearcotizante" method="POST">
+                            <div class="form-field col-lg-6">
+                                <input name="name" id="name" class="input-text js-input" type="text" required>
+                                <label class="label" for="name">Nombre</label>
+                            </div>
+                            <div class="form-field col-lg-6 ">
+                                <input name="last-name" id="last-name" class="input-text js-input" type="text" required>
+                                <label class="label" for="last-name">Apellidos</label>
+                            </div>
+                            <div class="form-field col-lg-6 ">
+                                <input name="email" id="email" class="input-text js-input" type="email" required>
+                                <label class="label" for="email">E-mail</label>
+                            </div>
+                            <div class="form-field col-lg-6 ">
+                                <input name="phone" id="phone" class="input-text js-input" type="text" required>
+                                <label class="label" for="phone">Telefono</label>
+                            </div>
+                            <div class="form-field col-lg-6 ">
+                                <label class="label" for="total_order_price">Precio total del pedido</label>
+                                <input name="total_order_price" id="total_order_price" type="number" class="input-text js-input" placeholder="0" readonly>
+                            </div>
+                            <div class="form-field col-lg-12">
+                                <input class="submit-btn" type="submit" value="Submit">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Footer-->
         <footer class="py-5 bg-dark footer mt-3">
@@ -251,7 +317,6 @@
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
-
     </body>
 
 </html>

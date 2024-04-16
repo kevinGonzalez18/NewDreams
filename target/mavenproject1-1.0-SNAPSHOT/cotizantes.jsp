@@ -52,10 +52,6 @@
                         </tbody>
                     </table>
                 </div>
-                
-            </div>
-        </div>
-    </body>
             </div>
         </div>
     </body>
@@ -76,7 +72,7 @@
                         </div>
                         <div class="form-group">
                             <label for="contrasena">Contraseña:</label>
-                            <input type="password" class="form-control" id="contrasenaClt" name="contraseñaClt" required>
+                            <input type="password" class="form-control" id="contrasenaClt" name="contraseñaClt" required autocomplete="current-password">>
                         </div>
                     </form>
                 </div>

@@ -3,10 +3,10 @@ Controlador\LogoutServlet.class
 DAO\administradorDAO.class
 Modelo\cliente.class
 Controlador\reestablecerContrasenaServlet$1.class
+Controlador\FormServlet.class
 Modelo\administrador.class
 Modelo\cotizacion.class
 DAO\servicioDAO.class
-Controlador\serviciosServlet.class
 Modelo\cotizante.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
@@ -16,6 +16,7 @@ Controlador\ValidarOtpServlet.class
 DAO\cotizacionDAO.class
 Controlador\LoginServlet.class
 Modelo\conexion.class
+Controlador\PerfilClienteServlet.class
 Modelo\comprobar.class
 test\test.class
 Controlador\PrincipalServlet.class

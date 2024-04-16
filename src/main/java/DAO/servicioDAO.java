@@ -25,10 +25,75 @@ public class servicioDAO {
                 servicio ser = new servicio();
                 ser.setServicioId(rs.getString(1));
                 ser.setServicioValor(rs.getInt(2));
-                ser.setServicioTipo(rs.getString(3));
-                ser.setServicioDescripcion(rs.getString(4));
+                ser.setServicioNombre(rs.getString(3));
+                ser.setServicioTipo(rs.getString(4));
+                ser.setServicioDescripcion(rs.getString(5));
                 lista.add(ser);
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return lista;
+    }
+    
+    public List<servicio> consultarServiciosManteleria() {
+        List<servicio> lista = new ArrayList<>();
+        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Manteleria'";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                servicio ser = new servicio();
+                ser.setServicioId(rs.getString(1));
+                ser.setServicioValor(rs.getInt(2));
+                ser.setServicioNombre(rs.getString(3));
+                ser.setServicioTipo(rs.getString(4));
+                ser.setServicioDescripcion(rs.getString(5));
+                lista.add(ser);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return lista;
+    }
+    
+    public List<servicio> consultarServiciosMesasSillas() {
+        List<servicio> lista = new ArrayList<>();
+        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Mesas y sillas'";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                servicio ser = new servicio();
+                ser.setServicioId(rs.getString(1));
+                ser.setServicioValor(rs.getInt(2));
+                ser.setServicioNombre(rs.getString(3));
+                ser.setServicioTipo(rs.getString(4));
+                ser.setServicioDescripcion(rs.getString(5));
+                lista.add(ser);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return lista;
+    }
+    
+    public List<servicio> consultarServiciosDecoracion() {
+        List<servicio> lista = new ArrayList<>();
+        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Decoracion'";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                servicio ser = new servicio();
+                ser.setServicioId(rs.getString(1));
+                ser.setServicioValor(rs.getInt(2));
+                ser.setServicioNombre(rs.getString(3));
+                ser.setServicioTipo(rs.getString(4));
+                ser.setServicioDescripcion(rs.getString(5));
+                lista.add(ser);
+            }
+            System.out.println(lista);
         }catch (Exception e){
             e.printStackTrace();
         }

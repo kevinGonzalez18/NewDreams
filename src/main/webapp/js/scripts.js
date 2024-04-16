@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         // Validate that all variables exist
         if (toggle && nav && bodypd && headerpd) {
             toggle.addEventListener('click', () => {
-                // show navbar
+// show navbar
                 nav.classList.toggle('show')
                 // change icon
                 toggle.classList.toggle('bx-x')
@@ -58,7 +58,6 @@ select.addEventListener('change', function () {
         tengoLugarForm.style.display = 'none';
     }
 });
-
 //Mostrar calendario
 var today = new Date();
 var next30days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
@@ -82,14 +81,80 @@ document.getElementById('toggle_date_icon').addEventListener('click', function (
         icon.classList.add('fa-calendar-alt');
     }
 });
+// Función para calcular el precio total de un servicio
+function calculateTotal(index, type) {
+    // Obtener la cantidad y el precio unitario del servicio
+    var quantity = parseFloat(document.getElementById('service_quantity_' + type + '_' + index).value);
+    var price = parseFloat(document.getElementById('service_price_' + type + '_' + index).value);
+    // Calcular el precio total
+    var total = quantity * price;
+    // Si el resultado es un número válido
+    if (!isNaN(total)) {
+        // Mostrar el precio total en el campo correspondiente
+        document.getElementById('service_total_price_' + type + '_' + index).value = total;
+        // Actualizar el precio total del pedido
+        updateTotalOrderPrice();
+    } else {
+        // Si no es un número válido, establecer el precio total en 0
+        document.getElementById('service_total_price_' + type + '_' + index).value = 0;
+    }
+}
 
-//Crear cliente
-$(document).ready(function() {
-    $('.crear-cliente-btn').click(function() {
-        $('#formulario-crear').modal('show');
+// Función para actualizar el precio total del pedido
+function updateTotalOrderPrice() {
+    var totalOrderPrice = 0;
+    // Obtener todos los campos de precio total de los servicios
+    var types = ['manteleria', 'mesasSillas', 'decoracion'];
+    types.forEach(function (type) {
+        var totalInputs = document.querySelectorAll('[id^="service_total_price_' + type + '_"]');
+        // Iterar sobre los campos y sumar sus valores
+        totalInputs.forEach(function (input) {
+            var value = parseFloat(input.value);
+            // Si el valor es un número válido, sumarlo al total
+            if (!isNaN(value)) {
+                totalOrderPrice += value;
+            }
+        });
     });
+    // Mostrar el precio total del pedido
+    document.getElementById('total_order_price').value = totalOrderPrice;
+}
 
-    $('#btn-guardar').click(function() {
-    });
+// Función para evitar que se borre el cero inicial en el campo service_quantity
+function preventDeletingZero(event) {
+// Si se presiona la tecla "Backspace" y el valor es "0", prevenir la acción
+    if (event.key === 'Backspace' && event.target.value === '0') {
+        event.preventDefault();
+    }
+}
+
+// Función para permitir solo dígitos numéricos en el campo service_quantity
+function onlyNumberKey(event) {
+// Obtener el código de la tecla presionada
+    var charCode = (event.which) ? event.which : event.keyCode;
+    // Permitir solo dígitos numéricos (códigos ASCII del 48 al 57)
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+
+// Inicializar el campo de total de la orden en cero al cargar la página
+window.onload = function () {
+    document.getElementById('total_order_price').value = 0;
+};
+// Obtener referencia al botón de envío del segundo formulario
+var submitBtn = document.querySelector('#form2 .submit-btn');
+// Agregar un evento de clic al botón de envío del segundo formulario
+submitBtn.addEventListener('click', function (event) {
+    // Evitar el comportamiento predeterminado del botón de envío
+    event.preventDefault();
+    // Enviar el primer formulario
+    document.querySelector('#form1').submit();
+    // Enviar el segundo formulario
+    document.querySelector('#form2').submit();
 });
+// Obtener la fecha actual
+var currentDate = new Date().toISOString().slice(0, 10);
+// Establecer el valor del input hidden con la fecha actual
+document.getElementById('current_date').value = currentDate;
 
