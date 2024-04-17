@@ -65,7 +65,7 @@ public class reestablecerContrasenaServlet extends HttpServlet {
             props.put("mail.smtp.port", "465");
             Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("gafeli29@gmail.com", "jvmtybplfmcsirok");// Put your email
+                    return new PasswordAuthentication("gafeli29@gmail.com", "rsqpprgqsgfgkyny");// Put your email
                     // id and
                     // password here
                 }
