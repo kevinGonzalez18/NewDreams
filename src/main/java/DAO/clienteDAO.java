@@ -8,7 +8,6 @@ import java.util.List;
 
 public class clienteDAO {
 
-
     Connection con = new conexion().conectar();
     PreparedStatement ps;
     ResultSet rs;
@@ -21,18 +20,18 @@ public class clienteDAO {
         try {
             // Se establece la conexión a la base de datos utilizando la clase 'conexion'
             Connection con = new conexion().conectar();
-            
+
             // Se define la consulta SQL para verificar las credenciales del cliente
             String query = "SELECT COUNT(*) FROM Cliente WHERE Correo_cotizante = ? AND Contraseña_Cliente = ?";
-            
+
             // Se prepara la consulta SQL
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, correo); // Se establece el primer parámetro (correo) en la consulta
             pst.setString(2, contraseña); // Se establece el segundo parámetro (contraseña) en la consulta
-            
+
             // Se ejecuta la consulta y se obtiene el resultado
             ResultSet rs = pst.executeQuery();
-            
+
             // Si la consulta devuelve algún resultado
             if (rs.next()) {
                 int count = rs.getInt(1); // Se obtiene el valor de la primera columna del resultado
@@ -74,6 +73,39 @@ public class clienteDAO {
         return lista;
     }
 
+    // Método para listar un cliente por su ID
+    public List<Object[]> listarClienteId(String id) {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = "SELECT C.Correo_Cotizante, C.Nombre_Cotizante, C.Apellido_Cotizante, C.Telefono_Cotizante, Cl.idCliente, Cl.Contraseña_Cliente "
+                + "FROM Cotizante C JOIN Cliente Cl ON C.Correo_Cotizante = Cl.Correo_cotizante WHERE Cl.Correo_cotizante = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Object[] cliente = new Object[6]; // Ajusta el tamaño del arreglo según las columnas de la tabla cliente
+                cliente[0] = rs.getString("Correo_Cotizante");
+                cliente[1] = rs.getString("Nombre_Cotizante");
+                cliente[2] = rs.getString("Apellido_Cotizante");
+                cliente[3] = rs.getString("Telefono_Cotizante");
+                cliente[4] = rs.getString("idCliente");
+                cliente[5] = rs.getString("Contraseña_Cliente");
+                lista.add(cliente);
+            }
+            // Imprimir los datos de cada cliente en la lista
+            for (Object[] cliente : lista) {
+                for (Object dato : cliente) {
+                    System.out.print(dato + " ");
+                }
+                System.out.println(); // Agregar un salto de línea después de cada cliente
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Imprimir el error
+        }
+        return lista;
+    }
+
     public int agregar(cliente clt) {
         String sql = "CALL SP_INSERT_CLIENTE (?, ?)";
         int filasAfectadas = 0;
@@ -100,6 +132,25 @@ public class clienteDAO {
         }
 
         return filasAfectadas; // Devolver el número de filas afectadas por la operación de inserción
+    }
+
+    public void update(String correo, String nombre, String apellido, String telefono) throws SQLException {
+        String sql = "UPDATE cotizante SET Nombre_Cotizante = ?, Apellido_Cotizante = ?, "
+                + "Telefono_Cotizante = ? WHERE Correo_Cotizante = ? ";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, apellido);
+            ps.setString(3, telefono);
+            ps.setString(4, correo);
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Filas actualizadas: " + rowsAffected);
+
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar: " + e.getMessage());
+            throw e; // Lanza la excepción para indicar que la actualización falló
+        }
     }
 
 }
