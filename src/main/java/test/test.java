@@ -6,8 +6,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.WebElement;
 
 public class test {
-    public static void main(String[] args) throws InterruptedException{
-        System.setProperty("webdriver.edge.driver", "C:\\Users\\Felipe Rodriguez\\Documents\\NetBeansProjects\\mavenproject1\\src\\main\\resources\\drivers\\edgedriver_win64\\msedgedriver.exe");
+    public static void main(String[] args) throws InterruptedException {
+        System.setProperty("webdriver.edge.driver", "C:\\Users\\kevin\\OneDrive - SENA\\Documentos\\NetBeansProjects\\New_Dreams\\src\\main\\resources\\drivers\\edgedriver_win64\\msedgedriver.exe");
         
         //Inicializar el driver
         WebDriver driver = new EdgeDriver();
