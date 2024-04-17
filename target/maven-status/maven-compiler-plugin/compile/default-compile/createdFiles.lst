@@ -16,7 +16,6 @@ Controlador\ValidarOtpServlet.class
 DAO\cotizacionDAO.class
 Controlador\LoginServlet.class
 Modelo\conexion.class
-Controlador\PerfilClienteServlet.class
 Modelo\comprobar.class
 test\test.class
 Controlador\PrincipalServlet.class
