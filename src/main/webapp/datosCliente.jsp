@@ -25,6 +25,7 @@
 
         <link href="css/styles.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/stylesform.css">
+        <link rel="stylesheet" href="css/stylesDatosCliente.css">
     </head>
     <body>
         <div class="container">
@@ -56,7 +57,7 @@
                     </form>
                 </div>
                 <!-- Modal de éxito -->
-                <div id="modalExito" class="modal" style="display:none;">
+                <div id="modalExito" class="modal <%=(request.getAttribute("actualizacionExitosa") != null && (Boolean) request.getAttribute("actualizacionExitosa")) ? "" : "hidden"%>">
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <p>¡Actualización exitosa!</p>
@@ -64,7 +65,7 @@
                 </div>
 
                 <!-- Modal de error -->
-                <div id="modalError" class="modal" style="display:none;">
+                <div id="modalError" class="modal <%=(request.getAttribute("actualizacionExitosa") != null && !(Boolean) request.getAttribute("actualizacionExitosa")) ? "" : "hidden"%>">
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <p>¡Error en la actualización!</p>
@@ -72,35 +73,5 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            // Función para mostrar un modal según el resultado de la actualización
-            function mostrarModal(actualizacionExitosa) {
-                var modal;
-                if (actualizacionExitosa) {
-                    modal = document.getElementById("modalExito");
-                } else {
-                    modal = document.getElementById("modalError");
-                }
-                modal.style.display = "block";
-            }
-
-            // Cerrar el modal cuando se haga clic en la "x"
-            var closeButtons = document.getElementsByClassName("close");
-            for (var i = 0; i < closeButtons.length; i++) {
-                closeButtons[i].onclick = function () {
-                    this.parentElement.parentElement.style.display = "none";
-                }
-            }
-
-            // También puedes cerrar el modal haciendo clic fuera del mismo
-            window.onclick = function (event) {
-                if (event.target.classList.contains("modal")) {
-                    event.target.style.display = "none";
-                }
-            }
-            var actualizacionExitosa = <c:out value="${actualizacionExitosa}" />;
-            mostrarModal(actualizacionExitosa);
-        </script>
     </body>
 </html>

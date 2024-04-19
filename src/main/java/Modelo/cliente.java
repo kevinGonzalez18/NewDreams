@@ -1,12 +1,20 @@
-
 package Modelo;
 
 public class cliente {
+
     private String cltId;
+    private String cltEstado;
     private String cltCorreo;
     private String cltContraseña;
 
     public cliente() {
+    }
+
+    public cliente(String cltId, String cltEstado, String cltCorreo, String cltContraseña) {
+        this.cltId = cltId;
+        this.cltEstado = cltEstado;
+        this.cltCorreo = cltCorreo;
+        this.cltContraseña = cltContraseña;
     }
 
     public String getCltId() {
@@ -17,7 +25,13 @@ public class cliente {
         this.cltId = cltId;
     }
 
-    
+    public String getCltEstado() {
+        return cltEstado;
+    }
+
+    public void setCltEstado(String cltEstado) {
+        this.cltEstado = cltEstado;
+    }
 
     public String getCltCorreo() {
         return cltCorreo;
@@ -35,11 +49,4 @@ public class cliente {
         this.cltContraseña = cltContraseña;
     }
 
-    public cliente(String cltId, String cltCorreo, String cltContraseña) {
-        this.cltId = cltId;
-        this.cltCorreo = cltCorreo;
-        this.cltContraseña = cltContraseña;
-    }
-
-   
 }

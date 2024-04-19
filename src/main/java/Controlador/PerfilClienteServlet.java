@@ -70,11 +70,13 @@ public class PerfilClienteServlet extends HttpServlet {
                     clienteDAO.update(correo, nombre, apellido, telefono);
                     // Si no se lanzó ninguna excepción, la actualización fue exitosa
                     request.setAttribute("actualizacionExitosa", true);
+                    
                 } catch (SQLException e) {
                     // Si se captura una excepción, la actualización falló
                     request.setAttribute("actualizacionExitosa", false);
                 }
             }
+            request.getRequestDispatcher("PerfilClienteServlet?menu=dashboard").forward(request, response);
         }
     }
 

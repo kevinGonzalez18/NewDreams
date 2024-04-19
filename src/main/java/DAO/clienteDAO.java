@@ -52,19 +52,20 @@ public class clienteDAO {
 
     public List<Object[]> listarClientes() {
         List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT C.Correo_Cotizante, C.Nombre_Cotizante, C.Apellido_Cotizante, C.Telefono_Cotizante, Cl.idCliente, Cl.Contraseña_Cliente "
+        String sql = "SELECT C.Correo_Cotizante, C.Nombre_Cotizante, C.Apellido_Cotizante, C.Telefono_Cotizante, Cl.idCliente, Cl.Contraseña_Cliente, Cl.Estado_Cliente "
                 + "FROM Cotizante C JOIN Cliente Cl ON C.Correo_Cotizante = Cl.Correo_cotizante GROUP BY Cl.idCliente";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Object[] clienteCotizante = new Object[6];
+                Object[] clienteCotizante = new Object[7];
                 clienteCotizante[0] = rs.getString("Correo_Cotizante");
                 clienteCotizante[1] = rs.getString("Nombre_Cotizante");
                 clienteCotizante[2] = rs.getString("Apellido_Cotizante");
                 clienteCotizante[3] = rs.getString("Telefono_Cotizante");
                 clienteCotizante[4] = rs.getString("idCliente");
                 clienteCotizante[5] = rs.getString("Contraseña_Cliente");
+                clienteCotizante[6] = rs.getString("Estado_Cliente");
                 lista.add(clienteCotizante);
             }
         } catch (Exception e) {
@@ -133,7 +134,8 @@ public class clienteDAO {
 
         return filasAfectadas; // Devolver el número de filas afectadas por la operación de inserción
     }
-
+    
+    //Metoodo que permite actualizar los datos del cliente, desde el apartado de cliente
     public void update(String correo, String nombre, String apellido, String telefono) throws SQLException {
         String sql = "UPDATE cotizante SET Nombre_Cotizante = ?, Apellido_Cotizante = ?, "
                 + "Telefono_Cotizante = ? WHERE Correo_Cotizante = ? ";
@@ -152,5 +154,16 @@ public class clienteDAO {
             throw e; // Lanza la excepción para indicar que la actualización falló
         }
     }
-
+    
+    public void updateEstado (String estado, String correo) throws SQLException{
+        String sql = "UPDATE cliente SET Estado_Cliente = ? WHERE Correo_cotizante = ?";
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setString (1, estado);
+            ps.setString(2, correo);
+        }catch(SQLException e){
+            System.out.println("Error al actualizar: " + e.getMessage());
+            throw e;
+        }
+    }
 }
