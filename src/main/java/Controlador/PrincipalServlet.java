@@ -6,7 +6,10 @@ import DAO.cotizanteDAO;
 import Modelo.cliente;
 import Modelo.cotizante;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +35,9 @@ public class PrincipalServlet extends HttpServlet {
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
         }
         if (menu.equals("Cotizaciones")) {
-            switch (accion){
+            switch (accion) {
                 case "listar":
-                    List <Object[]> listaCotizaciones = cotizacionDAO.listarCotizaciones();
+                    List<Object[]> listaCotizaciones = cotizacionDAO.listarCotizaciones();
                     request.setAttribute("cotizaciones", listaCotizaciones);
                     break;
             }
@@ -59,75 +62,83 @@ public class PrincipalServlet extends HttpServlet {
                         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
                         break;
                     }
-                    case "Editar":
+                case "Editar":
                     break;
                 case "Eliminar":
                     break;
             }
             request.getRequestDispatcher("cotizantes.jsp").forward(request, response);
-            }
-            if (menu.equals("Clientes")) {
-                switch (accion) {
-                    case "listar":
-                        List <Object[]> listaClientes = clienteDAO.listarClientes();
-                        request.setAttribute("clientes", listaClientes);
-                        break;
-                }
-                request.getRequestDispatcher("clientes.jsp").forward(request, response);
-            }
-            if (menu.equals("Eventos")) {
-                request.getRequestDispatcher("eventos.jsp").forward(request, response);
-            }
-            if (menu.equals("Estados")) {
-                request.getRequestDispatcher("estados.jsp").forward(request, response);
-            }
-            if (menu.equals("Servicios")) {
-                request.getRequestDispatcher("servicios.jsp").forward(request, response);
-            }
-
         }
-
-        // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-        /**
-         * Handles the HTTP <code>GET</code> method.
-         *
-         * @param request servlet request
-         * @param response servlet response
-         * @throws ServletException if a servlet-specific error occurs
-         * @throws IOException if an I/O error occurs
-         */
-        @Override
-        protected void doGet
-        (HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-            processRequest(request, response);
+        if (menu.equals("Clientes")) {
+            switch (accion) {
+                case "listar":
+                    List<Object[]> listaClientes = clienteDAO.listarClientes();
+                    request.setAttribute("clientes", listaClientes);
+                    break;
+                    
+                case "actualizarEstado":
+                    String estado = request.getParameter("estadoCliente");
+                    String correo = request.getParameter("correo");
+                    try {
+                        clienteDAO.updateEstado(estado, correo);
+                        response.getWriter().write("Estado actualizado correctamente");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PrincipalServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        response.getWriter().write("Error al actualizar el estado");
+                    }
+                    return; // Importante para evitar que el flujo siga hacia adelante y renderice la página clientes.jsp nuevamente.
+            }
+            request.getRequestDispatcher("clientes.jsp").forward(request, response);
         }
-
-        /**
-         * Handles the HTTP <code>POST</code> method.
-         *
-         * @param request servlet request
-         * @param response servlet response
-         * @throws ServletException if a servlet-specific error occurs
-         * @throws IOException if an I/O error occurs
-         */
-        @Override
-        protected void doPost
-        (HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-            processRequest(request, response);
+        if (menu.equals("Eventos")) {
+            request.getRequestDispatcher("eventos.jsp").forward(request, response);
         }
-
-        /**
-         * Returns a short description of the servlet.
-         *
-         * @return a String containing servlet description
-         */
-        @Override
-        public String getServletInfo
-        
-            () {
-        return "Short description";
-        }// </editor-fold>
+        if (menu.equals("Estados")) {
+            request.getRequestDispatcher("estados.jsp").forward(request, response);
+        }
+        if (menu.equals("Servicios")) {
+            request.getRequestDispatcher("servicios.jsp").forward(request, response);
+        }
 
     }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
