@@ -3,8 +3,10 @@ package Controlador;
 import DAO.clienteDAO;
 import DAO.cotizacionDAO;
 import DAO.cotizanteDAO;
+import DAO.eventoDAO;
 import Modelo.cliente;
 import Modelo.cotizante;
+import Modelo.evento;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -23,6 +25,7 @@ public class PrincipalServlet extends HttpServlet {
     cliente cliente = new cliente();
     clienteDAO clienteDAO = new clienteDAO();
     cotizacionDAO cotizacionDAO = new cotizacionDAO();
+    eventoDAO eventoDAO = new eventoDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -80,7 +83,13 @@ public class PrincipalServlet extends HttpServlet {
             request.getRequestDispatcher("clientes.jsp").forward(request, response);
         }
         if (menu.equals("Eventos")) {
-            request.getRequestDispatcher("eventos.jsp").forward(request, response);
+            switch (accion){
+                case "listar":
+                    List<Object[]> listaEvento = eventoDAO.listarEventos();
+                    request.setAttribute("evento", listaEvento);
+
+            }
+            request.getRequestDispatcher("eventos.jsp").forward(request, response); 
         }
         if (menu.equals("Estados")) {
             request.getRequestDispatcher("estados.jsp").forward(request, response);

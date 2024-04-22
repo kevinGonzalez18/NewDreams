@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,27 +37,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="cotizantes" items="${cotizantes}">
-                            <tr>
-                                <td>${cotizantes.getCotizanteCorreo()}</td>
-                                <td>${cotizantes.getCotizanteNombre()}</td>
-                                <td>${cotizantes.getCotizanteApellido()}</td>
-                                <td>${cotizantes.getCotizanteTelefono()}</td>
-                            </tr>
-                        </c:forEach>
+                            <c:forEach var="Eventos" items="${evento}">
+                                <tr>
+                                    <td>${Eventos[0]}</td>
+                                    <td>${Eventos[1]} ${Eventos[2]}</td>
+                                    <td>${Eventos[3]}</td>
+                                    <td>${Eventos[4]}</td>
+                                    <td><button>ver mas</button></td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
-                        <div class="modal-body">
-                            <form id="formulario-evento" action="PrincipalServlet?menu=Cotizantes" method="POST">
-                                <div class="form-group">
-                                    <label for="correo">Correo Cotizante:</label>
-                                    <input type="email" class="form-control" id="correoClt" name="correoClt" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contrasena">Contraseña:</label>
-                                    <input type="password" class="form-control" id="contrasenaClt" name="contraseñaClt" required autocomplete="current-password">>
-                                </div>
-                            </form>
-                        </div>
                     </table>
                 </div>
             </div>
