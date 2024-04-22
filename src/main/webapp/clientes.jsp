@@ -45,18 +45,17 @@
                             <c:forEach var="cliente" items="${clientes}">
                                 <tr>
                                     <td>${cliente[4]}</td>
-                                    <td>
-                                        <select class="estado-cliente" id="estadoCliente" name="estadoCliente">
-                                            <option value="Habilitado" ${cliente[6] == 'Habilitado' ? 'selected' : ''} data-correo="${cliente[0]}">Habilitado</option>
-                                            <option value="Inhabilitado" ${cliente[6] == 'Inhabilitado' ? 'selected' : ''} data-correo="${cliente[0]}">Inhabilitado</option>
-                                        </select>
-                                    </td>
-                                    <td name="correo">${cliente[0]}</td>
+                                    <td>${cliente[6]}</td>
+                                    <td>${cliente[0]}</td>
                                     <td>${cliente[1]}</td>
                                     <td>${cliente[2]}</td>
                                     <td>${cliente[3]}</td>
                                     <td>${cliente[5]}</td>
-                                    <td><i class="fa-solid fa-user-plus crear-cliente-btn" style="cursor: pointer;"></i></td>
+                                    <td>
+                                        <a href="ClienteServlet?menu=updateClientes&clientEmail=${cliente[0]}">
+                                            <i class="fa-solid fa-user-plus crear-cliente-btn" style="cursor: pointer;"></i>
+                                        </a>
+                                    </td>
                                     <td><i class="fa-solid fa-trash"></i></td>
                                 </tr>
                             </c:forEach>
@@ -65,22 +64,5 @@
                 </div>
             </div>
         </div>
-        <script>
-            $(document).ready(function () {
-                $('.estado-cliente').change(function () {
-                    var estado = $(this).val();
-                    var correo = $(this).find('option:selected').data('correo');
-                    $.ajax({
-                        type: "POST",
-                        url: "PrincipalServlet?menu=Clientes&accion=actualizarEstado",
-                        data: {estadoCliente: estado, correo: correo, accion: "actualizarEstado"},
-                        success: function (data) {
-                            // Manejar la respuesta del servidor si es necesario
-                            console.log(data);
-                        }
-                    });
-                });
-            });
-        </script>
     </body>
 </html>

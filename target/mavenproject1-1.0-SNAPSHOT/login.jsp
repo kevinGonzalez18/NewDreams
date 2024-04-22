@@ -65,11 +65,11 @@
         </nav>
 
         <div class="wrapper">
-            
-             <div class="logo" >
-                    <img src="images/Logo.png" alt="New Dreams">
-             </div>
-            
+
+            <div class="logo" >
+                <img src="images/Logo.png" alt="New Dreams">
+            </div>
+
             <form class="p-3 mt-3" action="LoginServlet" method="post">
                 <div class="form-field d-flex align-items-center">
                     <span class="far fa-user"></span>
@@ -86,7 +86,10 @@
             </div>
             <% if (request.getParameter("error") != null && request.getParameter("error").equals("true")) { %>
             <div class="text-danger">Credenciales incorrectas. Por favor, intenta de nuevo.</div>
+            <% } else if (request.getParameter("error") != null && request.getParameter("error").equals("inhabilitado")) { %>
+            <div class="text-danger">Tu cuenta está inhabilitada. Por favor, contacta al administrador.</div>
             <% }%>
+
         </div>
 
         <!-- Footer-->

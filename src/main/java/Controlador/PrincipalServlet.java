@@ -28,78 +28,67 @@ public class PrincipalServlet extends HttpServlet {
     cotizacionDAO cotizacionDAO = new cotizacionDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
-        if (menu.equals("Inicio")) {
-            request.getRequestDispatcher("dashboard.jsp").forward(request, response);
-        }
-        if (menu.equals("Cotizaciones")) {
-            switch (accion) {
-                case "listar":
-                    List<Object[]> listaCotizaciones = cotizacionDAO.listarCotizaciones();
-                    request.setAttribute("cotizaciones", listaCotizaciones);
-                    break;
+        if (menu != null) {
+            if (menu.equals("Inicio")) {
+                request.getRequestDispatcher("dashboard.jsp").forward(request, response);
             }
-            request.getRequestDispatcher("cotizaciones.jsp").forward(request, response);
-        }
-        if (menu.equals("Cotizantes")) {
-            switch (accion) {
-                case "listar":
-                    List lista = cotizanteDAO.listar();
-                    request.setAttribute("cotizantes", lista);
-                    break;
-                case "Agregar":
-                    String correo = request.getParameter("correoClt");
-                    String contraseña = request.getParameter("contraseñaClt");
-                    cliente.setCltCorreo(correo);
-                    cliente.setCltContraseña(contraseña);
-
-                    // Aquí debes verificar si el correo y la contraseña son válidos antes de agregar el cliente
-                    if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
-                        clienteDAO.agregar(cliente);
-                        // Redireccionar después de agregar exitosamente
-                        request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+            if (menu.equals("Cotizaciones")) {
+                switch (accion) {
+                    case "listar":
+                        List<Object[]> listaCotizaciones = cotizacionDAO.listarCotizaciones();
+                        request.setAttribute("cotizaciones", listaCotizaciones);
                         break;
-                    }
-                case "Editar":
-                    break;
-                case "Eliminar":
-                    break;
+                }
+                request.getRequestDispatcher("cotizaciones.jsp").forward(request, response);
             }
-            request.getRequestDispatcher("cotizantes.jsp").forward(request, response);
-        }
-        if (menu.equals("Clientes")) {
-            switch (accion) {
-                case "listar":
-                    List<Object[]> listaClientes = clienteDAO.listarClientes();
-                    request.setAttribute("clientes", listaClientes);
-                    break;
-                    
-                case "actualizarEstado":
-                    String estado = request.getParameter("estadoCliente");
-                    String correo = request.getParameter("correo");
-                    try {
-                        clienteDAO.updateEstado(estado, correo);
-                        response.getWriter().write("Estado actualizado correctamente");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PrincipalServlet.class.getName()).log(Level.SEVERE, null, ex);
-                        response.getWriter().write("Error al actualizar el estado");
-                    }
-                    return; // Importante para evitar que el flujo siga hacia adelante y renderice la página clientes.jsp nuevamente.
-            }
-            request.getRequestDispatcher("clientes.jsp").forward(request, response);
-        }
-        if (menu.equals("Eventos")) {
-            request.getRequestDispatcher("eventos.jsp").forward(request, response);
-        }
-        if (menu.equals("Estados")) {
-            request.getRequestDispatcher("estados.jsp").forward(request, response);
-        }
-        if (menu.equals("Servicios")) {
-            request.getRequestDispatcher("servicios.jsp").forward(request, response);
-        }
+            if (menu.equals("Cotizantes")) {
+                switch (accion) {
+                    case "listar":
+                        List lista = cotizanteDAO.listar();
+                        request.setAttribute("cotizantes", lista);
+                        break;
+                    case "Agregar":
+                        String correo = request.getParameter("correoClt");
+                        String contraseña = request.getParameter("contraseñaClt");
+                        cliente.setCltCorreo(correo);
+                        cliente.setCltContraseña(contraseña);
 
+                        // Aquí debes verificar si el correo y la contraseña son válidos antes de agregar el cliente
+                        if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
+                            clienteDAO.agregar(cliente);
+                            // Redireccionar después de agregar exitosamente
+                            request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+                            break;
+                        }
+                    case "Editar":
+                        break;
+                    case "Eliminar":
+                        break;
+                }
+                request.getRequestDispatcher("cotizantes.jsp").forward(request, response);
+            }
+            if (menu.equals("Clientes")) {
+                switch (accion) {
+                    case "listar":
+                        List<Object[]> listaClientes = clienteDAO.listarClientes();
+                        request.setAttribute("clientes", listaClientes);
+                        break;
+                }
+                request.getRequestDispatcher("clientes.jsp").forward(request, response);
+            }
+            if (menu.equals("Eventos")) {
+                request.getRequestDispatcher("eventos.jsp").forward(request, response);
+            }
+            if (menu.equals("Estados")) {
+                request.getRequestDispatcher("estados.jsp").forward(request, response);
+            }
+            if (menu.equals("Servicios")) {
+                request.getRequestDispatcher("servicios.jsp").forward(request, response);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -114,7 +103,11 @@ public class PrincipalServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -128,7 +121,11 @@ public class PrincipalServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
