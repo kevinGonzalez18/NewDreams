@@ -38,6 +38,8 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("perfilCliente.jsp"); // Redirecciona al perfil del cliente
                 session.setAttribute("usuario", usuario);
                 session.setAttribute("rol", rol);
+            } else {
+                response.sendRedirect("login.jsp?error=inhabilitado");
             }
         } else {
             response.sendRedirect("login.jsp?error=true"); // Redirecciona de nuevo al formulario de inicio de sesión con un mensaje de error
@@ -61,7 +63,16 @@ public class LoginServlet extends HttpServlet {
         if (adminDAO.validarCredenciales(usuario, contraseña)) {
             return "administrador";
         } else if (cliDAO.validarCrendenciales(usuario, contraseña)) {
-            return "cliente";
+            // Obtener el estado del cliente
+            String estadoCliente = cliDAO.obtenerEstadoCliente(usuario);
+
+            // Verificar si el estado del cliente es habilitado
+            if (estadoCliente.equals("Habilitado")) {
+                return "cliente";
+            } else {
+                // Si el cliente no está habilitado, devolver null
+                return null;
+            }
         } else {
             return null;
         }
