@@ -56,6 +56,12 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a href="PerfilClienteServlet?menu=misDatos&&accion=datos&correo=<%= usuario %>" class="sidebar-link">
+                                <i class="fa-solid fa-users pe-2"></i>
+                                Mis datos
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
                             <a href="#" class="sidebar-link" id="logoutButton" name="logoutButton">
                                 <i class="fa-solid fa-right-from-bracket pe-2"></i>
                                 Cerrar Sesión

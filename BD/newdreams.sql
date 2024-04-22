@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-04-2024 a las 03:42:29
+-- Tiempo de generación: 22-04-2024 a las 23:15:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -321,6 +321,7 @@ INSERT INTO `administrador` (`idAdministrador`, `Correo_Admin`, `Contraseña_adm
 
 CREATE TABLE `cliente` (
   `idCliente` char(5) NOT NULL,
+  `Estado_Cliente` varchar(20) NOT NULL,
   `Contraseña_Cliente` varchar(45) NOT NULL,
   `Correo_cotizante` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -329,15 +330,15 @@ CREATE TABLE `cliente` (
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`idCliente`, `Contraseña_Cliente`, `Correo_cotizante`) VALUES
-('CL001', 'abc123', 'pepitoperez@gmail.com'),
-('CL002', 'añlm5nv4o5cd', 'mariamartinez@gmail.com'),
-('CL003', 'd28v5f4f', 'mauriciotorres@gmail.com'),
-('CL004', 'd2fg6f9d8Ee', 'valentinapaez@gmail.com'),
-('CL005', 'EFrfg3548eD54', 'santiagocastellanos@gmail.com'),
-('CL014', '1345', 'mariamartinez2@gmail.com'),
-('CL015', '4321', 'dfelipebr737@gmail.com'),
-('CL016', '123asc', 'andresmartinez@gmail.com');
+INSERT INTO `cliente` (`idCliente`, `Estado_Cliente`, `Contraseña_Cliente`, `Correo_cotizante`) VALUES
+('CL001', 'Habilitado', 'abc123', 'pepitoperez@gmail.com'),
+('CL002', 'Habilitado', 'añlm5nv4o5cd', 'mariamartinez@gmail.com'),
+('CL003', 'Inhabilitado', 'd28v5f4f', 'mauriciotorres@gmail.com'),
+('CL004', 'Inhabilitado', 'd2fg6f9d8Ee', 'valentinapaez@gmail.com'),
+('CL005', 'Habilitado', 'EFrfg3548eD54', 'santiagocastellanos@gmail.com'),
+('CL014', 'Inhabilitado', '1345', 'mariamartinez2@gmail.com'),
+('CL015', 'Habilitado', 'hola123', 'dfelipebr737@gmail.com'),
+('CL016', 'Inhabilitado', '123asc', 'andresmartinez@gmail.com');
 
 --
 -- Disparadores `cliente`
@@ -516,7 +517,7 @@ CREATE TABLE `cotizante` (
 INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotizante`, `Telefono_Cotizante`) VALUES
 ('alfsan@gmail.com', 'Alfonso', 'Snachez', '0759485'),
 ('andresmartinez@gmail.com', 'Andres', 'Martinez', '3112104578'),
-('dfelipebr737@gmail.com', 'Damian', 'Bernal', '12345'),
+('dfelipebr737@gmail.com', 'Felipe', 'Bernal Rodriguez', '3112711553'),
 ('franro@gmail.com', 'Francisco', 'Rojas Rey', '012345'),
 ('franro@htomail.com', 'Francisco', 'Rojas', '0321457'),
 ('mariamartinez2@gmail.com', 'maria', 'martinez', '12345'),

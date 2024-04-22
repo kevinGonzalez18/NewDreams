@@ -32,6 +32,10 @@
         <servlet-name>PerfilClienteServlet</servlet-name>
         <servlet-class>Controlador.PerfilClienteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ClienteServlet</servlet-name>
+        <servlet-class>Controlador.ClienteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>PerfilClienteServlet</servlet-name>
         <url-pattern>/PerfilClienteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClienteServlet</servlet-name>
+        <url-pattern>/ClienteServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

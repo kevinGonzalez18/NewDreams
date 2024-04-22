@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Codigo Cliente</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellido</th>
@@ -44,21 +45,24 @@
                             <c:forEach var="cliente" items="${clientes}">
                                 <tr>
                                     <td>${cliente[4]}</td>
+                                    <td>${cliente[6]}</td>
                                     <td>${cliente[0]}</td>
                                     <td>${cliente[1]}</td>
                                     <td>${cliente[2]}</td>
                                     <td>${cliente[3]}</td>
                                     <td>${cliente[5]}</td>
-                                    <td><i class="fa-solid fa-user-plus crear-cliente-btn" style="cursor: pointer;"></i></td>
+                                    <td>
+                                        <a href="ClienteServlet?menu=updateClientes&clientEmail=${cliente[0]}">
+                                            <i class="fa-solid fa-user-plus crear-cliente-btn" style="cursor: pointer;"></i>
+                                        </a>
+                                    </td>
                                     <td><i class="fa-solid fa-trash"></i></td>
                                 </tr>
                             </c:forEach>
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </body>
-
 </html>

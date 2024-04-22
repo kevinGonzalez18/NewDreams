@@ -4,6 +4,7 @@ C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Modelo\cot
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Controlador\reestablecerContrasenaServlet.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Modelo\administrador.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\DAO\administradorDAO.java
+C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Controlador\ClienteServlet.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\DAO\cotizacionDAO.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Modelo\cotizacion.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\test\test.java
@@ -15,6 +16,7 @@ C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Modelo\ser
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Modelo\comprobar.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Modelo\conexion.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Controlador\LoginServlet.java
+C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Controlador\PerfilClienteServlet.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Controlador\ValidarOtpServlet.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\DAO\servicioDAO.java
 C:\Users\APRENDIZ\Documents\NetBeansProjects\New_Dreams\src\main\java\Controlador\FormServlet.java

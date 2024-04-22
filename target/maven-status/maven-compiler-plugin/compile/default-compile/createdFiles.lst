@@ -8,6 +8,7 @@ Modelo\administrador.class
 Modelo\cotizacion.class
 DAO\servicioDAO.class
 Modelo\cotizante.class
+Controlador\ClienteServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
 Controlador\NuevaContrasenaServlet.class
