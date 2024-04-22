@@ -21,20 +21,43 @@
     </head>
 
     <body id="body-pd">
-        hola soy dashboard
         <!--Container Main start-->
-        <div class="container-">
+        <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-6 col-md-6">
-                    <div class="card bg-info text-black">
-                        <div class="card-body text-center align-items-center">
-                            eventos
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Numero de evento</th>
+                                <th scope="col">nombres cliente</th>
+                                <th scope="col">Tipo evento</th>
+                                <th scope="col">Estado evento</th>
+                                <th scope="col">Descripcion evento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="cotizantes" items="${cotizantes}">
+                            <tr>
+                                <td>${cotizantes.getCotizanteCorreo()}</td>
+                                <td>${cotizantes.getCotizanteNombre()}</td>
+                                <td>${cotizantes.getCotizanteApellido()}</td>
+                                <td>${cotizantes.getCotizanteTelefono()}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                        <div class="modal-body">
+                            <form id="formulario-evento" action="PrincipalServlet?menu=Cotizantes" method="POST">
+                                <div class="form-group">
+                                    <label for="correo">Correo Cotizante:</label>
+                                    <input type="email" class="form-control" id="correoClt" name="correoClt" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contrasena">Contraseña:</label>
+                                    <input type="password" class="form-control" id="contrasenaClt" name="contraseñaClt" required autocomplete="current-password">>
+                                </div>
+                            </form>
                         </div>
-                        <div class="card-footer d-flex align-items-center justify-content-center">
-                            <a class="small text-black stretched-link" href="#">View Details</a>
-                            <div class="small text-black"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
+                    </table>
                 </div>
             </div>
         </div>

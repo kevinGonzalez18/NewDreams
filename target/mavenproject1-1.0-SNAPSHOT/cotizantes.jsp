@@ -45,7 +45,7 @@
                                     <td>${cotizantes.getCotizanteNombre()}</td>
                                     <td>${cotizantes.getCotizanteApellido()}</td>
                                     <td>${cotizantes.getCotizanteTelefono()}</td>
-                                    <td><i class="fa-solid fa-user-plus crear-cliente-btn" style="cursor: pointer;" data-correo="${cotizantes.getCotizanteCorreo()}"></i></td>
+                                    <td><a class="crear-cliente-btn" style="cursor: pointer;" data-correo="${cotizantes.getCotizanteCorreo()}" type="button"><i class="fa-solid fa-user-plus"></i> </a></td>
                                     <td><i class="fa-solid fa-trash"></i></td>
                                 </tr>
                             </c:forEach>
@@ -87,18 +87,22 @@
     <script>
         $(document).ready(function () {
             $('.crear-cliente-btn').click(function () {
-                var correoCotizante = $(this).data('correo');
-                $('#correoClt').val(correoCotizante);
-                $('#formulario-crear').modal('show');
+                console.log("Se hizo clic en el botón guardar.");
+                var correo = $('#correoClt').val();
+                var contraseña = $('#contrasenaClt').val();
+                // Cambiar la siguiente línea para dirigirte al archivo modal_cotizante.html
+                window.location.href = "modal_cotizantes.jsp?correoClt=" + correo + "&contraseñaClt=" + contraseña;
             });
 
-            $(document).ready(function () {
-                $('#btn-guardar').click(function () {
-                    var correo = $('#correoClt').val();
-                    var contraseña = $('#contrasenaClt').val();
-                    window.location.href = "PrincipalServlet?menu=Cotizantes&accion=Agregar&correoClt=" + correo + "&contraseñaClt=" + contraseña;
-                });
+
+            $('#btn-guardar').click(function () {
+                console.log("Se hizo clic en el botón guardar.");
+                var correo = $('#correoClt').val();
+                var contraseña = $('#contrasenaClt').val();
+                window.location.href = "PrincipalServlet?menu=Cotizantes&accion=Agregar&correoClt=" + correo + "&contraseñaClt=" + contraseña;
             });
         });
     </script>
+
+
 </html>
