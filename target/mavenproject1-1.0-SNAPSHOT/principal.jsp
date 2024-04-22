@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="PrincipalServlet?menu=Eventos" class="sidebar-link">
+                            <a href="PrincipalServlet?menu=Eventos&accion=listar" class="sidebar-link">
                                 <i class="fa-solid fa-users pe-2"></i>
                                 Eventos
                             </a>

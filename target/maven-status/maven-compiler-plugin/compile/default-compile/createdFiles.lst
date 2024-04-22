@@ -14,10 +14,10 @@ Modelo\servicio.class
 Controlador\NuevaContrasenaServlet.class
 DAO\cotizanteDAO.class
 Controlador\ValidarOtpServlet.class
+Modelo\evento.class
 DAO\cotizacionDAO.class
 Controlador\LoginServlet.class
 Modelo\conexion.class
-Controlador\PerfilClienteServlet.class
 Modelo\comprobar.class
 test\test.class
 Controlador\PrincipalServlet.class
