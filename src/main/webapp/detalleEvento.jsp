@@ -44,19 +44,31 @@
                                 </div>
                                 <div class="form-group col-sm-8">
                                     <label for="card-number">Tipo de evento</label>
-                                    <input id="card-number" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <label for="cvc">Cantidad de personas</label>
-                                    <input id="cvc" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
                                 </div>
-                                <div class="form-group col-sm-5">
+                                <div class="form-group col-sm-8">
                                     <label for="">Fecha del evento</label>
                                     <div class="input-group expiration-date">
+                                        <input type="text" class="form-control" placeholder="YY" aria-label="YY" aria-describedby="basic-addon1">
+                                        <span class="date-separator">/</span>
                                         <input type="text" class="form-control" placeholder="MM" aria-label="MM" aria-describedby="basic-addon1">
                                         <span class="date-separator">/</span>
-                                        <input type="text" class="form-control" placeholder="YY" aria-label="YY" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" placeholder="DD" aria-label="DD" aria-describedby="basic-addon1">
+                                        <span class="date-separator">/</span>
+                                        <input type="text" class="form-control" placeholder="Hora" aria-label="Hora" aria-describedby="basic-addon1">
                                     </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="cvc">Estado del evento</label>
+                                    <input id="cvc" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="cvc">Descipcion del evento</label>
+                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="block-heading">
                                     <h2>Servicios del evento</h2>
@@ -87,8 +99,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-12">
-                                    <a href="historialPagosCliente.jsp"><button type="button" class="btn btn-primary btn-block">historial de pagos</button></a> 
+                                <div class="form-group col-sm-4">
+                                    <a href="historialPagosCliente.jsp"><button type="button" class="btn btn-primary btn-block">historial de pagos</button></a>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <a href="PrincipalServlet?menu=Eventos&accion=listar"><button type="button" class="btn btn-primary btn-block">Atras</button></a>
                                 </div>
                             </div>
                     </form>

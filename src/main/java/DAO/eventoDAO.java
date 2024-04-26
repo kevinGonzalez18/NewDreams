@@ -1,6 +1,7 @@
 package DAO;
 
 import Modelo.conexion;
+import Modelo.cotizacion;
 import Modelo.cotizante;
 import Modelo.evento;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ public class eventoDAO {
 
     evento evento = new evento();
     cotizante cotizante = new cotizante();
+    cotizacion cotizacion = new cotizacion();
 
     Connection con = new conexion().conectar();
     PreparedStatement ps;
@@ -48,6 +50,40 @@ public class eventoDAO {
         }
         return lista;
     }
-    
-    
+
+    public List<Object[]> DetallesEvento(int id) {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = "SELECT c.Nombre_Cotizante, c.Apellido_Cotizante, c.Correo_Cotizante, c.Telefono_Cotizante, e.idEvento, e.Tipo_evento, e.Fecha_evento, e.Estado_evento, e.Tematica_evento, e.Descripcion_evento, ct.Cantidad_Personas_Cotización FROM evento e"
+                + "JOIN cotización ct on e.Cotizacion_No_Cotizacion=ct.No_Cotizacion"
+                + "JOIN cliente cl on e.Cliente_idCliente=cl.idCliente"
+                + "JOIN cotizante c on cl.Correo_cotizante=c.Correo_Cotizante"
+                + "WHERE e.idEvento=?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                cotizante.setCotizanteNombre(rs.getString("Nombre_Cotizante"));
+                cotizante.setCotizanteApellido(rs.getString("Apellido_Cotizante"));
+                cotizante.setCotizanteCorreo(rs.getString("Correo_Cotizante"));
+                cotizante.setCotizanteTelefono(rs.getString("Telefono_Cotizante"));
+                evento.setEventoId(rs.getInt("idEvento"));
+                evento.setTipoEvento(rs.getString("Tipo_evento"));
+                evento.setFechaEvento(rs.getDate("Fecha_Evento"));
+                evento.setEstadoEvento(rs.getString("Estado_Evento"));
+                evento.setTematicaEvento(rs.getString("Tematica_evento"));
+                evento.setDescripcionEvento(rs.getString("Descripcion_evento"));
+                cotizacion.setCantidadPersonas(rs.getInt("Cantidad_Personas_Cotización"));
+                Object[] eventoArray = {cotizante.getCotizanteNombre(), cotizante.getCotizanteApellido(), cotizante.getCotizanteCorreo(), cotizante.getCotizanteTelefono(), evento.getEventoId(), 
+                    evento.getTipoEvento(), evento.getFechaEvento(), evento.getEstadoEvento(), evento.getTematicaEvento(), evento.getDescripcionEvento(), cotizacion.getCantidadPersonas()};
+                lista.add(eventoArray);
+            }
+        
+        } catch (Exception e) {
+            e.printStackTrace(); // Imprimir el error
+           
+        }
+        return lista;
+    }
+
 }
