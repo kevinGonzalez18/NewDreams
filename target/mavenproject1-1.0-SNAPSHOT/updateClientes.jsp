@@ -25,9 +25,7 @@
     <body id="body-pd">
         <div class="container">
             <h2>Formulario Simple</h2>
-            <form action="ClienteServlet" method="POST">
-                <input type="hidden" name="menu" value="updateClientes">
-                <input type="hidden" name="accion2" value="update">
+            <form action="ClienteServlet?accion2=update" method="POST">
                 <c:forEach var="datos" items="${datos}">
                     <p>El id del cliente es: ${datos[4]}</p>
                     <div class="form-group">

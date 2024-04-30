@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,20 +22,32 @@
     </head>
 
     <body id="body-pd">
-        hola soy dashboard
         <!--Container Main start-->
-        <div class="container-">
+        <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-6 col-md-6">
-                    <div class="card bg-info text-black">
-                        <div class="card-body text-center align-items-center">
-                            eventos
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-center">
-                            <a class="small text-black stretched-link" href="#">View Details</a>
-                            <div class="small text-black"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Numero de evento</th>
+                                <th scope="col">nombres cliente</th>
+                                <th scope="col">Tipo evento</th>
+                                <th scope="col">Estado evento</th>
+                                <th scope="col">Descripcion evento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="Eventos" items="${evento}">
+                                <tr>
+                                    <td>${Eventos[0]}</td>
+                                    <td>${Eventos[1]} ${Eventos[2]}</td>
+                                    <td>${Eventos[3]}</td>
+                                    <td>${Eventos[4]}</td>
+                                    <td><button>ver mas</button></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -44,7 +44,7 @@
                             
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-center">
-                            <a class="small text-black stretched-link" onclick="loadContent('PrincipalServlet?menu=Eventos'); return false;">Eventos</a>
+                            <a class="small text-black stretched-link" onclick="loadContent('PrincipalServlet?menu=Eventos&accion=listar'); return false;">Eventos</a>
                             <div class="small text-black"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

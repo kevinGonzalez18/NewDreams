@@ -34,6 +34,7 @@
                                 <th scope="col">Nombres</th>
                                 <th scope="col">Apellidos</th>
                                 <th scope="col">Telefono</th>
+                                
                                 <th scope="col">Crear cliente</th>
                                 <th scope="col">Eliminar</th>
                             </tr>
@@ -45,7 +46,7 @@
                                     <td>${cotizantes.getCotizanteNombre()}</td>
                                     <td>${cotizantes.getCotizanteApellido()}</td>
                                     <td>${cotizantes.getCotizanteTelefono()}</td>
-                                    <td><i class="fa-solid fa-user-plus crear-cliente-btn" style="cursor: pointer;" data-correo="${cotizantes.getCotizanteCorreo()}"></i></td>
+                                    <td><a href="modal_cotizantes.jsp?correoCot=${cotizantes.getCotizanteCorreo()}" class="crear-cliente-btn" style="cursor: pointer;"><i class="fa-solid fa-user-plus"></i></a></td>
                                     <td><i class="fa-solid fa-trash"></i></td>
                                 </tr>
                             </c:forEach>
@@ -55,50 +56,4 @@
             </div>
         </div>
     </body>
-    <div id="formulario-crear" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Crear Cliente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formulario-crear-cliente" action="PrincipalServlet?menu=Cotizantes" method="POST">
-                        <div class="form-group">
-                            <label for="correo">Correo Cotizante:</label>
-                            <input type="email" class="form-control" id="correoClt" name="correoClt" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="contrasena">Contraseña:</label>
-                            <input type="password" class="form-control" id="contrasenaClt" name="contraseñaClt" required autocomplete="current-password">>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn-guardar">Guardar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        $(document).ready(function () {
-            $('.crear-cliente-btn').click(function () {
-                var correoCotizante = $(this).data('correo');
-                $('#correoClt').val(correoCotizante);
-                $('#formulario-crear').modal('show');
-            });
-
-            $(document).ready(function () {
-                $('#btn-guardar').click(function () {
-                    var correo = $('#correoClt').val();
-                    var contraseña = $('#contrasenaClt').val();
-                    window.location.href = "PrincipalServlet?menu=Cotizantes&accion=Agregar&correoClt=" + correo + "&contraseñaClt=" + contraseña;
-                });
-            });
-        });
-    </script>
 </html>

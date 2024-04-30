@@ -3,8 +3,10 @@ package Controlador;
 import DAO.clienteDAO;
 import DAO.cotizacionDAO;
 import DAO.cotizanteDAO;
+import DAO.eventoDAO;
 import Modelo.cliente;
 import Modelo.cotizante;
+import Modelo.evento;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,6 +28,7 @@ public class PrincipalServlet extends HttpServlet {
     cliente cliente = new cliente();
     clienteDAO clienteDAO = new clienteDAO();
     cotizacionDAO cotizacionDAO = new cotizacionDAO();
+    eventoDAO eventoDAO = new eventoDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -60,7 +63,7 @@ public class PrincipalServlet extends HttpServlet {
                         if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
                             clienteDAO.agregar(cliente);
                             // Redireccionar después de agregar exitosamente
-                            request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+                            request.getRequestDispatcher("PrincipalServlet?menu=Inicio").include(request, response);
                             break;
                         }
                     case "Editar":
@@ -80,6 +83,11 @@ public class PrincipalServlet extends HttpServlet {
                 request.getRequestDispatcher("clientes.jsp").forward(request, response);
             }
             if (menu.equals("Eventos")) {
+                switch (accion){
+                    case "listar":
+                        List<Object[]> listaEventos = eventoDAO.listarEventos();
+                        request.setAttribute("evento", listaEventos);
+                }
                 request.getRequestDispatcher("eventos.jsp").forward(request, response);
             }
             if (menu.equals("Estados")) {
