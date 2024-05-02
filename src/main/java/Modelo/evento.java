@@ -18,19 +18,19 @@ public class evento {
     private Date fechaEvento;
     private String estadoEvento;
     private String tematicaEvento;
-    private String descripccionEvento;
+    private String descripcionEvento;
     
     public evento() {
     }
 
-    public evento(int eventoId, String tipoEvento, int valorEvento, Date fechaEvento, String estadoEvento, String tematicaEvento, String descripccionEvento) {
+    public evento(int eventoId, String tipoEvento, int valorEvento, Date fechaEvento, String estadoEvento, String tematicaEvento, String descripcionEvento) {
         this.eventoId = eventoId;
         this.tipoEvento = tipoEvento;
         this.valorEvento = valorEvento;
         this.fechaEvento = fechaEvento;
         this.estadoEvento = estadoEvento;
         this.tematicaEvento = tematicaEvento;
-        this.descripccionEvento = descripccionEvento;
+        this.descripcionEvento = descripcionEvento;
     }
 
     public int getEventoId() {
@@ -81,12 +81,12 @@ public class evento {
         this.tematicaEvento = tematicaEvento;
     }
 
-    public String getDescripccionEvento() {
-        return descripccionEvento;
+    public String getDescripcionEvento() {
+        return descripcionEvento;
     }
 
-    public void setDescripccionEvento(String descripccionEvento) {
-        this.descripccionEvento = descripccionEvento;
+    public void setDescripcionEvento(String descripccionEvento) {
+        this.descripcionEvento = descripccionEvento;
     }
             
     
