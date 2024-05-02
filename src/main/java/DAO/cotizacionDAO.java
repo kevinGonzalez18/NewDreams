@@ -57,8 +57,8 @@ public class cotizacionDAO {
             ps = con.prepareStatement(sql);
             ps.setString(1, cot.getTipoCotizacion());
             ps.setString(2, cot.getUbicacion());
-            ps.setDate(3, (Date) cot.getFechaParcialEvento());
-            ps.setDate(4, (Date) cot.getFechaCotizacion());
+            ps.setTimestamp(3, (Timestamp) cot.getFechaParcialEvento());
+            ps.setTimestamp(4, (Timestamp) cot.getFechaCotizacion());
             ps.setInt(5, cot.getValorCotizacion());
             ps.setInt(6, cot.getCantidadPersonas());
             ps.setString(7, cot.getCorreo());

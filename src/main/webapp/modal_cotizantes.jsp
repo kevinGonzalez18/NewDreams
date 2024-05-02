@@ -6,66 +6,43 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Iniciar Sesión</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-
-
-        <!-- Código del modal -->
-        <div id="modalContenido" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModal()">&times;</span>
-                <div id="contenidoModal">
-                    <div id="formulario-crear" class="modal fade" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Crear Cliente</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Registrar Cliente</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="formulario-crear-cliente" action="PrincipalServlet?menu=Cotizantes&accion=Agregar" method="POST">
+                                <div class="form-group">
+                                    <label for="correo">Correo Cotizante:</label>
+                                    <input type="email" class="form-control" id="correoClt" name="correoClt" required>
                                 </div>
-                                <div class="modal-body">
-                                    <form id="formulario-crear-cliente" action="PrincipalServlet?menu=Cotizantes" method="POST">
-                                        <div class="form-group">
-                                            <label for="correo">Correo Cotizante:</label>
-                                            <input type="email" class="form-control" id="correoClt" name="correoClt" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="contrasena">Contraseña:</label>
-                                            <input type="password" class="form-control" id="contrasenaClt" name="contraseñaClt" required autocomplete="current-password">>
-                                        </div>
-                                    </form>
+                                <div class="form-group">
+                                    <label for="contrasena">Contraseña:</label>
+                                    <input type="password" class="form-control" id="contraseñaClt" name="contraseñaClt" required autocomplete="current-password">
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" id="btn-guardar">Guardar</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                </div>
-                            </div>
+                                <button type="submit" class="btn btn-primary">Crear cliente</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Script para mostrar el modal y cargar la vista HTML dentro de él -->
-        <script>
-            $(document).ready(function () {
-                // Realiza una solicitud AJAX al servlet para obtener el contenido de la vista HTML
-                $.get("PrincipalServlet", function (data) {
-                    // Inserta el contenido dentro del modal
-                    $("#contenidoModal").html(data);
-                    // Muestra el modal
-                    $("#modalContenido").show();
-                });
-            });
 
-            // Función para cerrar el modal
-            function cerrarModal() {
-                $("#modalContenido").hide();
-            }
-        </script>
+        <!-- Bootstrap JS y dependencias Popper.js y jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -28,7 +28,7 @@
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-lg-5">
-                <a href="IndexResponsive.html"
+                <a href="index.jsp"
                    class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <img src="images/Logo.png" alt="Logo" class="img-fluid me-2" width="150">
                 </a>

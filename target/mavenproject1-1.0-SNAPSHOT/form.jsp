@@ -3,8 +3,8 @@
     Created on : 13/02/2024, 10:09:26 p. m.
     Author     : Felipe Rodriguez
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,23 +68,21 @@
                     <button class="btn btn-outline-light ms-auto" type="button">Iniciar sesión</button>
                 </a>
             </div>
-        </nav
+        </nav>
 
         <div class="container">
-            <div class="row">
-                <div class="col9 col-md-9 col-xl-9">
-                    <div class="container">
-                        <div class=" text-center mt-5 ">
-                            <h1>Formulario de Cotizacion</h1>
-                        </div>
-
-                        <div class="row ">
-                            <div class="col-lg-7 mx-auto">
-                                <div class="card mt-2 mx-auto p-4 bg-light">
-                                    <div class="card-body bg-light">
-
-                                        <div class = "container">
-                                            <form id="form1" role="form" action="FormServlet?crearcotizacion=crearcotizacion" method="POST">
+            <form action="FormServlet?crearcotizacion=crearcotizacion" method="POST">
+                <div class="row">
+                    <div class="col7 col-md-7 col-xl-7">
+                        <div class="container">
+                            <div class=" text-center mt-3">
+                                <h1>Formulario de Cotizacion</h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12  mx-auto">
+                                    <div class="card mt-2 mx-auto bg-light">
+                                        <div class="card-body bg-light">
+                                            <div class = "container">
                                                 <div class="controls">
                                                     <div class="row">
                                                         <div class="col-12 col-md-6">
@@ -93,12 +91,12 @@
                                                                 <select name="item_type" id="item_type" name="item_type" class="form-control"
                                                                         required="required" data-error="Please select item type">
                                                                     <option value="" selected disabled>Seleccione el evento</option>
-                                                                    <option value="xvaños">XV años</option>
-                                                                    <option value="boda">Boda</option>
-                                                                    <option value="bautizo">Bautizo</option>
-                                                                    <option value="comunion">Primera Comunión</option>
-                                                                    <option value="grado">Grado</option>
-                                                                    <option value="empresarial">Reunión empresarial</option>
+                                                                    <option value="XVaños">XV años</option>
+                                                                    <option value="Boda">Boda</option>
+                                                                    <option value="Bautizo">Bautizo</option>
+                                                                    <option value="Comunion">Primera Comunión</option>
+                                                                    <option value="Grado">Grado</option>
+                                                                    <option value="Empresarial">Reunión empresarial</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -141,20 +139,20 @@
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
                                                                 <label for="form_email">Cantidad de personas</label>
-                                                                <input name="" id="quantity" type="number" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
+                                                                <input id="quantity" type="text" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
-                                                                <label for="toggle_date">Fecha</label>
+                                                                <label for="toggle_date">Fecha y hora del evento</label>
                                                                 <i id="toggle_date_icon" class="fas fa-calendar-alt" style="cursor: pointer;"></i>
                                                                 <div id="date_container" style="display: none;">
                                                                     <input id="event_date" type="text" name="event_date" class="form-control" required="required">
-                                                                    <!-- Input oculto para almacenar la fecha actual -->
-                                                                    <input id="current_date" type="hidden" name="current_date">
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <!-- Input oculto para almacenar la fecha actual -->
+                                                        <input id="current_date" type="hidden" name="current_date">
                                                     </div>
                                                     <h3>Manteleria - Manteles</h3>
                                                     <div class="row">
@@ -166,22 +164,22 @@
                                                         <c:forEach var="manteleria" items="${manteleria}" varStatus="loop">
                                                             <div class="col-2 col-md-2">
                                                                 <div class="form-group">
-                                                                    <input id="service_quantity_manteleria_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'manteleria')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
+                                                                    <input id="service_quantity_manteleria_${loop.index}" type="text" name="service_quantity_manteleria_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'manteleria')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
                                                                 </div>
                                                             </div>
                                                             <div class="col-4 col-md-4">
                                                                 <div class="form-group">
-                                                                    <input id="service_name_manteleria_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${manteleria.getServicioNombre()}" readonly>
+                                                                    <input id="service_name_manteleria_${loop.index}" type="text" name="service_name_manteleria_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${manteleria.getServicioNombre()}" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3 col-md-3">
                                                                 <div class="form-group">
-                                                                    <input id="service_price_manteleria_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" placeholder="0" value="${manteleria.getServicioValor()}" readonly>
+                                                                    <input id="service_price_manteleria_${loop.index}" type="text" name="service_price_manteleria_${loop.index}" class="form-control" placeholder="0" value="${manteleria.getServicioValor()}" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3 col-md-3">
                                                                 <div class="form-group">
-                                                                    <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
+                                                                    <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_manteleria_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
                                                         </c:forEach>
@@ -214,6 +212,7 @@
                                                                     <input id="service_total_price_mesasSillas_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="indiceMesasSillas" value="${loop.index}" />
                                                         </c:forEach>
                                                     </div>
                                                     <h3>Decoración</h3>
@@ -244,48 +243,47 @@
                                                                     <input id="service_total_price_decoracion_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="indiceDecoracion" value="${loop.index}" />
                                                         </c:forEach>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col3 col-md-3 col-xl-3">
-                    <div class="get-in-touch">
-                        <h1 class="title">Datos de Contacto</h1>
-                        <form id="form2" class="contact-form row" action="FormServlet?crearcotizante=crearcotizante" method="POST">
-                            <div class="form-field col-lg-6">
+                    <div class="col5 col-md-5 col-xl-5 contact-form">
+                        <div class="get-in-touch" style="border: solid 2 px; border-color: yellow">
+                            <h1 class="title">Datos de Contacto</h1>
+                            <div class="form-field col-12 col-md-10 col-lg-10">
                                 <input name="name" id="name" class="input-text js-input" type="text" required>
                                 <label class="label" for="name">Nombre</label>
                             </div>
-                            <div class="form-field col-lg-6 ">
+                            <div class="form-field col-12 col-md-10 col-lg-10">
                                 <input name="last-name" id="last-name" class="input-text js-input" type="text" required>
                                 <label class="label" for="last-name">Apellidos</label>
                             </div>
-                            <div class="form-field col-lg-6 ">
+                            <div class="form-field col-12 col-md-10 col-lg-10">
                                 <input name="email" id="email" class="input-text js-input" type="email" required>
                                 <label class="label" for="email">E-mail</label>
                             </div>
-                            <div class="form-field col-lg-6 ">
+                            <div class="form-field col-12 col-md-10 col-lg-10">
                                 <input name="phone" id="phone" class="input-text js-input" type="text" required>
                                 <label class="label" for="phone">Telefono</label>
                             </div>
-                            <div class="form-field col-lg-6 ">
+                            <div class="form-field col-12 col-md-10 col-lg-10">
                                 <label class="label" for="total_order_price">Precio total del pedido</label>
                                 <input name="total_order_price" id="total_order_price" type="number" class="input-text js-input" placeholder="0" readonly>
                             </div>
                             <div class="form-field col-lg-12">
                                 <input class="submit-btn" type="submit" value="Submit">
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
 

@@ -63,7 +63,7 @@ public class PrincipalServlet extends HttpServlet {
                         if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
                             clienteDAO.agregar(cliente);
                             // Redireccionar después de agregar exitosamente
-                            request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+                            request.getRequestDispatcher("PrincipalServlet?menu=Inicio").include(request, response);
                             break;
                         }
                     case "Editar":
