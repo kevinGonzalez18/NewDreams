@@ -51,6 +51,7 @@ public class FormServlet extends HttpServlet {
 
         if (crearcotizacion != null && crearcotizacion.equals("crearcotizacion")) {
             String nombreCotizante = request.getParameter("name");
+            System.out.println(nombreCotizante);
             String apellidoCotizante = request.getParameter("last-name");
             String correoCotizante = request.getParameter("email");
             String telefonoCotizante = request.getParameter("phone");
@@ -127,7 +128,12 @@ public class FormServlet extends HttpServlet {
                     response.getWriter().println("Error al insertar en la base de datos");
                 }
             }
-
+            System.out.println("Inicio de obtencion de servicios");
+            for (int i = 0; i >=4; i++){
+                String cantidad = request.getParameter("service_quantity_manteleria_" + i);
+                System.out.println(cantidad);
+                
+            }
         }
     }
 

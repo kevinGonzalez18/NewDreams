@@ -3,8 +3,8 @@
     Created on : 13/02/2024, 10:09:26 p. m.
     Author     : Felipe Rodriguez
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -182,7 +182,6 @@
                                                                     <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_manteleria_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
-                                                            <input type="hidden" name="indice" value="${loop.index}" />
                                                         </c:forEach>
                                                     </div>
                                                     <h3>Mobiliario - Mesas y Sillas</h3>
@@ -213,6 +212,7 @@
                                                                     <input id="service_total_price_mesasSillas_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="indiceMesasSillas" value="${loop.index}" />
                                                         </c:forEach>
                                                     </div>
                                                     <h3>Decoración</h3>
@@ -243,6 +243,7 @@
                                                                     <input id="service_total_price_decoracion_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="indiceDecoracion" value="${loop.index}" />
                                                         </c:forEach>
                                                     </div>
                                                 </div>
