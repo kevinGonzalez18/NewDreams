@@ -4,6 +4,7 @@
     Author     : APRENDIZ
 --%>
 
+<%@page import="Modelo.evento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -28,7 +29,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label for="card-holder">Nombre del cliente</label>
-                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                    <input id="card-holder" type="text" class="form-control" value="${Nombre_Cotizante}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                 </div><br>
                                 <div class="form-group col-sm-6">
                                     <label for="card-holder">Apellido del cliente</label>

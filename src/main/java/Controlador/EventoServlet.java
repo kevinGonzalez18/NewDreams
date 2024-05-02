@@ -1,85 +1,71 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controlador;
 
+import DAO.eventoDAO;
+import Modelo.evento;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author APRENDIZ
- */
 public class EventoServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    // Instanciar el DAO para acceder a los detalles del evento
+    eventoDAO eventoDAO = new eventoDAO();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EventoServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EventoServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        String menu = request.getParameter("menu");
+        String accion2 = request.getParameter("accion2");
+        if (menu != null && menu.equals("idEvento")) {
+            // Obtener el ID del evento de la solicitud HTTP
+            int idEvento = Integer.parseInt(request.getParameter("idEvento"));
+            // Obtener los detalles del evento del DAO
+            List<Object[]> detallesEvento = eventoDAO.DetallesEvento(idEvento);
+            // Pasar el objeto evento al formulario JSP
+            request.setAttribute("detallesEvento", detallesEvento);
+            request.getRequestDispatcher("detalleEvento.jsp").include(request, response);
+
+            List<Object[]> detalles = (List<Object[]>) request.getAttribute("detallesEvento");
+            if (detallesEvento != null) {
+                request.setAttribute("Nombre_Cotizante", detallesEvento.get(0)[0]);
+                request.setAttribute("Apellido_Cotizante", detallesEvento.get(0)[1]);
+                request.setAttribute("Correo_Cotizante", detallesEvento.get(0)[2]);
+                request.setAttribute("Telefono_Cotizante", detallesEvento.get(0)[3]);
+                request.setAttribute("Tipo_evento", detallesEvento.get(0)[4]);
+                request.setAttribute("Fecha_Evento", detallesEvento.get(0)[5]);
+                request.setAttribute("Estado_Evento", detallesEvento.get(0)[6]);
+                request.setAttribute("Tematica_evento", detallesEvento.get(0)[7]);
+                request.setAttribute("Descripcion_evento", detallesEvento.get(0)[8]);
+                request.setAttribute("Cantidad_Personas_Cotización", detallesEvento.get(0)[9]);
+            }else {
+            // Handle the case where menu is null or has an unexpected value
+            }
+        }
+// Agrega los demás atributos que desees mostrar en los campos de entrada
+            // Redirigir a la página de detalles del evento
+        }
+
+        @Override
+        protected void doGet
+        (HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            processRequest(request, response);
+        }
+
+        @Override
+        protected void doPost
+        (HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            processRequest(request, response);
+        }
+
+        @Override
+        public String getServletInfo
+        
+            () {
+        return "Short description";
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
-}
