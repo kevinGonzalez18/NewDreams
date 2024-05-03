@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-04-2024 a las 23:15:43
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 03-05-2024 a las 21:24:14
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -570,19 +570,20 @@ CREATE TABLE `evento` (
   `Descripcion_evento` varchar(200) NOT NULL,
   `Administrador_idAdministrador` int(11) NOT NULL,
   `Cotizacion_No_Cotizacion` char(7) NOT NULL,
-  `Cliente_idCliente` char(5) NOT NULL
+  `Cliente_idCliente` char(5) NOT NULL,
+  `Precio_Final` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `evento`
 --
 
-INSERT INTO `evento` (`idEvento`, `Tipo_evento`, `Valor_evento`, `Fecha_evento`, `Estado_evento`, `Tematica_evento`, `Descripcion_evento`, `Administrador_idAdministrador`, `Cotizacion_No_Cotizacion`, `Cliente_idCliente`) VALUES
-(1, 'Xv años', 5500000, '2023-10-25 10:30:00', 'Activo', 'Neon', 'Decoración totalmente neón, centros de mesa con ramosde flores fluorecentes, protocolo clasico, mariachis sorpresa\r\n  intervencion del padre, regalo de la madre, comida, hora loca, bebidas, fin', 1, 'COT1001', 'CL001'),
-(2, 'Grado', 8000000, '2024-06-23 06:00:00', 'Activo', 'Clasico', 'Graduacion ingeniero aeronautico, ubicado en un avion dentro del hangar del aeropuerto, decoracion clasica, comida basica', 1, 'COT1002', 'CL002'),
-(3, 'Boda', 3000000, '2024-02-03 02:00:00', 'Activo', 'Color negro', 'Decoracion a blanco y negro, protocolo clasico, regal sorpresa de la familiade la novia', 1, 'COT1003', 'CL003'),
-(4, 'Bautizo', 2500000, '2023-07-15 07:30:00', 'Activo', 'Clasico', 'Bautizo clasico, comida con 3 carnes y 2 bebidas', 1, 'COT1004', 'CL004'),
-(5, 'Xv años', 5000000, '2023-12-30 12:45:00', 'Activo', 'Francia', 'Ratatouille con vino añejo', 1, 'COT1005', 'CL005');
+INSERT INTO `evento` (`idEvento`, `Tipo_evento`, `Valor_evento`, `Fecha_evento`, `Estado_evento`, `Tematica_evento`, `Descripcion_evento`, `Administrador_idAdministrador`, `Cotizacion_No_Cotizacion`, `Cliente_idCliente`, `Precio_Final`) VALUES
+(1, 'Xv años', 5500000, '2023-10-25 10:30:00', 'Activo', 'Neon', 'Decoración totalmente neón, centros de mesa con ramosde flores fluorecentes, protocolo clasico, mariachis sorpresa\r\n  intervencion del padre, regalo de la madre, comida, hora loca, bebidas, fin', 1, 'COT1001', 'CL001', 0),
+(2, 'Grado', 8000000, '2024-06-23 06:00:00', 'Activo', 'Clasico', 'Graduacion ingeniero aeronautico, ubicado en un avion dentro del hangar del aeropuerto, decoracion clasica, comida basica', 1, 'COT1002', 'CL002', 0),
+(3, 'Boda', 3000000, '2024-02-03 02:00:00', 'Activo', 'Color negro', 'Decoracion a blanco y negro, protocolo clasico, regal sorpresa de la familiade la novia', 1, 'COT1003', 'CL003', 0),
+(4, 'Bautizo', 2500000, '2023-07-15 07:30:00', 'Activo', 'Clasico', 'Bautizo clasico, comida con 3 carnes y 2 bebidas', 1, 'COT1004', 'CL004', 0),
+(5, 'Xv años', 5000000, '2023-12-30 12:45:00', 'Activo', 'Francia', 'Ratatouille con vino añejo', 1, 'COT1005', 'CL005', 0);
 
 -- --------------------------------------------------------
 
@@ -592,26 +593,28 @@ INSERT INTO `evento` (`idEvento`, `Tipo_evento`, `Valor_evento`, `Fecha_evento`,
 
 CREATE TABLE `evento_servicio` (
   `Evento_idEvento` int(11) NOT NULL,
-  `Servicio_idServicio` char(4) NOT NULL
+  `Servicio_idServicio` char(4) NOT NULL,
+  `Cantidad_Servios` int(5) NOT NULL,
+  `Valor_Total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `evento_servicio`
 --
 
-INSERT INTO `evento_servicio` (`Evento_idEvento`, `Servicio_idServicio`) VALUES
-(1, 'S01'),
-(1, 'S02'),
-(1, 'S03'),
-(1, 'S04'),
-(1, 'S05'),
-(2, 'S01'),
-(2, 'S02'),
-(2, 'S03'),
-(2, 'S04'),
-(3, 'S01'),
-(3, 'S02'),
-(3, 'S03');
+INSERT INTO `evento_servicio` (`Evento_idEvento`, `Servicio_idServicio`, `Cantidad_Servios`, `Valor_Total`) VALUES
+(1, 'S01', 0, 0),
+(1, 'S02', 0, 0),
+(1, 'S03', 0, 0),
+(1, 'S04', 0, 0),
+(1, 'S05', 0, 0),
+(2, 'S01', 0, 0),
+(2, 'S02', 0, 0),
+(2, 'S03', 0, 0),
+(2, 'S04', 0, 0),
+(3, 'S01', 0, 0),
+(3, 'S02', 0, 0),
+(3, 'S03', 0, 0);
 
 -- --------------------------------------------------------
 
