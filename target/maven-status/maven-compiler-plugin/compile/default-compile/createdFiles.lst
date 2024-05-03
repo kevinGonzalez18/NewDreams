@@ -1,4 +1,6 @@
 DAO\clienteDAO.class
+<<<<<<< HEAD
+=======
 Modelo\cotizacionServicio.class
 Controlador\LogoutServlet.class
 DAO\cotizacionServicioDAO.class
@@ -12,16 +14,24 @@ DAO\servicioDAO.class
 Modelo\cotizante.class
 Controlador\ClienteServlet.class
 DAO\eventoDAO.class
+>>>>>>> 00ac6ea2200d7464fe3d21fa0fb5a0042f941713
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
-Controlador\NuevaContrasenaServlet.class
 DAO\cotizanteDAO.class
 Controlador\ValidarOtpServlet.class
 Modelo\evento.class
+Modelo\cliente.class
+Controlador\reestablecerContrasenaServlet$1.class
 DAO\cotizacionDAO.class
 Controlador\LoginServlet.class
+<<<<<<< HEAD
+Modelo\administrador.class
+DAO\servicioDAO.class
+=======
 Modelo\conexion.class
 Controlador\PerfilClienteServlet.class
+>>>>>>> 00ac6ea2200d7464fe3d21fa0fb5a0042f941713
 Modelo\comprobar.class
 test\test.class
+Modelo\cotizante.class
 Controlador\PrincipalServlet.class
