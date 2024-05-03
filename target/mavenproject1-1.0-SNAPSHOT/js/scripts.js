@@ -62,10 +62,10 @@ select.addEventListener('change', function () {
 var today = new Date();
 var next30days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 flatpickr("#event_date", {
-    enableTime: false, // Desactiva la selección de hora
+    enableTime: true, // Desactiva la selección de hora
     minDate: next30days, // Establece la seleccion de la fecha minimo a 30 dias adelante de la fecha actual
     defaultDate: "+1m", // Establece la fecha predeterminada como un mes a partir de hoy
-    dateFormat: "Y-m-d", // Formato de la fecha
+    dateFormat: "Y-m-d H:i", // Formato de la fecha
     inline: true // Muestra el calendario siempre visible
 });
 document.getElementById('toggle_date_icon').addEventListener('click', function () {
@@ -81,6 +81,7 @@ document.getElementById('toggle_date_icon').addEventListener('click', function (
         icon.classList.add('fa-calendar-alt');
     }
 });
+
 // Función para calcular el precio total de un servicio
 function calculateTotal(index, type) {
     // Obtener la cantidad y el precio unitario del servicio
@@ -142,19 +143,19 @@ function onlyNumberKey(event) {
 window.onload = function () {
     document.getElementById('total_order_price').value = 0;
 };
-// Obtener referencia al botón de envío del segundo formulario
-var submitBtn = document.querySelector('#form2 .submit-btn');
-// Agregar un evento de clic al botón de envío del segundo formulario
-submitBtn.addEventListener('click', function (event) {
-    // Evitar el comportamiento predeterminado del botón de envío
-    event.preventDefault();
-    // Enviar el primer formulario
-    document.querySelector('#form1').submit();
-    // Enviar el segundo formulario
-    document.querySelector('#form2').submit();
-});
-// Obtener la fecha actual
-var currentDate = new Date().toISOString().slice(0, 10);
-// Establecer el valor del input hidden con la fecha actual
-document.getElementById('current_date').value = currentDate;
+var now = new Date(); // Obtiene la fecha y hora actual en la zona horaria del navegador
+var utcOffset = -5 * 60; // Calcula el desfase horario en minutos para GMT-5
+
+// Calcula la hora ajustada para GMT-5
+var currentDateTime = new Date(now.getTime() + utcOffset * 60000);
+
+// Formatea la fecha y hora según el formato "yyyy-MM-dd HH:mm:ss"
+var formattedDateTime = currentDateTime.toISOString().slice(0, 19).replace('T', ' ');
+
+//alert(formattedDateTime); // Muestra la fecha y hora formateada en una alerta
+
+// Establece el valor del input hidden con la fecha y hora formateada
+document.getElementById('current_date').value = formattedDateTime;
+
+
 
