@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-05-2024 a las 21:24:14
+-- Tiempo de generación: 06-05-2024 a las 19:56:27
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -428,18 +428,20 @@ DELIMITER ;
 
 CREATE TABLE `cotizacion_servicio` (
   `Cotizacion_No_Cotizacion` char(7) NOT NULL,
-  `Servicio_idServicio` char(4) NOT NULL
+  `Servicio_idServicio` char(4) NOT NULL,
+  `Cantidad_Servicios` int(11) NOT NULL,
+  `Valor_Servicio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cotizacion_servicio`
 --
 
-INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServicio`) VALUES
-('COT1001', 'S01'),
-('COT1001', 'S02'),
-('COT1001', 'S03'),
-('COT1001', 'S04');
+INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServicio`, `Cantidad_Servicios`, `Valor_Servicio`) VALUES
+('COT1001', 'S01', 0, 0),
+('COT1001', 'S02', 0, 0),
+('COT1001', 'S03', 0, 0),
+('COT1001', 'S04', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -594,7 +596,7 @@ INSERT INTO `evento` (`idEvento`, `Tipo_evento`, `Valor_evento`, `Fecha_evento`,
 CREATE TABLE `evento_servicio` (
   `Evento_idEvento` int(11) NOT NULL,
   `Servicio_idServicio` char(4) NOT NULL,
-  `Cantidad_Servios` int(5) NOT NULL,
+  `Cantidad_Servicios` int(5) NOT NULL,
   `Valor_Total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -602,7 +604,7 @@ CREATE TABLE `evento_servicio` (
 -- Volcado de datos para la tabla `evento_servicio`
 --
 
-INSERT INTO `evento_servicio` (`Evento_idEvento`, `Servicio_idServicio`, `Cantidad_Servios`, `Valor_Total`) VALUES
+INSERT INTO `evento_servicio` (`Evento_idEvento`, `Servicio_idServicio`, `Cantidad_Servicios`, `Valor_Total`) VALUES
 (1, 'S01', 0, 0),
 (1, 'S02', 0, 0),
 (1, 'S03', 0, 0),
