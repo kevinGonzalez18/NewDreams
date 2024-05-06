@@ -12,6 +12,7 @@ DAO\servicioDAO.class
 Modelo\cotizante.class
 Controlador\ClienteServlet.class
 DAO\eventoDAO.class
+Controlador\EventoServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
 Controlador\NuevaContrasenaServlet.class

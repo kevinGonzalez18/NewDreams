@@ -8,6 +8,7 @@ import Modelo.cotizante;
 import Modelo.servicio;
 import Modelo.cotizacionServicio;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class FormServlet extends HttpServlet {
     cotizacionServicio cotizacionServicio = new cotizacionServicio();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException {
+            throws ServletException, IOException, ParseException, SQLException {
         String accion = request.getParameter("accion");
         String menu = request.getParameter("menu");
         String crearcotizacion = request.getParameter("crearcotizacion");
@@ -129,10 +130,45 @@ public class FormServlet extends HttpServlet {
                 }
             }
             System.out.println("Inicio de obtencion de servicios");
-            for (int i = 0; i >=4; i++){
-                String cantidad = request.getParameter("service_quantity_manteleria_" + i);
-                System.out.println(cantidad);
-                
+            String IdCotizacion = cotizacionDAO.consultarUltimoIdCotizacion();
+            int loopIndexManteleria = Integer.parseInt(request.getParameter("total_iterations_manteleria"));
+            for (int i = 0; i < loopIndexManteleria; i++) {
+                String cantidadManteleria = request.getParameter("service_quantity_manteleria_" + i);
+                int cantidadInt = Integer.parseInt(cantidadManteleria);
+                if (cantidadInt > 0) {
+                    String nombreManteleria = request.getParameter("service_name_manteleria_" + i);
+                    String precioManteleria = request.getParameter("service_price_manteleria_" + i);
+                    String precioTotalManteleria = request.getParameter("service_total_price_manteleria_" + i);
+                    System.out.println(cantidadManteleria + " " + nombreManteleria + " " + precioManteleria + " " + precioTotalManteleria);
+                    String IdServicio = servicioDAO.consultarIdServicio(nombreManteleria);
+                    System.out.println(IdServicio);
+                }
+
+            }
+            int loopIndexMesasSillas = Integer.parseInt(request.getParameter("total_iterations_mesasSillas"));
+            for (int i = 0; i < loopIndexMesasSillas; i++) {
+                String cantidadMesasSillas = request.getParameter("service_quantity_mesasSillas_" + i);
+                int cantidadInt = Integer.parseInt(cantidadMesasSillas);
+                if (cantidadInt > 0) {
+                    String nombreMesasSillas = request.getParameter("service_name_mesasSillas_" + i);
+                    String precioMesasSillas = request.getParameter("service_price_mesasSillas_" + i);
+                    String precioTotalMesasSillas = request.getParameter("service_total_price_mesasSillas_" + i);
+                    System.out.println(cantidadMesasSillas + " " + nombreMesasSillas + " " + precioMesasSillas + " " + precioTotalMesasSillas);
+                }
+
+            }
+            int loopIndexDecoracion = Integer.parseInt(request.getParameter("total_iterations_decoracion"));
+            for (int i = 0; i < loopIndexDecoracion; i++) {
+                String cantidadDecoracion = request.getParameter("service_quantity_decoracion_" + i);
+                int cantidadInt = Integer.parseInt(cantidadDecoracion);
+                if (cantidadInt > 0) {
+                    String nombreDecoracion = request.getParameter("service_name_decoracion_" + i);
+                    String precioDecoracion = request.getParameter("service_price_decoracion_" + i);
+                    String precioTotalDecoracion = request.getParameter("service_total_price_decoracion_" + i);
+
+                    System.out.println(cantidadDecoracion + " " + nombreDecoracion + " " + precioDecoracion + " " + precioTotalDecoracion);
+                }
+
             }
         }
     }
@@ -153,6 +189,8 @@ public class FormServlet extends HttpServlet {
             processRequest(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -170,6 +208,8 @@ public class FormServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ParseException ex) {
+            Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

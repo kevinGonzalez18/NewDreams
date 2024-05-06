@@ -71,4 +71,20 @@ public class cotizacionDAO {
         }
         return exito;
     }
+
+    // Método para consultar el último ID de cotización generado
+    public String consultarUltimoIdCotizacion() throws SQLException {
+        String sql = "SELECT No_Cotizacion FROM cotización ORDER BY No_Cotizacion DESC LIMIT 1";
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("No_Cotizacion");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }finally{
+            ps.close();
+            rs.close();
+        }
+        return null;
+    }
 }
