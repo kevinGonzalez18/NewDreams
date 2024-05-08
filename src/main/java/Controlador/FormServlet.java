@@ -1,6 +1,7 @@
 package Controlador;
 
 import DAO.cotizacionDAO;
+import DAO.cotizacionServicioDAO;
 import DAO.cotizanteDAO;
 import DAO.servicioDAO;
 import Modelo.cotizacion;
@@ -8,6 +9,7 @@ import Modelo.cotizante;
 import Modelo.servicio;
 import Modelo.cotizacionServicio;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,9 +30,10 @@ public class FormServlet extends HttpServlet {
     cotizacion cotizacion = new cotizacion();
     servicio servicio = new servicio();
     cotizacionServicio cotizacionServicio = new cotizacionServicio();
+    cotizacionServicioDAO cotizacionServicioDAO = new cotizacionServicioDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException {
+            throws ServletException, IOException, ParseException, SQLException {
         String accion = request.getParameter("accion");
         String menu = request.getParameter("menu");
         String crearcotizacion = request.getParameter("crearcotizacion");
@@ -51,7 +54,7 @@ public class FormServlet extends HttpServlet {
 
         if (crearcotizacion != null && crearcotizacion.equals("crearcotizacion")) {
             String nombreCotizante = request.getParameter("name");
-            System.out.println(nombreCotizante);
+            System.out.println("-------------------------------NOMBRE DEL COTIZANTE:" + nombreCotizante);
             String apellidoCotizante = request.getParameter("last-name");
             String correoCotizante = request.getParameter("email");
             String telefonoCotizante = request.getParameter("phone");
@@ -120,19 +123,88 @@ public class FormServlet extends HttpServlet {
                     && valorCotizacion != 0
                     && correoCotizante != null && !correoCotizante.isEmpty()) {
                 boolean exitoInsercion = cotizacionDAO.agregar(cotizacion);
-                System.out.println("El resultado del metodo es: " + exitoInsercion);
-                if (!exitoInsercion) {
+                System.out.println("El resultado de la insercion de la cotizacion es: " + exitoInsercion);
+                if (exitoInsercion) {
+                    System.out.println("Inicio de obtencion de servicios");
+                    String IdCotizacion = cotizacionDAO.consultarUltimoIdCotizacion();
+                    System.out.println("IdCotizacion = " + IdCotizacion);
+                    cotizacion cotizacionServicios = new cotizacion();
+                    cotizacionServicios.setCodigoCotizacion(IdCotizacion);
+
+                    int loopIndexManteleria = Integer.parseInt(request.getParameter("total_iterations_manteleria"));
+                    for (int i = 0; i < loopIndexManteleria; i++) {
+                        String cantidadManteleria = request.getParameter("service_quantity_manteleria_" + i);
+                        int cantidadInt = Integer.parseInt(cantidadManteleria);
+                        if (cantidadInt > 0) {
+                            String nombreManteleria = request.getParameter("service_name_manteleria_" + i);
+                            String precioManteleria = request.getParameter("service_price_manteleria_" + i);
+                            String precioTotalManteleria = request.getParameter("service_total_price_manteleria_" + i);
+                            System.out.println(cantidadManteleria + " " + nombreManteleria + " " + precioManteleria + " " + precioTotalManteleria);
+                            System.out.println("Inicio de paso de parametros a la clase");
+                            servicio servicioManteleria = new servicio();
+                            cotizacionServicio cotSerManteleria = new cotizacionServicio();
+                            String IdServicio = servicioDAO.consultarIdServicio(nombreManteleria);
+                            servicioManteleria.setServicioId(IdServicio);
+                            servicioManteleria.setServicioNombre(nombreManteleria);
+                            cotSerManteleria.setCantidad(cantidadInt);
+                            int precioTotal = Integer.parseInt(precioTotalManteleria);
+                            cotSerManteleria.setPrecioTotal(precioTotal);
+                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion();
+                            System.out.println("exitoManteleria = " + exito);
+                        }
+                    }
+                    int loopIndexMesasSillas = Integer.parseInt(request.getParameter("total_iterations_mesasSillas"));
+                    for (int i = 0; i < loopIndexMesasSillas; i++) {
+                        String cantidadMesasSillas = request.getParameter("service_quantity_mesasSillas_" + i);
+                        int cantidadInt = Integer.parseInt(cantidadMesasSillas);
+                        if (cantidadInt > 0) {
+                            String nombreMesasSillas = request.getParameter("service_name_mesasSillas_" + i);
+                            String precioMesasSillas = request.getParameter("service_price_mesasSillas_" + i);
+                            String precioTotalMesasSillas = request.getParameter("service_total_price_mesasSillas_" + i);
+                            System.out.println(cantidadMesasSillas + " " + nombreMesasSillas + " " + precioMesasSillas + " " + precioTotalMesasSillas);
+                            System.out.println("Inicio de paso de parametros a la clase");
+                            servicio servicioMesasSillas = new servicio();
+                            cotizacionServicio cotSerMesasSillas = new cotizacionServicio();
+                            String IdServicio = servicioDAO.consultarIdServicio(nombreMesasSillas);
+                            servicioMesasSillas.setServicioId(IdServicio);
+                            servicioMesasSillas.setServicioNombre(nombreMesasSillas);
+                            cotSerMesasSillas.setCantidad(cantidadInt);
+                            int precioTotal = Integer.parseInt(precioTotalMesasSillas);
+                            cotSerMesasSillas.setPrecioTotal(precioTotal);
+                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion();
+                            System.out.println("exitoMesassillas = " + exito);
+                        }
+
+                    }
+                    int loopIndexDecoracion = Integer.parseInt(request.getParameter("total_iterations_decoracion"));
+                    for (int i = 0; i < loopIndexDecoracion; i++) {
+                        String cantidadDecoracion = request.getParameter("service_quantity_decoracion_" + i);
+                        int cantidadInt = Integer.parseInt(cantidadDecoracion);
+                        if (cantidadInt > 0) {
+                            String nombreDecoracion = request.getParameter("service_name_decoracion_" + i);
+                            String precioDecoracion = request.getParameter("service_price_decoracion_" + i);
+                            String precioTotalDecoracion = request.getParameter("service_total_price_decoracion_" + i);
+                            System.out.println(cantidadDecoracion + " " + nombreDecoracion + " " + precioDecoracion + " " + precioTotalDecoracion);
+                            System.out.println("Inicio de paso de parametros a la clase");
+                            servicio servicioDecoracion = new servicio();
+                            cotizacionServicio cotSerDecoracion = new cotizacionServicio();
+                            String IdServicio = servicioDAO.consultarIdServicio(nombreDecoracion);
+                            servicioDecoracion.setServicioId(IdServicio);
+                            servicioDecoracion.setServicioNombre(nombreDecoracion);
+                            cotSerDecoracion.setCantidad(cantidadInt);
+                            int precioTotal = Integer.parseInt(precioTotalDecoracion);
+                            cotSerDecoracion.setPrecioTotal(precioTotal);
+                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion();
+                            System.out.println("exitoMesassillas = " + exito);
+                        }
+
+                    }
+                } else {
                     // La inserción falló, manejar el error aquí
                     // Puedes redirigir a una página de error o mostrar un mensaje al usuario
                     // Por ejemplo:
                     response.getWriter().println("Error al insertar en la base de datos");
                 }
-            }
-            System.out.println("Inicio de obtencion de servicios");
-            for (int i = 0; i >=4; i++){
-                String cantidad = request.getParameter("service_quantity_manteleria_" + i);
-                System.out.println(cantidad);
-                
             }
         }
     }
@@ -153,6 +225,8 @@ public class FormServlet extends HttpServlet {
             processRequest(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -170,6 +244,8 @@ public class FormServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ParseException ex) {
+            Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
