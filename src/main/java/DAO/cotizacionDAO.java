@@ -81,9 +81,6 @@ public class cotizacionDAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }finally{
-            ps.close();
-            rs.close();
         }
         return null;
     }

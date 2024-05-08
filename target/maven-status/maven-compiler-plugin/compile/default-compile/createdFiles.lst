@@ -15,7 +15,6 @@ DAO\eventoDAO.class
 Controlador\EventoServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
-Controlador\NuevaContrasenaServlet.class
 DAO\cotizanteDAO.class
 Controlador\ValidarOtpServlet.class
 Modelo\evento.class
