@@ -16,11 +16,11 @@ public class EventoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String menu = request.getParameter("menu");
-        if (menu != null && menu.equals("idEvento")) {
+        if (menu != null && menu.equals("detalleEvento")) {
             int idEvento = Integer.parseInt(request.getParameter("idEvento"));
             List<Object[]> detallesEvento = eventoDAO.DetallesEvento(idEvento);
-            request.setAttribute("detalles",detallesEvento );
-            request.getRequestDispatcher("detalleEvento.jsp").include(request, response);
+            request.setAttribute("detalles", detallesEvento );
+            request.getRequestDispatcher("detalleEvento.jsp").forward(request, response);
             
         }
     }

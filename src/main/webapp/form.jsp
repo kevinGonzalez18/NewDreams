@@ -161,7 +161,9 @@
                                                         <p class="col-3 col-md-3">V.Unitario</p>
                                                         <p class="col-3 col-md-3">V.Total</p>
 
+                                                        <c:set var="total_iterations_manteleria" value="${0}" />
                                                         <c:forEach var="manteleria" items="${manteleria}" varStatus="loop">
+                                                            <c:set var="total_iterations_manteleria" value="${loop.count}" />
                                                             <div class="col-2 col-md-2">
                                                                 <div class="form-group">
                                                                     <input id="service_quantity_manteleria_${loop.index}" type="text" name="service_quantity_manteleria_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'manteleria')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
@@ -183,6 +185,7 @@
                                                                 </div>
                                                             </div>
                                                         </c:forEach>
+                                                        <input type="hidden" name="total_iterations_manteleria" value="${total_iterations_manteleria}" />
                                                     </div>
                                                     <h3>Mobiliario - Mesas y Sillas</h3>
                                                     <div class="row">
@@ -191,29 +194,32 @@
                                                         <p class="col-3 col-md-3">V.Unitario</p>
                                                         <p class="col-3 col-md-3">V.Total</p>
 
+                                                        <c:set var="total_iterations_mesasSillas" value="${0}" />
                                                         <c:forEach var="mesasSillas" items="${mesasysillas}" varStatus="loop">
+                                                            <c:set var="total_iterations_mesasSillas" value="${loop.count}" />
                                                             <div class="col-2 col-md-2">
                                                                 <div class="form-group">
-                                                                    <input id="service_quantity_mesasSillas_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'mesasSillas')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
+                                                                    <input id="service_quantity_mesasSillas_${loop.index}" type="text" name="service_quantity_mesasSillas_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'mesasSillas')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
                                                                 </div>
                                                             </div>
                                                             <div class="col-4 col-md-4">
                                                                 <div class="form-group">
-                                                                    <input id="service_name_mesasSillas_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${mesasSillas.getServicioNombre()}" readonly>
+                                                                    <input id="service_name_mesasSillas_${loop.index}" type="text" name="service_name_mesasSillas_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${mesasSillas.getServicioNombre()}" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3 col-md-3">
                                                                 <div class="form-group">
-                                                                    <input id="service_price_mesasSillas_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" placeholder="0" value="${mesasSillas.getServicioValor()}" readonly>
+                                                                    <input id="service_price_mesasSillas_${loop.index}" type="text" name="service_price_mesasSillas_${loop.index}" class="form-control" placeholder="0" value="${mesasSillas.getServicioValor()}" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3 col-md-3">
                                                                 <div class="form-group">
-                                                                    <input id="service_total_price_mesasSillas_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
+                                                                    <input id="service_total_price_mesasSillas_${loop.index}" type="number" name="service_total_price_mesasSillas_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
-                                                            <input type="hidden" name="indiceMesasSillas" value="${loop.index}" />
                                                         </c:forEach>
+                                                        <input type="hidden" name="total_iterations_mesasSillas" value="${total_iterations_mesasSillas}" />
+
                                                     </div>
                                                     <h3>Decoración</h3>
                                                     <div class="row">
@@ -222,29 +228,31 @@
                                                         <p class="col-3 col-md-3">V.Unitario</p>
                                                         <p class="col-3 col-md-3">V.Total</p>
 
+                                                        <c:set var="total_iterations_decoracion" value="${0}" />
                                                         <c:forEach var="decoracion" items="${decoracion}" varStatus="loop">
+                                                            <c:set var="total_iterations_decoracion" value="${loop.count}" />
                                                             <div class="col-2 col-md-2">
                                                                 <div class="form-group">
-                                                                    <input id="service_quantity_decoracion_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'decoracion')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
+                                                                    <input id="service_quantity_decoracion_${loop.index}" type="text" name="service_quantity_decoracion_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'decoracion')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
                                                                 </div>
                                                             </div>
                                                             <div class="col-4 col-md-4">
                                                                 <div class="form-group">
-                                                                    <input id="service_name_decoracion_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${decoracion.getServicioNombre()}" readonly>
+                                                                    <input id="service_name_decoracion_${loop.index}" type="text" name="service_name_decoracion_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${decoracion.getServicioNombre()}" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3 col-md-3">
                                                                 <div class="form-group">
-                                                                    <input id="service_price_decoracion_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" placeholder="0" value="${decoracion.getServicioValor()}" readonly>
+                                                                    <input id="service_price_decoracion_${loop.index}" type="text" name="service_price_decoracion_${loop.index}" class="form-control" placeholder="0" value="${decoracion.getServicioValor()}" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3 col-md-3">
                                                                 <div class="form-group">
-                                                                    <input id="service_total_price_decoracion_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
+                                                                    <input id="service_total_price_decoracion_${loop.index}" type="number" name="service_total_price_decoracion_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
                                                                 </div>
                                                             </div>
-                                                            <input type="hidden" name="indiceDecoracion" value="${loop.index}" />
                                                         </c:forEach>
+                                                        <input type="hidden" name="total_iterations_decoracion" value="${total_iterations_decoracion}" />
                                                     </div>
                                                 </div>
                                             </div>
