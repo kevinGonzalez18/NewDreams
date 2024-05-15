@@ -43,7 +43,7 @@
                                     <td>${Eventos[1]} ${Eventos[2]}</td>
                                     <td>${Eventos[3]}</td>
                                     <td>${Eventos[4]}</td>
-                                    <td><a href="EventoServlet?menu=idEvento="${Eventos[0]}" target="target"><button>ver mas</button></a></td>
+                                    <td><a href="EventoServlet?menu=detalleEvento&idEvento=${Eventos[0]}"><button>ver mas</button></a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

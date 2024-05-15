@@ -40,10 +40,6 @@ public class eventoDAO {
                 cotizante.setCotizanteApellido(rs.getString("Apellido_Cotizante"));
                 evento.setTipoEvento(rs.getString("Tipo_evento"));
                 evento.setEstadoEvento(rs.getString("Estado_evento"));
-                /*evento[1] = rs.getString("Nombre_Cotizante");
-                evento[2] = rs.getString("Apellido_Cotizante");
-                evento[3] = rs.getString("Tipo_evento");
-                evento[4] = rs.getString("Estado_evento"); // Dividir servicios concatenados en un array de Strings*/
                 Object[] eventoArray = {evento.getEventoId(), cotizante.getCotizanteNombre(), cotizante.getCotizanteApellido(), evento.getTipoEvento(), evento.getEstadoEvento()};
                 lista.add(eventoArray);
             }
@@ -56,7 +52,10 @@ public class eventoDAO {
     public List<Object[]> DetallesEvento(int id) {
         List<Object[]> lista = new ArrayList<>();
         String sql = "SELECT c.Nombre_Cotizante, c.Apellido_Cotizante, c.Correo_Cotizante, c.Telefono_Cotizante, e.idEvento, e.Tipo_evento, "
-                + "e.Fecha_evento, e.Estado_evento, e.Tematica_evento, e.Descripcion_evento, ct.Cantidad_Personas_Cotización FROM evento e "
+                + "e.Fecha_evento, e.Estado_evento, e.Descripcion_evento, ct.Cantidad_Personas_Cotización, "
+                + "(SELECT GROUP_CONCAT(s.Nombre_Servicio) FROM evento_servicio es JOIN servicio s ON es.Servicio_idServicio = s.idServicio "
+                + "WHERE es.Evento_idEvento = e.idEvento) AS Nombres_Servicios, (SELECT GROUP_CONCAT(s.Valor_Servicio) FROM evento_servicio es "
+                + "JOIN servicio s ON es.Servicio_idServicio = s.idServicio WHERE es.Evento_idEvento = e.idEvento) AS Valor_Servicios FROM evento e "
                 + "JOIN cotización ct ON e.Cotizacion_No_Cotizacion = ct.No_Cotizacion JOIN cliente cl ON e.Cliente_idCliente = cl.idCliente "
                 + "JOIN cotizante c ON cl.Correo_cotizante = c.Correo_Cotizante "
                 + "WHERE e.idEvento = ?";
@@ -74,7 +73,6 @@ public class eventoDAO {
                 evento.setTipoEvento(rs.getString("Tipo_evento"));
                 evento.setFechaEvento(rs.getDate("Fecha_evento"));
                 evento.setEstadoEvento(rs.getString("Estado_evento"));
-                evento.setTematicaEvento(rs.getString("Tematica_evento"));
                 evento.setDescripcionEvento(rs.getString("Descripcion_evento"));
                 cotizacion.setCantidadPersonas(rs.getInt("Cantidad_Personas_Cotización"));
 
@@ -103,7 +101,6 @@ public class eventoDAO {
                     evento.getTipoEvento(),
                     evento.getFechaEvento(),
                     evento.getEstadoEvento(),
-                    evento.getTematicaEvento(),
                     evento.getDescripcionEvento(),
                     cotizacion.getCantidadPersonas(),
                     listaServicios // Agregar la lista de servicios al array
