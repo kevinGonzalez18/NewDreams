@@ -40,6 +40,10 @@
         <servlet-name>EventoServlet</servlet-name>
         <servlet-class>Controlador.EventoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CotizacionServlet</servlet-name>
+        <servlet-class>Controlador.CotizacionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>EventoServlet</servlet-name>
         <url-pattern>/EventoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CotizacionServlet</servlet-name>
+        <url-pattern>/CotizacionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
