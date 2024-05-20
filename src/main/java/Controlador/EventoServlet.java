@@ -20,6 +20,7 @@ public class EventoServlet extends HttpServlet {
             int idEvento = Integer.parseInt(request.getParameter("idEvento"));
             List<Object[]> detallesEvento = eventoDAO.DetallesEvento(idEvento);
             request.setAttribute("detalles", detallesEvento );
+            
             request.getRequestDispatcher("detalleEvento.jsp").forward(request, response);
             
         }
