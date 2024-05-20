@@ -24,6 +24,7 @@ public class servicioDAO {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
+                servicio ser = new servicio();
                 ser.setServicioId(rs.getString(1));
                 ser.setServicioValor(rs.getInt(2));
                 ser.setServicioNombre(rs.getString(3));

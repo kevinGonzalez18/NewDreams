@@ -88,7 +88,7 @@
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
                                                                 <label for="form_name">Tipo de evento</label>
-                                                                <select name="item_type" id="item_type" name="item_type" class="form-control"
+                                                                <select id="item_type" name="item_type" class="form-control"
                                                                         required="required" data-error="Please select item type">
                                                                     <option value="" selected disabled>Seleccione el evento</option>
                                                                     <option value="XVaños">XV años</option>

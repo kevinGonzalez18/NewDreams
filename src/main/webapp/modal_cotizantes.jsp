@@ -15,6 +15,13 @@
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
+        <%
+            // Obtener el parámetro de la URL
+            String correoCot = request.getParameter("correoCot");
+            if (correoCot == null) {
+                correoCot = "";  // Valor por defecto si no hay parámetro
+            }
+        %>
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -26,11 +33,11 @@
                             <form id="formulario-crear-cliente" action="PrincipalServlet?menu=Cotizantes&accion=Agregar" method="POST">
                                 <div class="form-group">
                                     <label for="correo">Correo Cotizante:</label>
-                                    <input type="email" class="form-control" id="correoClt" name="correoClt" required>
+                                    <input type="email" class="form-control" id="correoClt" name="correoClt" value="<%= correoCot %>" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <label for="contrasena">Contraseña:</label>
-                                    <input type="password" class="form-control" id="contraseñaClt" name="contraseñaClt" required autocomplete="current-password">
+                                    <input type="text" class="form-control" id="contrasenaClt" name="contrasenaClt" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Crear cliente</button>
                             </form>

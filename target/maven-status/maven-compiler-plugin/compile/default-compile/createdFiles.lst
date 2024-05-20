@@ -17,11 +17,13 @@ Controlador\EventoServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
 Controlador\NuevaContrasenaServlet.class
+Controlador\FormServlet$1.class
 DAO\cotizanteDAO.class
 Controlador\ValidarOtpServlet.class
 Modelo\evento.class
 DAO\cotizacionDAO.class
 Controlador\LoginServlet.class
+Controlador\CotizacionServlet.class
 Modelo\conexion.class
 Controlador\PerfilClienteServlet.class
 Modelo\comprobar.class
