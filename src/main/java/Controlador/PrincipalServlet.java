@@ -32,6 +32,7 @@ public class PrincipalServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+        request.setCharacterEncoding("UTF-8");
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
         if (menu != null) {
@@ -55,17 +56,21 @@ public class PrincipalServlet extends HttpServlet {
                         break;
                     case "Agregar":
                         String correo = request.getParameter("correoClt");
-                        String contraseña = request.getParameter("contraseñaClt");
+                        System.out.println("correo = " + correo);
+                        String contraseña = request.getParameter("contrasenaClt");
+                        System.out.println("contraseña = " + contraseña);
                         cliente.setCltCorreo(correo);
                         cliente.setCltContraseña(contraseña);
+                        System.out.println(cliente.toString());
 
                         // Aquí debes verificar si el correo y la contraseña son válidos antes de agregar el cliente
                         if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
                             clienteDAO.agregar(cliente);
+                            clienteDAO.covertirCotizanteEnCliente();
                             // Redireccionar después de agregar exitosamente
-                            request.getRequestDispatcher("PrincipalServlet?menu=Inicio").include(request, response);
-                            break;
+                            request.getRequestDispatcher("PrincipalServlet?menu=Cotizantes&accion=listar").forward(request, response);
                         }
+                        break;
                     case "Editar":
                         break;
                     case "Eliminar":

@@ -12,10 +12,18 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +41,8 @@ public class FormServlet extends HttpServlet {
     cotizacionServicioDAO cotizacionServicioDAO = new cotizacionServicioDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException, SQLException {
+            throws ServletException, IOException, ParseException, SQLException, MessagingException {
+        response.setContentType("text/html;charset=UTF-8");
         String accion = request.getParameter("accion");
         String menu = request.getParameter("menu");
         String crearcotizacion = request.getParameter("crearcotizacion");
@@ -149,7 +158,7 @@ public class FormServlet extends HttpServlet {
                             cotSerManteleria.setCantidad(cantidadInt);
                             int precioTotal = Integer.parseInt(precioTotalManteleria);
                             cotSerManteleria.setPrecioTotal(precioTotal);
-                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion();
+                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion(IdCotizacion, IdServicio, cantidadInt, precioTotal);
                             System.out.println("exitoManteleria = " + exito);
                         }
                     }
@@ -171,7 +180,7 @@ public class FormServlet extends HttpServlet {
                             cotSerMesasSillas.setCantidad(cantidadInt);
                             int precioTotal = Integer.parseInt(precioTotalMesasSillas);
                             cotSerMesasSillas.setPrecioTotal(precioTotal);
-                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion();
+                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion(IdCotizacion, IdServicio, cantidadInt, precioTotal);
                             System.out.println("exitoMesassillas = " + exito);
                         }
 
@@ -194,11 +203,15 @@ public class FormServlet extends HttpServlet {
                             cotSerDecoracion.setCantidad(cantidadInt);
                             int precioTotal = Integer.parseInt(precioTotalDecoracion);
                             cotSerDecoracion.setPrecioTotal(precioTotal);
-                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion();
+                            boolean exito = cotizacionServicioDAO.insertarServiciosCotizacion(IdCotizacion, IdServicio, cantidadInt, precioTotal);
                             System.out.println("exitoMesassillas = " + exito);
                         }
-
                     }
+                    // Después de que se haya insertado correctamente la cotización
+                    String destinatarioAdmin = "dfelipebr737@gmail.com";
+                    String asunto = "Nueva cotización";
+                    String mensaje = "Hola, administrador\nSe ha solicitado una nueva cotización.\n Detalles:\nNombre: " + nombreCotizante;
+                    enviarCorreo(destinatarioAdmin, asunto, mensaje);
                 } else {
                     // La inserción falló, manejar el error aquí
                     // Puedes redirigir a una página de error o mostrar un mensaje al usuario
@@ -227,6 +240,8 @@ public class FormServlet extends HttpServlet {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -247,6 +262,8 @@ public class FormServlet extends HttpServlet {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -259,4 +276,42 @@ public class FormServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    public void enviarCorreo(String destinatario, String asunto, String mensaje) throws MessagingException {
+
+        // Configuración del servidor de correo saliente (SMTP)
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com"); // Ejemplo: smtp.gmail.com para Gmail
+        props.put("mail.smtp.port", "587"); // Puerto SMTP (por ejemplo, 587 para Gmail)
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true"); // Para habilitar TLS
+
+        // Credenciales de inicio de sesión del remitente
+        final String username = "gafeli29@gmail.com";
+        final String password = "rsqpprgqsgfgkyny";
+
+        // Crear una sesión de correo electrónico con autenticación
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            // Crear un mensaje de correo electrónico
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username)); // Dirección de correo del remitente
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario)); // Dirección del destinatario
+            message.setSubject(asunto); // Asunto del correo
+            message.setText(mensaje); // Cuerpo del correo
+
+            // Enviar el correo electrónico
+            Transport.send(message);
+
+            System.out.println("Correo electrónico enviado correctamente a: " + destinatario);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

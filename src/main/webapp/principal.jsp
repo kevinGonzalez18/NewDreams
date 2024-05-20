@@ -17,6 +17,8 @@
         <!-- Bootstrap y CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/stylesprincipal.css">
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     </head>
 
     <body>
@@ -33,7 +35,7 @@
                         %>
                         <a href="#"><%= usuario%></a>
                         <a href="#"><%= rol%></a>
-                        
+
                     </div>
                     <!-- Navegacion del sidebar -->
                     <ul class="sidebar-nav">
@@ -108,9 +110,12 @@
 
 
         <!-- JavaScript scripts --> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://kit.fontawesome.com/909a90592e.js" crossorigin="anonymous"></script>
         <script src="js/scriptPrincipal.js"></script>
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
     </body>
 </html>

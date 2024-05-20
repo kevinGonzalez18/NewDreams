@@ -170,6 +170,14 @@ public class clienteDAO {
 
         return filasAfectadas; // Devolver el número de filas afectadas por la operación de inserción
     }
+    public void covertirCotizanteEnCliente() {
+        String procedureCall = "{CALL SP_UPDATE_CLIENTE_INTO_COTIZANTE()}";
+        try (CallableStatement cs = con.prepareCall(procedureCall)) {
+            cs.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     //Metoodo que permite actualizar los datos del cliente, desde el apartado de cliente
     public void update(String correo, String nombre, String apellido, String telefono) throws SQLException {

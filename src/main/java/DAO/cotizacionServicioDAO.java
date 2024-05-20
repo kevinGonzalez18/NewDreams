@@ -22,15 +22,15 @@ public class cotizacionServicioDAO {
     servicio servicio = new servicio();
     cotizacionServicio cotizacionServicio = new cotizacionServicio();
 
-    public boolean insertarServiciosCotizacion() throws SQLException {
+    public boolean insertarServiciosCotizacion(String cotizacion, String servicio, int cantidad, int precio) throws SQLException {
         String sql = "CALL SP_INSERT_COTIZACIONSERVICIO (?, ?, ?, ?)";
         boolean exitoInsercion = false;
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, cot.getTipoCotizacion());
-            ps.setString(2, servicio.getServicioId());
-            ps.setInt(3, cotizacionServicio.getCantidad());
-            ps.setInt(4, cotizacionServicio.getPrecioTotal());
+            ps.setString(1, cotizacion);
+            ps.setString(2, servicio);
+            ps.setInt(3, cantidad);
+            ps.setInt(4, precio);
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas > 0) {
                 exitoInsercion = true;

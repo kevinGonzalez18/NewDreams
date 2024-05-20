@@ -35,6 +35,7 @@ function loadContent(url) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById('main').innerHTML = this.responseText;
+            initializeDataTables();  // Inicializa DataTables después de cargar el contenido
             // Reasignar los eventos click a los nuevos enlaces cargados
             var contentLinks = document.querySelectorAll('#main a');
             contentLinks.forEach(function (link) {
@@ -48,6 +49,10 @@ function loadContent(url) {
     };
     xhttp.open("GET", url, true);
     xhttp.send();
+}
+
+function initializeDataTables() {
+    $('#Table').DataTable();
 }
 
 
