@@ -97,6 +97,9 @@
                                                 <div class="card mt-2 mx-auto bg-light">
                                                     <div class="card-body bg-light">
                                                         <h4>Servicios:</h4>
+                                                        <div class="form-group col-sm-12">
+                                                            <button type="button" class="btn btn-success btn-block" onclick="openModal(${cotizacion[0]})">Agregar Servicio</button>
+                                                        </div>
                                                         <c:forEach var="servicio" items="${cotizacion[11]}">
                                                             <div class="row mb-2 service-item">
                                                                 <div class="col-2">
@@ -147,5 +150,14 @@
                 </section>
             </main>
         </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div id="modalContent">
+                    <!-- Aquí se cargará el contenido de los servicios -->
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-05-2024 a las 21:08:24
+-- Tiempo de generación: 20-05-2024 a las 19:57:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -146,8 +146,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READLIST_COTIZACION` ()   BEGIN
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READLIST_COTIZANTE` ()   BEGIN
-    SELECT *
-    FROM Cotizante;
+    SELECT * 
+    FROM cotizante 
+    WHERE cliente = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READLIST_ENCUESTA` ()   BEGIN
@@ -236,6 +237,26 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_CLIENTE` (IN `p_idCliente
     UPDATE Cliente
     SET Contraseña_Cliente = p_Contraseña_Cliente, Correo_cotizante = p_Correo_cotizante
     WHERE idCliente = p_idCliente;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_CLIENTE_INTO_COTIZANTE` ()   BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE correo_cotizante_val VARCHAR(45);
+    DECLARE cur CURSOR FOR SELECT Correo_Cotizante FROM cotizante;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+    cotizante_loop: LOOP
+        FETCH cur INTO correo_cotizante_val;
+        IF done THEN
+            LEAVE cotizante_loop;
+        END IF;
+        
+        IF EXISTS (SELECT 1 FROM cliente WHERE Correo_cotizante = correo_cotizante_val) THEN
+            UPDATE cotizante SET Cliente = 1 WHERE Correo_Cotizante = correo_cotizante_val;
+        END IF;
+    END LOOP;
+    CLOSE cur;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_COMPROBANTE` (IN `p_No_Comprobante` CHAR(5), IN `p_Fecha_hora_comprobante` DATETIME, IN `p_Valor_Comprobante` INT)   BEGIN
@@ -346,13 +367,28 @@ INSERT INTO `cliente` (`idCliente`, `Estado_Cliente`, `Contraseña_Cliente`, `Co
 ('CL003', 'Inhabilitado', 'd28v5f4f', 'mauriciotorres@gmail.com'),
 ('CL004', 'Inhabilitado', 'd2fg6f9d8Ee', 'valentinapaez@gmail.com'),
 ('CL005', 'Habilitado', 'EFrfg3548eD54', 'santiagocastellanos@gmail.com'),
-('CL014', 'Inhabilitado', '1345', 'mariamartinez2@gmail.com'),
-('CL015', 'Habilitado', 'hola123', 'dfelipebr737@gmail.com'),
-('CL016', 'Inhabilitado', '123asc', 'andresmartinez@gmail.com');
+('CL014', 'Habilitado', '1345', 'mariamartinez2@gmail.com'),
+('CL015', 'Habilitado', 'contraseÃ±a1', 'dfelipebr737@gmail.com'),
+('CL016', 'Inhabilitado', '123asc', 'andresmartinez@gmail.com'),
+('CL017', 'Habilitado', 'hol12', 'alfrecas@mail.com'),
+('CL018', 'Habilitado', 'cba321', 'Angelica@mail.com'),
+('CL019', 'Habilitado', 'holajiji', 'edilson@mail.com'),
+('CL020', 'Habilitado', '123', 'DanielGa@mail.com'),
+('CL021', 'Habilitado', 'holajiji1', 'franro@gmail.com'),
+('CL022', 'Habilitado', 'harry32', 'harrilo@mail.com'),
+('CL023', 'Habilitado', 'gua32', 'Dana@mail.com');
 
 --
 -- Disparadores `cliente`
 --
+DELIMITER $$
+CREATE TRIGGER `trg_establecer_estadoCliente` BEFORE INSERT ON `cliente` FOR EACH ROW BEGIN
+    IF NEW.Estado_Cliente IS NULL OR NEW.Estado_Cliente = '' THEN
+        SET NEW.Estado_Cliente = 'Habilitado';
+    END IF;
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `trg_generate_idCliente` BEFORE INSERT ON `cliente` FOR EACH ROW BEGIN
     DECLARE last_id INT;
@@ -508,7 +544,12 @@ INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServi
 ('COT1025', 'S07', 10, 12000),
 ('COT1025', 'S15', 5, 300000),
 ('COT1025', 'S16', 2, 4000),
-('COT1025', 'S20', 100, 100000);
+('COT1025', 'S20', 100, 100000),
+('COT1026', 'S01', 10, 70000),
+('COT1026', 'S03', 10, 35000),
+('COT1026', 'S05', 10, 100000),
+('COT1026', 'S07', 10, 12000),
+('COT1026', 'S20', 30, 30000);
 
 -- --------------------------------------------------------
 
@@ -537,16 +578,7 @@ INSERT INTO `cotización` (`No_Cotizacion`, `Tipo_Cotizacion`, `Ubicacion`, `Fec
 ('COT1003', 'Boda', 'Salon comunal perseverancia', '2024-02-03 02:00:00', '2023-05-01 08:00:00', 3500000, 80, 'valentinapaez@gmail.com'),
 ('COT1004', 'Bautizo', 'Salon comunal puente aranda', '2023-07-15 07:30:00', '2023-07-28 10:15:00', 2500000, 70, 'santiagocastellanos@gmail.com'),
 ('COT1005', 'Xv años', 'Salon comunal bosa', '2023-12-30 12:45:00', '2023-08-02 02:30:00', 4500000, 80, 'mauriciotorres@gmail.com'),
-('COT1006', '', 'santa rosa', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 5000000, 30, 'alfsan@gmail.com'),
-('COT1007', '', 'La empresa buscará el lugar del evento', '2024-06-30 17:00:00', '2024-05-06 16:28:00', 657000, 30, 'Juliomar@mail.com'),
-('COT1008', '', 'La empresa buscará el lugar del evento', '2024-06-12 17:30:00', '2024-05-06 16:32:00', 1267000, 100, 'harrilo@mail.com'),
-('COT1009', '', 'La empresa buscará el lugar del evento', '2024-06-30 17:30:00', '2024-05-06 16:40:00', 1117000, 20, 'angesu@mail.com'),
-('COT1010', '', 'La empresa buscará el lugar del evento', '2024-06-27 20:30:00', '2024-05-07 15:59:00', 1197000, 100, 'vivian@mail.com'),
-('COT1011', '', 'La empresa buscará el lugar del evento', '2024-07-11 17:30:00', '2024-05-07 16:02:00', 1267000, 20, 'edilson@mail.com'),
-('COT1012', '', 'La empresa buscará el lugar del evento', '2024-07-24 20:30:00', '2024-05-08 14:36:00', 1317000, 70, 'Javier@mail.com'),
-('COT1013', '', 'La empresa buscará el lugar del evento', '2024-07-10 20:30:00', '2024-05-08 14:44:00', 817000, 100, 'Guillermo@mail.com'),
-('COT1014', '', 'La empresa buscará el lugar del evento', '2024-07-24 14:30:00', '2024-05-08 15:32:00', 817000, 20, 'Felipe@mail.com'),
-('COT1015', '', 'La empresa buscará el lugar del evento', '2024-07-30 15:00:00', '2024-05-08 15:49:00', 817000, 100, 'Angelica@mail.com'),
+('COT1006', '', 'santa rosa', '2024-06-27 16:32:52', '2024-05-16 16:32:52', 5000000, 30, 'alfsan@gmail.com'),
 ('COT1016', '', 'La empresa buscará el lugar del evento', '2024-06-21 17:30:00', '2024-05-08 16:33:00', 817000, 30, 'loreber@mail.com'),
 ('COT1017', '', 'La empresa buscará el lugar del evento', '2024-07-31 17:30:00', '2024-05-08 16:50:00', 917000, 70, 'Zharick@mail.com'),
 ('COT1018', '', 'Kennedy, Carrera 30 calle 19, Roma', '2024-06-21 16:00:00', '2024-05-08 16:55:00', 222000, 30, 'DanielGa@mail.com'),
@@ -556,7 +588,8 @@ INSERT INTO `cotización` (`No_Cotizacion`, `Tipo_Cotizacion`, `Ubicacion`, `Fec
 ('COT1022', 'Boda', 'La empresa buscará el lugar del evento', '2024-08-20 17:30:00', '2024-05-09 18:32:00', 697000, 30, 'tom@mail.com'),
 ('COT1023', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-27 20:30:00', '2024-05-09 19:00:00', 247000, 100, 'reamm@mail.com'),
 ('COT1024', 'Grado', 'La empresa buscará el lugar del evento', '2024-06-20 20:30:00', '2024-05-09 19:07:00', 247000, 100, 'weekend@mail.co'),
-('COT1025', 'XVaÃ±os', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-27 18:30:00', '2024-05-15 12:19:00', 621000, 100, 'guillermoisa@mail.com');
+('COT1025', 'XVaÃ±os', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-27 18:30:00', '2024-05-15 12:19:00', 621000, 100, 'guillermoisa@mail.com'),
+('COT1026', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-20 20:30:00', '2024-05-20 12:53:00', 247000, 30, 'estefania@mail.com');
 
 --
 -- Disparadores `cotización`
@@ -595,47 +628,49 @@ CREATE TABLE `cotizante` (
   `Correo_Cotizante` varchar(45) NOT NULL,
   `Nombre_Cotizante` varchar(45) NOT NULL,
   `Apellido_Cotizante` varchar(45) NOT NULL,
-  `Telefono_Cotizante` varchar(45) NOT NULL
+  `Telefono_Cotizante` varchar(45) NOT NULL,
+  `Cliente` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cotizante`
 --
 
-INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotizante`, `Telefono_Cotizante`) VALUES
-('Alfonso@mail.com', 'Alfonso', 'Lopez', '874512'),
-('alfrecas@mail.com', 'Alfredo', 'Castro', '875421'),
-('alfsan@gmail.com', 'Alfonso', 'Snachez', '0759485'),
-('andresmartinez@gmail.com', 'Andres', 'Martinez', '3112104578'),
-('Angelica@mail.com', 'Angelica', 'Martinez', '9884512'),
-('angesu@mail.com', 'Angelica', 'Suarez', '120354'),
-('Dana@mail.com', 'Dana', 'Cespedes', '216598'),
-('DanielGa@mail.com', 'Daniel Mauricio', 'Chambo Gaviria', '3202114578'),
-('dfelipebr737@gmail.com', 'Felipe', 'Bernal Rodriguez', '3112711553'),
-('edilson@mail.com', 'Edilson', 'Maecha', '986532'),
-('Felipe@mail.com', 'Felipe', 'Rodriguez', '895623'),
-('franro@gmail.com', 'Francisco', 'Rojas Rey', '012345'),
-('franro@htomail.com', 'Francisco', 'Rojas', '0321457'),
-('Guillermo@mail.com', 'Guillermo', 'Camacho', '789632'),
-('guillermoisa@mail.com', 'Guillermo', 'Izasa', '875432'),
-('harrilo@mail.com', 'Harrison ', 'Lopez', '985421'),
-('Javier@mail.com', 'Javier', 'Rodriguez', '78523'),
-('Juliomar@mail.com', 'Julio', 'Martinez', '1230'),
-('Kevinsa@mail.com', 'Kevin', 'Salazar', '784512'),
-('kevinsanty@mail.com', 'Kevin Santiago', 'Gonzalez Romero', '3112458975'),
-('loreber@mail.com', 'Lorena', 'Berrio', '87653212'),
-('mariamartinez2@gmail.com', 'maria', 'martinez', '12345'),
-('mariamartinez@gmail.com', 'Maria', 'Martinez', '3224532545'),
-('mauriciotorres@gmail.com', 'Mauricio', 'Torres', '3229851236'),
-('Oreo@mail.com', 'Oreo', 'Rodriguez', '875432'),
-('pepitoperez@gmail.com', 'Pepito', 'Perez', '3224569875'),
-('reamm@mail.com', 'Ramm', 'Einstein', '10325'),
-('santiagocastellanos@gmail.com', 'Santiago', 'Castellanos', '3112365478'),
-('tom@mail.com', 'tom', 'holland', '876532'),
-('valentinapaez@gmail.com', 'Valentina', 'Paez', '3102548965'),
-('vivian@mail.com', 'Vivian', 'Hincapie', '87541'),
-('weekend@mail.co', 'Weekend', 'Testaye', '876532'),
-('Zharick@mail.com', 'Zharick', 'Serna', '875421');
+INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotizante`, `Telefono_Cotizante`, `Cliente`) VALUES
+('Alfonso@mail.com', 'Alfonso', 'Lopez', '874512', 0),
+('alfrecas@mail.com', 'Alfredo', 'Castro', '875421', 1),
+('alfsan@gmail.com', 'Alfonso', 'Snachez', '0759485', 0),
+('andresmartinez@gmail.com', 'Andres', 'Martinez', '3112104578', 1),
+('Angelica@mail.com', 'Angelica', 'Martinez', '9884512', 1),
+('angesu@mail.com', 'Angelica', 'Suarez', '120354', 0),
+('Dana@mail.com', 'Dana', 'Cespedes', '216598', 1),
+('DanielGa@mail.com', 'Daniel Mauricio', 'Chambo Gaviria', '3202114578', 1),
+('dfelipebr737@gmail.com', 'Felipe', 'Bernal Rodriguez', '3112711553', 1),
+('edilson@mail.com', 'Edilson', 'Maecha', '986532', 1),
+('estefania@mail.com', 'Estefania', 'Gavaria', '3112065487', 0),
+('Felipe@mail.com', 'Felipe', 'Rodriguez', '895623', 0),
+('franro@gmail.com', 'Francisco', 'Rojas Rey', '012345', 1),
+('franro@htomail.com', 'Francisco', 'Rojas', '0321457', 0),
+('Guillermo@mail.com', 'Guillermo', 'Camacho', '789632', 0),
+('guillermoisa@mail.com', 'Guillermo', 'Izasa', '875432', 0),
+('harrilo@mail.com', 'Harrison ', 'Lopez', '985421', 1),
+('Javier@mail.com', 'Javier', 'Rodriguez', '78523', 0),
+('Juliomar@mail.com', 'Julio', 'Martinez', '1230', 0),
+('Kevinsa@mail.com', 'Kevin', 'Salazar', '784512', 0),
+('kevinsanty@mail.com', 'Kevin Santiago', 'Gonzalez Romero', '3112458975', 0),
+('loreber@mail.com', 'Lorena', 'Berrio', '87653212', 0),
+('mariamartinez2@gmail.com', 'maria', 'martinez', '12345', 1),
+('mariamartinez@gmail.com', 'Maria', 'Martinez', '3224532545', 1),
+('mauriciotorres@gmail.com', 'Mauricio', 'Torres', '3229851236', 1),
+('Oreo@mail.com', 'Oreo', 'Rodriguez', '875432', 0),
+('pepitoperez@gmail.com', 'Pepito', 'Perez', '3224569875', 1),
+('reamm@mail.com', 'Ramm', 'Einstein', '10325', 0),
+('santiagocastellanos@gmail.com', 'Santiago', 'Castellanos', '3112365478', 1),
+('tom@mail.com', 'tom', 'holland', '876532', 0),
+('valentinapaez@gmail.com', 'Valentina', 'Paez', '3102548965', 1),
+('vivian@mail.com', 'Vivian', 'Hincapie', '87541', 0),
+('weekend@mail.co', 'Weekend', 'Testaye', '876532', 0),
+('Zharick@mail.com', 'Zharick', 'Serna', '875421', 0);
 
 -- --------------------------------------------------------
 

@@ -27,14 +27,14 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-6 col-md-6">
-                    <table class="table">
+                    <table id="Table" class="table display">
                         <thead>
                             <tr>
                                 <th scope="col">Correo Cotizante</th>
                                 <th scope="col">Nombres</th>
                                 <th scope="col">Apellidos</th>
                                 <th scope="col">Telefono</th>
-                                
+
                                 <th scope="col">Crear cliente</th>
                                 <th scope="col">Eliminar</th>
                             </tr>

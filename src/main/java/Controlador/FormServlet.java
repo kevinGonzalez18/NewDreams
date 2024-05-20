@@ -42,6 +42,7 @@ public class FormServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException, SQLException, MessagingException {
+        response.setContentType("text/html;charset=UTF-8");
         String accion = request.getParameter("accion");
         String menu = request.getParameter("menu");
         String crearcotizacion = request.getParameter("crearcotizacion");

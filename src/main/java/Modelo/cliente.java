@@ -49,4 +49,9 @@ public class cliente {
         this.cltContraseña = cltContraseña;
     }
 
+    @Override
+    public String toString() {
+        return "cliente{" + "cltId=" + cltId + ", cltEstado=" + cltEstado + ", cltCorreo=" + cltCorreo + ", cltContrase\u00f1a=" + cltContraseña + '}';
+    }
+
 }
