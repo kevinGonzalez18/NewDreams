@@ -1,6 +1,7 @@
 DAO\clienteDAO.class
 Modelo\cotizacionServicio.class
 Controlador\LogoutServlet.class
+Modelo\eventoServicio.class
 DAO\cotizacionServicioDAO.class
 DAO\administradorDAO.class
 Modelo\cliente.class
@@ -15,6 +16,7 @@ DAO\eventoDAO.class
 Controlador\EventoServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
+Controlador\NuevaContrasenaServlet.class
 DAO\cotizanteDAO.class
 Controlador\ValidarOtpServlet.class
 Modelo\evento.class
