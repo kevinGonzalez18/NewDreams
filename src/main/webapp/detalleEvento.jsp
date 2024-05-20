@@ -4,6 +4,7 @@
     Author     : APRENDIZ
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="Modelo.evento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,81 +26,71 @@
                     </div><br>
                     <form>
                         <div class="card-details">
-                            <h3 class="title">Id del evento</h3><br>
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label for="card-holder">Nombre del cliente</label>
-                                    <input id="card-holder" type="text" class="form-control" value="${Nombre_Cotizante}" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div><br>
-                                <div class="form-group col-sm-6">
-                                    <label for="card-holder">Apellido del cliente</label>
-                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="card-holder">Correo del cliente</label>
-                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div><br>
-                                <div class="form-group col-sm-6">
-                                    <label for="card-holder">Telefono del cliente</label>
-                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="form-group col-sm-8">
-                                    <label for="card-number">Tipo de evento</label>
-                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label for="cvc">Cantidad de personas</label>
-                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="form-group col-sm-8">
-                                    <label for="">Fecha del evento</label>
-                                    <div class="input-group expiration-date">
-                                        <input type="text" class="form-control" placeholder="YY" aria-label="YY" aria-describedby="basic-addon1">
-                                        <span class="date-separator">/</span>
-                                        <input type="text" class="form-control" placeholder="MM" aria-label="MM" aria-describedby="basic-addon1">
-                                        <span class="date-separator">/</span>
-                                        <input type="text" class="form-control" placeholder="DD" aria-label="DD" aria-describedby="basic-addon1">
-                                        <span class="date-separator">/</span>
-                                        <input type="text" class="form-control" placeholder="Hora" aria-label="Hora" aria-describedby="basic-addon1">
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label for="cvc">Estado del evento</label>
-                                    <input id="cvc" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="cvc">Descipcion del evento</label>
-                                    <input id="card-holder" type="text" class="form-control" value="" aria-label="Card Holder" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="block-heading">
-                                    <h2>Servicios del evento</h2>
-                                </div><br>
+                            <c:forEach var="Detalle" items="${detalles}">
+                                <h3 class="title">Id del evento: ${Detalle[4]}</h3><br>
+                                
                                 <div class="row">
-                                    <p class="col-2 col-md-2">Cant</p>
-                                    <p class="col-4 col-md-4">Servicio</p>
-                                    <p class="col-3 col-md-3">V.Unitario</p>
-                                    <p class="col-3 col-md-3">V.Total</p>
-                                    <div class="col-2 col-md-2">
-                                        <div class="form-group">
-                                            <input id="service_quantity_manteleria_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" placeholder="0" required="required" oninput="calculateTotal(${loop.index}, 'manteleria')" value="0" onkeydown="preventDeletingZero(event)" onkeypress="return onlyNumberKey(event)">
-                                        </div>
+
+                                    <div class="form-group col-sm-6">
+                                        <label for="card-holder">Nombre del cliente</label>
+                                        <input id="nombre-cliente" type="text" class="form-control" value="${Detalle[0]}" readonly>
+                                    </div><br>
+                                    <div class="form-group col-sm-6">
+                                        <label for="card-holder">Apellido del cliente</label>
+                                        <input id="card-holder" type="text" class="form-control" value="${Detalle[1]}" readonly>
                                     </div>
-                                    <div class="col-4 col-md-4">
-                                        <div class="form-group">
-                                            <input id="service_name_manteleria_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" placeholder="Nombre del servicio" value="${manteleria.getServicioNombre()}" readonly>
-                                        </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="card-holder">Correo del cliente</label>
+                                        <input id="correo-cliente" type="text" class="form-control" value="${Detalle[2]}" readonly>
+                                    </div><br>
+                                    <div class="form-group col-sm-6">
+                                        <label for="card-holder">Telefono del cliente</label>
+                                        <input id="telefono-cliente" type="text" class="form-control" value="${Detalle[3]}" readonly>
                                     </div>
-                                    <div class="col-3 col-md-3">
-                                        <div class="form-group">
-                                            <input id="service_price_manteleria_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" placeholder="0" value="${manteleria.getServicioValor()}" readonly>
-                                        </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="card-number">Tipo de evento</label>
+                                        <input id="tipo-evento" type="text" class="form-control" value="${Detalle[5]}" readonly>
                                     </div>
-                                    <div class="col-3 col-md-3">
-                                        <div class="form-group">
-                                            <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" placeholder="Precio total calculado" readonly>
-                                        </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="cvc">Cantidad de personas</label>
+                                        <input id="cantidad-personas" type="text" class="form-control" value="${Detalle[9]}" readonly>
                                     </div>
-                                </div>
+                                    <div class="form-group col-sm-4">
+                                        <label for="cvc">Estado del evento</label>
+                                        <input id="estado-evento" type="text" class="form-control" value="${Detalle[7]}" readonly>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="cvc">Descipcion del evento</label>
+                                        <input id="descripcion-evento" type="text" class="form-control" value="${Detalle[8]}" readonly>
+                                    </div>
+                                    <div class="block-heading">
+                                        <h2>Servicios del evento</h2>
+                                    </div><br>
+                                    <c:forEach var="servicio" items="${Detalle[10]}">
+
+                                        <div class="row">
+                                            <p class="col-4 col-md-4">Cant</p>
+                                            <p class="col-3 col-md-3">Servicio</p>
+                                            <p class="col-3 col-md-3">V.Total</p>
+                                            <div class="col-4 col-md-4">
+                                                <div class="form-group">
+                                                    <input id="service_name_manteleria_${loop.index}" type="number" name="service_name_${loop.index}" class="form-control" value="${servicio[2]}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <input id="service_total_price_manteleria_${loop.index}" type="text" name="service_total_price_${loop.index}" class="form-control" value="${servicio[0]}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" value="${servicio[1]}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:forEach>
+
                                 <div class="form-group col-sm-4">
                                     <a href="historialPagosCliente.jsp"><button type="button" class="btn btn-primary btn-block">historial de pagos</button></a>
                                 </div>
