@@ -3,8 +3,10 @@ package DAO;
 import Modelo.conexion;
 
 import Modelo.cotizacion;
+import Modelo.cotizacionServicio;
 import Modelo.cotizante;
 import Modelo.evento;
+import Modelo.eventoServicio;
 import Modelo.servicio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,14 +53,7 @@ public class eventoDAO {
 
     public List<Object[]> DetallesEvento(int id) {
         List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT c.Nombre_Cotizante, c.Apellido_Cotizante, c.Correo_Cotizante, c.Telefono_Cotizante, e.idEvento, e.Tipo_evento, "
-                + "e.Fecha_evento, e.Estado_evento, e.Descripcion_evento, ct.Cantidad_Personas_Cotización, "
-                + "(SELECT GROUP_CONCAT(s.Nombre_Servicio) FROM evento_servicio es JOIN servicio s ON es.Servicio_idServicio = s.idServicio "
-                + "WHERE es.Evento_idEvento = e.idEvento) AS Nombres_Servicios, (SELECT GROUP_CONCAT(s.Valor_Servicio) FROM evento_servicio es "
-                + "JOIN servicio s ON es.Servicio_idServicio = s.idServicio WHERE es.Evento_idEvento = e.idEvento) AS Valor_Servicios FROM evento e "
-                + "JOIN cotización ct ON e.Cotizacion_No_Cotizacion = ct.No_Cotizacion JOIN cliente cl ON e.Cliente_idCliente = cl.idCliente "
-                + "JOIN cotizante c ON cl.Correo_cotizante = c.Correo_Cotizante "
-                + "WHERE e.idEvento = ?";
+        String sql = "SELECT * FROM vista_evento WHERE idEvento = ?";
         try {
             ps = con.prepareStatement(sql);
             ps.setInt(1, id);
@@ -77,35 +72,54 @@ public class eventoDAO {
                 cotizacion.setCantidadPersonas(rs.getInt("Cantidad_Personas_Cotización"));
 
                 // Crear la lista de servicios para este evento
-                List<servicio> listaServicios = new ArrayList<>();
-                String nombresServicios = rs.getString("Nombres_Servicios");
-                String valoresServicios = rs.getString("Valor_Servicios");
-                String[] nombres = nombresServicios.split(",");
-                String[] valores = valoresServicios.split(",");
+                /**/
+                String[] nombresServicios = rs.getString("Nombres_Servicios").split(", ");
+                String[] valoresServicios = rs.getString("Valor_Servicios").split(", ");
+                String[] cantidad = rs.getString("Cantidad").split(", ");
+                String[] valorUnitario = rs.getString("Valor_Unitario").split(", ");
+                String[] tipoServicio = rs.getString("Tipo_Servicio").split(", ");
+                /*String[] nombres = nombresServicios.split(",");
+                String[] valores = valoresServicios.split(",");*/
 
-                // Agregar cada servicio a la lista de servicios
-                for (int i = 0; i < nombres.length; i++) {
-                    servicio serv = new servicio();
-                    serv.setServicioNombre(nombres[i]);
-                    serv.setServicioValor(Integer.parseInt(valores[i]));
-                    // Agregar más propiedades si es necesario
-                    listaServicios.add(serv);
+                if (nombresServicios.length == valorUnitario.length
+                        && nombresServicios.length == cantidad.length
+                        && nombresServicios.length == valoresServicios.length
+                        && nombresServicios.length == tipoServicio.length) {
+
+                    List<Object[]> listaServicios = new ArrayList<>();
+
+                    // Agregar cada servicio a la lista de servicios
+                    for (int i = 0; i < nombresServicios.length; i++) {
+                        servicio serv = new servicio();
+                        serv.setServicioNombre(nombresServicios[i]);
+                        serv.setServicioValor(Integer.parseInt(valoresServicios[i]));
+
+                        eventoServicio eventoServicio = new eventoServicio();
+                        eventoServicio.setCantidad(Integer.parseInt(cantidad[i]));
+                        // Agregar más propiedades si es necesario
+
+                        Object[] servicioArray = {
+                            serv.getServicioNombre(),
+                            serv.getServicioValor(),
+                            eventoServicio.getCantidad()
+                        };
+                        listaServicios.add(servicioArray);
+                    }
+                    Object[] eventoArray = {
+                        cotizante.getCotizanteNombre(),
+                        cotizante.getCotizanteApellido(),
+                        cotizante.getCotizanteCorreo(),
+                        cotizante.getCotizanteTelefono(),
+                        evento.getEventoId(),
+                        evento.getTipoEvento(),
+                        evento.getFechaEvento(),
+                        evento.getEstadoEvento(),
+                        evento.getDescripcionEvento(),
+                        cotizacion.getCantidadPersonas(),
+                        listaServicios // Agregar la lista de servicios al array
+                    };
+                    lista.add(eventoArray);
                 }
-
-                Object[] eventoArray = {
-                    cotizante.getCotizanteNombre(),
-                    cotizante.getCotizanteApellido(),
-                    cotizante.getCotizanteCorreo(),
-                    cotizante.getCotizanteTelefono(),
-                    evento.getEventoId(),
-                    evento.getTipoEvento(),
-                    evento.getFechaEvento(),
-                    evento.getEstadoEvento(),
-                    evento.getDescripcionEvento(),
-                    cotizacion.getCantidadPersonas(),
-                    listaServicios // Agregar la lista de servicios al array
-                };
-                lista.add(eventoArray);
             }
         } catch (Exception e) {
             e.printStackTrace(); // Imprimir el error
@@ -115,3 +129,5 @@ public class eventoDAO {
     }
 
 }
+
+
