@@ -36,6 +36,12 @@ function loadContent(url) {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById('main').innerHTML = this.responseText;
             initializeDataTables();  // Inicializa DataTables después de cargar el contenido
+            //// Cargar script específico para detallesCotizacion.jsp si es la página que se cargó
+            if (url.includes("detallesCotizacion.jsp")) {
+                loadScript('js/scriptDetallesCotizacion.js', function () {
+                    console.log("Script de detallesCotizacion.js cargado.");
+                });
+            }
             // Reasignar los eventos click a los nuevos enlaces cargados
             var contentLinks = document.querySelectorAll('#main a');
             contentLinks.forEach(function (link) {
@@ -53,6 +59,19 @@ function loadContent(url) {
 
 function initializeDataTables() {
     $('#Table').DataTable();
+}
+
+function loadScript(url, callback) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = url;
+
+    script.onload = function () {
+        if (callback)
+            callback();
+    };
+
+    document.body.appendChild(script);
 }
 
 

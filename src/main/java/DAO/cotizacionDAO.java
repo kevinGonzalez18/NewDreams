@@ -168,4 +168,21 @@ public class cotizacionDAO {
         }
         return lista;
     }
+
+    public void addServicesToCotizacion(String eventId, List<String> serviceIds) throws SQLException {
+        String sql = "CALL SP_INSERT_COTIZACIONSERVICIO (?, ?, ?, ?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            for (String serviceId : serviceIds) {
+                ps.setString(1, eventId);
+                ps.setString(2, serviceId);
+                ps.setInt (3, 0);
+                ps.setInt (4, 0);
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;  // Re-lanzar la excepción para que el método llamante pueda manejarla
+        }
+    }
 }

@@ -34,6 +34,11 @@ public class servicioDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            // Asegúrate de cerrar los recursos
+            try { if (rs != null) rs.close(); } catch (Exception e) {};
+            try { if (ps != null) ps.close(); } catch (Exception e) {};
+            try { if (con != null) con.close(); } catch (Exception e) {};
         }
         return lista;
     }
