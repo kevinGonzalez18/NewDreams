@@ -45,17 +45,18 @@ function filterServices() {
     var input = document.getElementById("searchInput");
     var filter = input.value.toLowerCase();
     var servicesList = document.getElementById("servicesList");
-    var items = servicesList.getElementsByClassName("list-group-item");
+    var li = servicesList.getElementsByTagName("li");
 
-    for (var i = 0; i < items.length; i++) {
-        var label = items[i].getElementsByTagName("label")[0];
+    for (var i = 0; i < li.length; i++) {
+        var label = li[i].getElementsByTagName("label")[0];
         if (label.innerHTML.toLowerCase().indexOf(filter) > -1) {
-            items[i].style.display = "";
+            li[i].style.display = "";
         } else {
-            items[i].style.display = "none";
+            li[i].style.display = "none";
         }
     }
 }
+
 
 function addSelectedServices() {
     var servicesList = document.getElementById("servicesList");
@@ -74,6 +75,7 @@ function addSelectedServices() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             alert("Servicios agregados correctamente");
             closeModal();
+            location.reload();
         }
     };
     xhr.send(JSON.stringify({eventId: currentEventId, services: selectedServices}));

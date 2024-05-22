@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-05-2024 a las 19:57:43
+-- Tiempo de generación: 22-05-2024 a las 05:03:44
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -376,7 +376,8 @@ INSERT INTO `cliente` (`idCliente`, `Estado_Cliente`, `Contraseña_Cliente`, `Co
 ('CL020', 'Habilitado', '123', 'DanielGa@mail.com'),
 ('CL021', 'Habilitado', 'holajiji1', 'franro@gmail.com'),
 ('CL022', 'Habilitado', 'harry32', 'harrilo@mail.com'),
-('CL023', 'Habilitado', 'gua32', 'Dana@mail.com');
+('CL023', 'Habilitado', 'gua32', 'Dana@mail.com'),
+('CL024', 'Habilitado', '123', 'estefania@mail.com');
 
 --
 -- Disparadores `cliente`
@@ -549,7 +550,21 @@ INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServi
 ('COT1026', 'S03', 10, 35000),
 ('COT1026', 'S05', 10, 100000),
 ('COT1026', 'S07', 10, 12000),
-('COT1026', 'S20', 30, 30000);
+('COT1026', 'S20', 30, 30000),
+('COT1019', 'S09', 0, 0),
+('COT1019', 'S15', 0, 0),
+('COT1019', 'S16', 0, 0),
+('COT1019', 'S17', 0, 0),
+('COT1020', 'S09', 0, 0),
+('COT1020', 'S10', 0, 0),
+('COT1022', 'S13', 0, 0),
+('COT1022', 'S16', 0, 0),
+('COT1023', 'S18', 0, 0),
+('COT1023', 'S04', 0, 0),
+('COT1022', 'S18', 0, 0),
+('COT1019', 'S15', 0, 0),
+('COT1022', 'S15', 0, 0),
+('COT1019', 'S18', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -647,7 +662,7 @@ INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotiz
 ('DanielGa@mail.com', 'Daniel Mauricio', 'Chambo Gaviria', '3202114578', 1),
 ('dfelipebr737@gmail.com', 'Felipe', 'Bernal Rodriguez', '3112711553', 1),
 ('edilson@mail.com', 'Edilson', 'Maecha', '986532', 1),
-('estefania@mail.com', 'Estefania', 'Gavaria', '3112065487', 0),
+('estefania@mail.com', 'Estefania', 'Gavaria', '3112065487', 1),
 ('Felipe@mail.com', 'Felipe', 'Rodriguez', '895623', 0),
 ('franro@gmail.com', 'Francisco', 'Rojas Rey', '012345', 1),
 ('franro@htomail.com', 'Francisco', 'Rojas', '0321457', 0),
@@ -769,6 +784,7 @@ INSERT INTO `evento_servicio` (`Evento_idEvento`, `Servicio_idServicio`, `Cantid
 
 CREATE TABLE `pagos` (
   `No_Pagos` char(5) NOT NULL,
+  `Referente` int(5) NOT NULL,
   `Nombre_Pagos` varchar(45) NOT NULL,
   `Apellido_Pagos` varchar(45) NOT NULL,
   `Dia_hora_pagos` datetime NOT NULL,
@@ -781,16 +797,35 @@ CREATE TABLE `pagos` (
 -- Volcado de datos para la tabla `pagos`
 --
 
-INSERT INTO `pagos` (`No_Pagos`, `Nombre_Pagos`, `Apellido_Pagos`, `Dia_hora_pagos`, `Valor_pagos`, `Evento_idEvento`, `Evento_Cliente_idCliente`) VALUES
-('P0001', 'Mauricio', 'Torres', '2023-10-25 10:30:00', 50000, 1, 'CL001'),
-('P0002', 'Pepito', 'Perez', '2024-06-23 06:00:00', 70000, 2, 'CL002'),
-('P0003', 'Valentina', 'Paez', '2024-02-03 02:00:00', 30000, 3, 'CL003'),
-('P0004', 'Santiago', 'Castellanos', '2023-07-28 10:15:00', 250000, 4, 'CL004'),
-('P0005', 'Mauricio', 'Torres', '2023-08-02 02:30:00', 450000, 5, 'CL005');
+INSERT INTO `pagos` (`No_Pagos`, `Referente`, `Nombre_Pagos`, `Apellido_Pagos`, `Dia_hora_pagos`, `Valor_pagos`, `Evento_idEvento`, `Evento_Cliente_idCliente`) VALUES
+('P0001', 0, 'Mauricio', 'Torres', '2023-10-25 10:30:00', 50000, 1, 'CL001'),
+('P0002', 0, 'Pepito', 'Perez', '2024-06-23 06:00:00', 70000, 2, 'CL002'),
+('P0003', 0, 'Valentina', 'Paez', '2024-02-03 02:00:00', 30000, 3, 'CL003'),
+('P0004', 0, 'Santiago', 'Castellanos', '2023-07-28 10:15:00', 250000, 4, 'CL004'),
+('P0005', 0, 'Mauricio', 'Torres', '2023-08-02 02:30:00', 450000, 5, 'CL005'),
+('P0006', 1, 'Pepito', 'Perez', '2024-05-20 04:52:00', 50000, 2, 'CL002'),
+('P0007', 2, 'Pepito', 'Perez', '2024-05-19 03:30:00', 50000, 2, 'CL002'),
+('P0008', 3, 'Pepito', 'Perez', '2024-05-18 03:30:00', 500000, 2, 'CL002');
 
 --
 -- Disparadores `pagos`
 --
+DELIMITER $$
+CREATE TRIGGER `actualizar_referente` BEFORE INSERT ON `pagos` FOR EACH ROW BEGIN
+    DECLARE max_referente INT;
+
+    -- Obtener el máximo valor de referente para el mismo cliente y evento
+    SELECT COALESCE(MAX(Referente), 0)
+    INTO max_referente
+    FROM pagos
+    WHERE Evento_idEvento = NEW.Evento_idEvento
+      AND Evento_Cliente_idCliente = NEW.Evento_Cliente_idCliente;
+
+    -- Incrementar el referente para el nuevo pago
+    SET NEW.Referente = max_referente + 1;
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `trg_generate_No_Pagos` BEFORE INSERT ON `pagos` FOR EACH ROW BEGIN
     DECLARE last_id INT;
@@ -910,11 +945,44 @@ CREATE TABLE `vista_cotizaciones` (
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `vista_evento`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_evento` (
+`Nombre_Cotizante` varchar(45)
+,`Apellido_Cotizante` varchar(45)
+,`Correo_Cotizante` varchar(45)
+,`Telefono_Cotizante` varchar(45)
+,`idEvento` int(11)
+,`Tipo_evento` varchar(45)
+,`Fecha_evento` datetime
+,`Estado_evento` varchar(45)
+,`Descripcion_evento` varchar(200)
+,`Cantidad_Personas_Cotización` smallint(6)
+,`Nombres_Servicios` mediumtext
+,`Valor_Servicios` mediumtext
+,`Cantidad` mediumtext
+,`Valor_Unitario` mediumtext
+,`Tipo_Servicio` mediumtext
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura para la vista `vista_cotizaciones`
 --
 DROP TABLE IF EXISTS `vista_cotizaciones`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_cotizaciones`  AS SELECT `cot`.`No_Cotizacion` AS `No_Cotizacion`, `co`.`Nombre_Cotizante` AS `Nombre_Cotizante`, `co`.`Apellido_Cotizante` AS `Apellido_Cotizante`, `co`.`Telefono_Cotizante` AS `Telefono_Cotizante`, `co`.`Correo_Cotizante` AS `Correo_Cotizante`, `cot`.`Tipo_Cotizacion` AS `Tipo_Cotizacion`, `cot`.`Cantidad_Personas_Cotización` AS `Cantidad_Personas_Cotización`, `cot`.`Ubicacion` AS `Ubicacion`, `cot`.`Fecha_Parcial_Evento_Cotización` AS `Fecha_Parcial_Evento_Cotización`, `cot`.`Fecha_Hora_Cotizacion` AS `Fecha_Hora_Cotizacion`, `cot`.`Valor_Cotización` AS `Valor_Cotización`, group_concat(`s`.`Nombre_Servicio` separator ', ') AS `Servicios`, group_concat(`s`.`Valor_Servicio` separator ', ') AS `Valor_Unitario`, group_concat(`cots`.`Cantidad_Servicios` separator ', ') AS `Cantidad`, group_concat(`cots`.`Valor_Servicio` separator ', ') AS `Valor_Total`, group_concat(`s`.`Tipo_Servicio` separator ', ') AS `Tipo_Servicio` FROM (((`cotización` `cot` join `cotizacion_servicio` `cots` on(`cot`.`No_Cotizacion` = `cots`.`Cotizacion_No_Cotizacion`)) join `cotizante` `co` on(`co`.`Correo_Cotizante` = `cot`.`Cotizante_Correo`)) join `servicio` `s` on(`s`.`idServicio` = `cots`.`Servicio_idServicio`)) GROUP BY `cot`.`No_Cotizacion` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vista_evento`
+--
+DROP TABLE IF EXISTS `vista_evento`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_evento`  AS SELECT `c`.`Nombre_Cotizante` AS `Nombre_Cotizante`, `c`.`Apellido_Cotizante` AS `Apellido_Cotizante`, `c`.`Correo_Cotizante` AS `Correo_Cotizante`, `c`.`Telefono_Cotizante` AS `Telefono_Cotizante`, `e`.`idEvento` AS `idEvento`, `e`.`Tipo_evento` AS `Tipo_evento`, `e`.`Fecha_evento` AS `Fecha_evento`, `e`.`Estado_evento` AS `Estado_evento`, `e`.`Descripcion_evento` AS `Descripcion_evento`, `ct`.`Cantidad_Personas_Cotización` AS `Cantidad_Personas_Cotización`, group_concat(`s`.`Nombre_Servicio` separator ', ') AS `Nombres_Servicios`, group_concat(`es`.`Valor_Total` separator ', ') AS `Valor_Servicios`, group_concat(`es`.`Cantidad_Servicios` separator ', ') AS `Cantidad`, group_concat(`s`.`Valor_Servicio` separator ', ') AS `Valor_Unitario`, group_concat(`s`.`Tipo_Servicio` separator ', ') AS `Tipo_Servicio` FROM (((((`evento` `e` join `cliente` `cl` on(`cl`.`idCliente` = `e`.`Cliente_idCliente`)) join `cotizante` `c` on(`c`.`Correo_Cotizante` = `cl`.`Correo_cotizante`)) join `cotización` `ct` on(`ct`.`No_Cotizacion` = `e`.`Cotizacion_No_Cotizacion`)) join `evento_servicio` `es` on(`es`.`Evento_idEvento` = `e`.`idEvento`)) join `servicio` `s` on(`s`.`idServicio` = `es`.`Servicio_idServicio`)) GROUP BY `e`.`idEvento` ;
 
 --
 -- Índices para tablas volcadas
