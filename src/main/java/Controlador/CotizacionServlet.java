@@ -1,6 +1,7 @@
 package Controlador;
 
 import DAO.cotizacionDAO;
+import DAO.cotizacionServicioDAO;
 import DAO.servicioDAO;
 import Modelo.servicio;
 import com.google.gson.Gson;
@@ -51,6 +52,25 @@ public class CotizacionServlet extends HttpServlet {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(new Gson().toJson(servicios));
+        }
+        String serviceIndexStr = request.getParameter("serviceIndex");
+        if (serviceIndexStr != null) {
+            int serviceIndex = Integer.parseInt(serviceIndexStr);
+            System.out.println("serviceIndex = " + serviceIndex);
+            String nombreServicio = request.getParameter("serviceName");
+            System.out.println("nombreServicio = " + nombreServicio);
+            String idCotizacion = request.getParameter("idCotizacion");
+            servicioDAO servicioDAO = new servicioDAO();
+            String idServicio = servicioDAO.consultarIdServicio(nombreServicio);
+            System.out.println("idServicio = " + idServicio);
+            cotizacionServicioDAO cotizacionServicioDAO = new cotizacionServicioDAO();
+            cotizacionServicioDAO.eliminarServicioCotizacion(idServicio, idCotizacion);
+            System.out.println("Servicio eliminado de la bd");
+
+            // Redireccionar o responder según sea necesario
+            response.sendRedirect("PrincipalServlet?menu=Cotizaciones&accion=listar");
+        } else {
+            System.out.println("Error al eliminar el servicio de la bd");
         }
     }
 

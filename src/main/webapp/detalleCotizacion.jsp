@@ -42,54 +42,54 @@
                         <form>
                             <div class="card-details">
                                 <c:forEach var="cotizacion" items="${cotizacion}">
-                                    <h3 class="title">Id del evento: ${cotizacion[0]}</h3><br>
+                                    <h3 class="title" style="color: black;">Id de la cotizacion: ${cotizacion[0]}</h3><br>
                                     <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label for="card-holder">Nombre del cliente</label>
-                                            <input id="card-holder" type="text" class="form-control" value="${cotizacion[1]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            <input id="nombreCotizacion" name="nombreCotizacion" type="text" class="form-control" value="${cotizacion[1]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                         </div><br>
                                         <div class="form-group col-sm-6">
                                             <label for="card-holder">Apellido del cliente</label>
-                                            <input id="card-holder" type="text" class="form-control" value="${cotizacion[2]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            <input id="apellidoCotizacion" name="apellidoCotizacion" type="text" class="form-control" value="${cotizacion[2]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="card-holder">Correo del cliente</label>
-                                            <input id="card-holder" type="text" class="form-control" value="${cotizacion[3]}" aria-label="Card Holder" aria-describedby="basic-addon1" readonly>
+                                            <input id="correoCotizacion" name="correoCotizacion" type="text" class="form-control" value="${cotizacion[3]}" aria-label="Card Holder" aria-describedby="basic-addon1" readonly>
                                         </div><br>
                                         <div class="form-group col-sm-6">
                                             <label for="card-holder">Telefono del cliente</label>
-                                            <input id="card-holder" type="text" class="form-control" value="${cotizacion[4]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            <input id="telefonoCotizacion" name="telefonoCotizacion" type="text" class="form-control" value="${cotizacion[4]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="card-number">Tipo de evento</label>
-                                            <input id="card-holder" type="text" class="form-control" value="${cotizacion[5]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            <input id="tipoCotizacion" name="telefonoCotizacion" type="text" class="form-control" value="${cotizacion[5]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="cvc">Cantidad de personas</label>
-                                            <input id="card-holder" type="text" class="form-control" value="${cotizacion[6]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            <input id="cantidadCotizacion" name="cantidadCotizacion" type="text" class="form-control" value="${cotizacion[6]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="">Fecha de la cotizacion</label>
                                             <div class="input-group expiration-date">
-                                                <input id="card-holder" type="text" class="form-control" value="${cotizacion[7]}" aria-label="Card Holder" aria-describedby="basic-addon1" readonly>
+                                                <input id="fechaEvento" name="fechaEvento" type="text" class="form-control" value="${cotizacion[7]}" aria-label="Card Holder" aria-describedby="basic-addon1" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="">Fecha parcial del evento</label>
                                             <div class="input-group expiration-date">
-                                                <input id="card-holder" type="date" class="form-control" value="${cotizacion[8]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                                <input id="fechaCotizacion" name="fechaCotizacion" type="date" class="form-control" value="${cotizacion[8]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="">Ubicacion</label>
                                             <div class="input-group expiration-date">
-                                                <input id="card-holder" type="text" class="form-control" value="${cotizacion[9]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                                <input id="ubicacionCotizacion" name="ubicacionCotizacion" type="text" class="form-control" value="${cotizacion[9]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="">Valor</label>
                                             <div class="input-group expiration-date">
-                                                <input id="card-holder" type="text" class="form-control" value="${cotizacion[10]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                                <input id="valorCotizacion" name="valorCotizacion" type="text" class="form-control" value="${cotizacion[10]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                             </div>
                                         </div>
                                         <!-- Iterar sobre los servicios dentro de la cotizacion -->
@@ -101,30 +101,45 @@
                                                             <h4 class="mb-0">Servicios:</h4>
                                                             <button type="button" class="btn btn-success" onclick="openModal('${cotizacion[0]}')">Agregar Servicio</button>
                                                         </div>
-                                                        <c:forEach var="servicio" items="${cotizacion[11]}">
+                                                        <c:set var="total_iterations" value="${0}" />
+                                                        <c:forEach var="servicio" items="${cotizacion[11]}" varStatus="loop">
+                                                            <c:set var="total_iterations" value="${loop.count}" />
                                                             <div class="row mb-2 service-item">
-                                                                <div class="col-2">
+                                                                <div class="col-1">
                                                                     <p class="form-label">Cant</p>
                                                                     <div class="form-group">
-                                                                        <input id="service_quantity_manteleria_${loop.index}" type="text" name="service_quantity_manteleria_${loop.index}" class="form-control" required="required" value="${servicio[3]}">
+                                                                        <input id="service_quantity_${loop.index}" type="text" name="service_quantity_${loop.index}" class="form-control" required="required" value="${servicio[3]}" oninput="calculateTotalDetail(${loop.index})">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-4">
                                                                     <p class="form-label">Servicio Tipo: ${servicio[2]}</p>
                                                                     <div class="form-group">
-                                                                        <input id="service_name_manteleria_${loop.index}" type="text" name="service_name_manteleria_${loop.index}" class="form-control" value="${servicio[0]}" readonly>
+                                                                        <input id="service_name_${loop.index}" type="text" name="service_name_${loop.index}" class="form-control" value="${servicio[0]}" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-3">
                                                                     <p class="form-label">V.Unitario</p>
                                                                     <div class="form-group">
-                                                                        <input id="service_price_manteleria_${loop.index}" type="text" name="service_price_manteleria_${loop.index}" class="form-control" value="${servicio[1]}" readonly>
+                                                                        <input id="service_price_${loop.index}" type="text" name="service_price_${loop.index}" class="form-control" value="${servicio[1]}" readonly>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-3">
+                                                                <div class="col-2">
                                                                     <p class="form-label">V.Total</p>
                                                                     <div class="form-group">
-                                                                        <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_manteleria_${loop.index}" class="form-control" value="${servicio[4]}">
+                                                                        <input id="service_total_price_${loop.index}" type="text" name="service_total_price_${loop.index}" class="form-control" value="${servicio[4]}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <br>
+                                                                    <div class="form-group">
+                                                                        <form action="CotizacionServlet" method="POST" class="delete-form">
+                                                                            <input type="hidden" name="serviceIndex" value="${total_iterations}">
+                                                                            <input type="hidden" name="idCotizacion" value="${cotizacion[0]}">
+                                                                             <input type="hidden" name="serviceName" value="${servicio[0]}">
+                                                                            <button type="submit" class="delete-service-btn">
+                                                                                <i class="fa-solid fa-trash"></i>
+                                                                            </button>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
                                                             </div>
