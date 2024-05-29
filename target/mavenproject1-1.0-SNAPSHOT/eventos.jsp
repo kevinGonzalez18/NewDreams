@@ -25,7 +25,7 @@
         <!--Container Main start-->
         <div class="container mt-5">
             <div class="row">
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-12 col-md-12">
                     <table id="Table" class="table display">
                         <thead>
                             <tr>

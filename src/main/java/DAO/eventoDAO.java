@@ -1,5 +1,6 @@
 package DAO;
 
+import Modelo.cliente;
 import Modelo.conexion;
 
 import Modelo.cotizacion;
@@ -23,6 +24,7 @@ public class eventoDAO {
     evento evento = new evento();
     cotizante cotizante = new cotizante();
     cotizacion cotizacion = new cotizacion();
+    cliente cliente = new cliente();
 
     Connection con = new conexion().conectar();
     PreparedStatement ps;
@@ -77,6 +79,7 @@ public class eventoDAO {
                 String[] cantidad = rs.getString("Cantidad").split(", ");
                 String[] valorUnitario = rs.getString("Valor_Unitario").split(", ");
                 String[] tipoServicio = rs.getString("Tipo_Servicio").split(", ");
+                cliente.setCltId(rs.getString("idCliente"));
 
                 if (nombresServicios.length == valorUnitario.length
                         && nombresServicios.length == cantidad.length
@@ -113,7 +116,8 @@ public class eventoDAO {
                         evento.getEstadoEvento(),
                         evento.getDescripcionEvento(),
                         cotizacion.getCantidadPersonas(),
-                        listaServicios // Agregar la lista de servicios al array
+                        listaServicios, // Agregar la lista de servicios al array
+                        cliente.getCltId()
                     };
                     lista.add(eventoArray);
                 }

@@ -44,6 +44,10 @@
         <servlet-name>CotizacionServlet</servlet-name>
         <servlet-class>Controlador.CotizacionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PagoServlet</servlet-name>
+        <servlet-class>Controlador.PagoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -101,4 +105,8 @@
         <url-pattern>/principal.jsp</url-pattern>
     </filter-mapping>
 
+    <servlet-mapping>
+        <servlet-name>PagoServlet</servlet-name>
+        <url-pattern>/PagoServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
