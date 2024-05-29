@@ -54,7 +54,7 @@
                                         <td>${servicio.getServicioTipo()}</td>
                                         <td>
                                             <a href="CotizacionServlet?menu=detalleCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-primary">Ver más</button></a>
-                                            <a href="CotizacionServlet?menu=deletedCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-danger">Eliminar</button></a>
+                                            <a href="PrincipalServlet?menu=Servicios&accion=eliminar&idServicio=${servicio.getServicioId()}" target="target"><button class="btn btn-danger">Eliminar</button></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
