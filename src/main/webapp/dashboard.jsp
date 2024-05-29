@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // Proxies.
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,7 +61,7 @@
                             
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-center">
-                            <a class="small text-black stretched-link" onclick="loadContent('PrincipalServlet?menu=Servicios'); return false;">Servicios</a>
+                            <a class="small text-black stretched-link" onclick="loadContent('PrincipalServlet?menu=Servicios&accion=listar'); return false;">Servicios</a>
                             <div class="small text-black"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

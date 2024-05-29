@@ -117,5 +117,5 @@ function updateTotalOrderPrice() {
     });
 
     // Display the total order price
-    document.getElementById('valorCotizacion').value = totalOrderPrice.toFixed(2);
+    document.getElementById('valorCotizacion').value = totalOrderPrice;
 }

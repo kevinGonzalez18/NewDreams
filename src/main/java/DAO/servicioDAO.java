@@ -17,7 +17,7 @@ public class servicioDAO {
     servicio ser = new servicio();
 
     //Metodo para consultar los registros de la base de datos en la tabla servicios
-    public List<servicio> consultarTodosServicios() {
+    public List<servicio> consultarTodosServicios() throws SQLException {
         List<servicio> lista = new ArrayList<>();
         String sql = "CALL SP_READLIST_SERVICIO";
         try {
@@ -29,11 +29,12 @@ public class servicioDAO {
                 ser.setServicioValor(rs.getInt(2));
                 ser.setServicioNombre(rs.getString(3));
                 ser.setServicioTipo(rs.getString(4));
-                ser.setServicioDescripcion(rs.getString(5));
+                //ser.setServicioDescripcion(rs.getString(5));
                 lista.add(ser);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw e;
         }
         return lista;
     }
@@ -119,6 +120,42 @@ public class servicioDAO {
         }
         // If the service ID is not found, you may return null or throw an exception
         return null;
+    }
+
+    public boolean agregar(servicio servicio) throws SQLException {
+        String sql = "CALL SP_INSERT_SERVICIO(?, ?, ?)";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, servicio.getServicioNombre());
+            ps.setInt(2, servicio.getServicioValor());
+            ps.setString(3, servicio.getServicioTipo());
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
+    }
+
+    public boolean eliminar(String idServicio) throws SQLException {
+        String sql = "CALL SP_DELETE_SERVICIO(?)";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, idServicio);
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
     }
 
 }

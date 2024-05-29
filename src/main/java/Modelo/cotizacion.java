@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -14,13 +15,13 @@ public class cotizacion {
     private String codigoCotizacion;
     private String tipoCotizacion;
     private String ubicacion;
-    private Date fechaParcialEvento;
-    private Date fechaCotizacion;
+    private Timestamp fechaParcialEvento;
+    private Timestamp fechaCotizacion;
     private int valorCotizacion;
     private int cantidadPersonas;
     private String correo;
 
-    public cotizacion(String codigoCotizacion, String tipoCotizacion, String ubicacion, Date fechaParcialEvento, Date fechaCotizacion, int valorCotizacion, int cantidadPersonas, String correo) {
+    public cotizacion(String codigoCotizacion, String tipoCotizacion, String ubicacion, Timestamp fechaParcialEvento, Timestamp fechaCotizacion, int valorCotizacion, int cantidadPersonas, String correo) {
         this.codigoCotizacion = codigoCotizacion;
         this.tipoCotizacion = tipoCotizacion;
         this.ubicacion = ubicacion;
@@ -62,7 +63,7 @@ public class cotizacion {
         return fechaParcialEvento;
     }
 
-    public void setFechaParcialEvento(Date fechaParcialEvento) {
+    public void setFechaParcialEvento(Timestamp fechaParcialEvento) {
         this.fechaParcialEvento = fechaParcialEvento;
     }
 
@@ -70,7 +71,7 @@ public class cotizacion {
         return fechaCotizacion;
     }
 
-    public void setFechaCotizacion(Date fechaCotizacion) {
+    public void setFechaCotizacion(Timestamp fechaCotizacion) {
         this.fechaCotizacion = fechaCotizacion;
     }
 

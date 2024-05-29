@@ -1,5 +1,6 @@
 package DAO;
 
+import Modelo.PasswordHasher;
 import Modelo.cliente;
 import Modelo.conexion;
 import java.sql.*;
@@ -15,38 +16,32 @@ public class clienteDAO {
 
     // Método para validar las credenciales del cliente mediante correo y contraseña
     public boolean validarCrendenciales(String correo, String contraseña) {
-        boolean resultado = false; // Variable para almacenar el resultado de la validación
+        boolean resultado = false;
 
         try {
-            // Se establece la conexión a la base de datos utilizando la clase 'conexion'
             Connection con = new conexion().conectar();
 
-            // Se define la consulta SQL para verificar las credenciales del cliente y su estado
-            String query = "SELECT COUNT(*) FROM Cliente WHERE Correo_cotizante = ? AND Contraseña_Cliente = ? AND Estado_Cliente = 'Habilitado'";
-
-            // Se prepara la consulta SQL
+            // Modificamos la consulta SQL para obtener la contraseña encriptada
+            String query = "SELECT Contraseña_Cliente FROM Cliente WHERE Correo_cotizante = ?";
             PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, correo); // Se establece el primer parámetro (correo) en la consulta
-            pst.setString(2, contraseña); // Se establece el segundo parámetro (contraseña) en la consulta
+            pst.setString(1, correo);
 
-            // Se ejecuta la consulta y se obtiene el resultado
             ResultSet rs = pst.executeQuery();
 
             // Si la consulta devuelve algún resultado
             if (rs.next()) {
-                int count = rs.getInt(1); // Se obtiene el valor de la primera columna del resultado
-                resultado = count == 1; // Si count es igual a 1, las credenciales son válidas y se establece 'resultado' como true
+                String hashedPassword = rs.getString("Contraseña_Cliente"); // Obtenemos la contraseña encriptada desde la base de datos
+                // Verificamos si la contraseña proporcionada coincide con la contraseña encriptada
+                resultado = PasswordHasher.checkPassword(contraseña, hashedPassword);
             }
 
-            // Se cierran los recursos de base de datos para liberar memoria y conexiones
             rs.close();
             pst.close();
             con.close();
-        } catch (SQLException ex) { // Se capturan las excepciones de SQL en caso de algún error
-            ex.printStackTrace(); // Se imprime el rastreo de la pila de excepciones en la consola
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
-        // Se devuelve el resultado de la validación de las credenciales del cliente
         return resultado;
     }
 
@@ -126,7 +121,7 @@ public class clienteDAO {
                 cliente[3] = rs.getString("Telefono_Cotizante");
                 cliente[4] = rs.getString("idCliente");
                 cliente[5] = rs.getString("Contraseña_Cliente");
-                cliente [6] = rs.getString("Estado_Cliente");
+                cliente[6] = rs.getString("Estado_Cliente");
                 lista.add(cliente);
             }
             // Imprimir los datos de cada cliente en la lista
@@ -148,8 +143,10 @@ public class clienteDAO {
         int filasAfectadas = 0;
 
         try {
+            String contraseña = PasswordHasher.hashPassword(clt.getCltContraseña());
+
             ps = con.prepareStatement(sql);
-            ps.setString(1, clt.getCltContraseña());
+            ps.setString(1, contraseña);
             ps.setString(2, clt.getCltCorreo());
 
             filasAfectadas = ps.executeUpdate();
@@ -170,6 +167,7 @@ public class clienteDAO {
 
         return filasAfectadas; // Devolver el número de filas afectadas por la operación de inserción
     }
+
     public void covertirCotizanteEnCliente() {
         String procedureCall = "{CALL SP_UPDATE_CLIENTE_INTO_COTIZANTE()}";
         try (CallableStatement cs = con.prepareCall(procedureCall)) {
@@ -198,8 +196,8 @@ public class clienteDAO {
             throw e; // Lanza la excepción para indicar que la actualización falló
         }
     }
-    
-    public void updateCliente(String correo, String estado) throws SQLException{
+
+    public void updateCliente(String correo, String estado) throws SQLException {
         String sql = "UPDATE cliente SET Estado_Cliente = ? WHERE Correo_Cotizante = ?";
         try {
             ps = con.prepareStatement(sql);

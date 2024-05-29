@@ -62,10 +62,11 @@ select.addEventListener('change', function () {
 var today = new Date();
 var next30days = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 flatpickr("#event_date", {
-    enableTime: true, // Desactiva la selección de hora
+    enableTime: true, // Activa la selección de hora
     minDate: next30days, // Establece la seleccion de la fecha minimo a 30 dias adelante de la fecha actual
     defaultDate: "+1m", // Establece la fecha predeterminada como un mes a partir de hoy
     dateFormat: "Y-m-d H:i", // Formato de la fecha
+    appendTo: document.getElementById('date_container'), // Añade el calendario al contenedor
     inline: true // Muestra el calendario siempre visible
 });
 document.getElementById('toggle_date_icon').addEventListener('click', function () {

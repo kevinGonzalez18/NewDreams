@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // Proxies.
+%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -33,7 +38,7 @@
                         %>
                         <a href="#"><%= usuario%></a>
                         <a href="#"><%= rol%></a>
-                        
+
                     </div>
                     <!-- Navegacion del sidebar -->
                     <ul class="sidebar-nav">
@@ -56,7 +61,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="PerfilClienteServlet?menu=misDatos&&accion=datos&correo=<%= usuario %>" class="sidebar-link">
+                            <a href="PerfilClienteServlet?menu=misDatos&&accion=datos&correo=<%= usuario%>" class="sidebar-link">
                                 <i class="fa-solid fa-users pe-2"></i>
                                 Mis datos
                             </a>
@@ -93,7 +98,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://kit.fontawesome.com/909a90592e.js" crossorigin="anonymous"></script>
         <script src="js/scriptsCliente.js"></script>
-        
+
 
     </body>
 </html>

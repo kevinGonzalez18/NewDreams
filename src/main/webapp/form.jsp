@@ -146,9 +146,8 @@
                                                             <div class="form-group">
                                                                 <label for="toggle_date">Fecha y hora del evento</label>
                                                                 <i id="toggle_date_icon" class="fas fa-calendar-alt" style="cursor: pointer;"></i>
-                                                                <div id="date_container" style="display: none;">
-                                                                    <input id="event_date" type="text" name="event_date" class="form-control" required="required">
-                                                                </div>
+                                                                <input id="event_date" type="text" name="event_date" class="form-control" required="required" placeholder="Presione sobre el icono del calendario...">
+                                                                <div id="date_container" style="display: none;"></div>
                                                             </div>
                                                         </div>
                                                         <!-- Input oculto para almacenar la fecha actual -->

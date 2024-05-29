@@ -60,4 +60,24 @@ public class cotizacionServicioDAO {
         }
     }
 
+    public boolean actualizarServiciosCotizacion(String cotizacion, String servicio, int cantidad, int precio) throws SQLException {
+        String sql = "UPDATE cotizacion_servicio SET Cantidad_Servicios = ?, Valor_Servicio = ? WHERE Cotizacion_No_Cotizacion = ? AND Servicio_idServicio = ?";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setInt(2, precio);
+            ps.setString(3, cotizacion);
+            ps.setString(4, servicio);
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0){
+                exito = true;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
+    }
 }

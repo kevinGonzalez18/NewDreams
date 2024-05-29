@@ -50,7 +50,10 @@
                                     <td>${cotizacion[3]}</td>
                                     <td>${cotizacion[4]}</td>
                                     <td>${cotizacion[5]}</td>
-                                    <td><a href="CotizacionServlet?menu=detalleCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-primary">Ver más</button></a></td>
+                                    <td>
+                                        <a href="CotizacionServlet?menu=detalleCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-primary">Ver más</button></a>
+                                        <a href="CotizacionServlet?menu=deletedCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-danger">Eliminar</button></a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>

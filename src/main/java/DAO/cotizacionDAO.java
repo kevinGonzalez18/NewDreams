@@ -20,7 +20,7 @@ public class cotizacionDAO {
         cotizacion cotizacion = new cotizacion();
         cotizante cotizante = new cotizante();
         List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT * FROM vista_cotizaciones";
+        String sql = "SELECT * FROM vista_cotizaciones WHERE Deleted = 0";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -98,8 +98,8 @@ public class cotizacionDAO {
                     cotizacion.setTipoCotizacion(rs.getString("Tipo_Cotizacion"));
                     cotizacion.setCantidadPersonas(rs.getInt("Cantidad_Personas_Cotización"));
                     cotizacion.setUbicacion(rs.getString("Ubicacion"));
-                    cotizacion.setFechaParcialEvento(rs.getDate("Fecha_Parcial_Evento_Cotización"));
-                    cotizacion.setFechaCotizacion(rs.getDate("Fecha_Hora_Cotizacion"));
+                    cotizacion.setFechaParcialEvento(rs.getTimestamp("Fecha_Parcial_Evento_Cotización"));
+                    cotizacion.setFechaCotizacion(rs.getTimestamp("Fecha_Hora_Cotizacion"));
                     cotizacion.setValorCotizacion(rs.getInt("Valor_Cotización"));
 
                     // Extraer detalles de los servicios
@@ -175,14 +175,52 @@ public class cotizacionDAO {
             for (String serviceId : serviceIds) {
                 ps.setString(1, eventId);
                 ps.setString(2, serviceId);
-                ps.setInt (3, 0);
-                ps.setInt (4, 0);
+                ps.setInt(3, 0);
+                ps.setInt(4, 0);
                 ps.addBatch();
             }
             ps.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;  // Re-lanzar la excepción para que el método llamante pueda manejarla
+        }
+    }
+
+    public boolean actualizar(cotizacion cot) throws SQLException {
+        String sql = "CALL SP_UPDATE_COTIZACION (?, ?, ?, ?, ?, ?, ?)";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cot.getCodigoCotizacion());
+            ps.setString(2, cot.getTipoCotizacion());
+            ps.setString(3, cot.getUbicacion());
+            ps.setTimestamp(4, (Timestamp) cot.getFechaParcialEvento());
+            ps.setInt(5, cot.getValorCotizacion());
+            ps.setInt(6, cot.getCantidadPersonas());
+            ps.setString(7, cot.getCorreo());
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
+    }
+
+    public void deletedCotizacion(String idCotizacion) throws SQLException {
+        String sql = "UPDATE cotización SET Deleted = 1 WHERE No_Cotizacion = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, idCotizacion);
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Filas actualizadas: " + rowsAffected);
+
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar: " + e.getMessage());
+            throw e; // Lanza la excepción para indicar que la actualización falló
         }
     }
 }

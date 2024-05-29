@@ -89,8 +89,16 @@
         <url-pattern>/CotizacionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout> <!-- Tiempo de sesión en minutos -->
     </session-config>
+    <filter>
+        <filter-name>SessionValidationFilter</filter-name>
+        <filter-class>Modelo.SessionValidationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SessionValidationFilter</filter-name>
+        <url-pattern>/perfilCliente.jsp</url-pattern>
+        <url-pattern>/principal.jsp</url-pattern>
+    </filter-mapping>
+
 </web-app>

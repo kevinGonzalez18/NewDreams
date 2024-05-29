@@ -88,6 +88,8 @@
             <div class="text-danger">Credenciales incorrectas. Por favor, intenta de nuevo.</div>
             <% } else if (request.getParameter("error") != null && request.getParameter("error").equals("inhabilitado")) { %>
             <div class="text-danger">Tu cuenta está inhabilitada. Por favor, contacta al administrador.</div>
+            <% } else if (request.getParameter("error") != null && request.getParameter("error").equals("sessionExpired")) { %>
+            <div class="text-danger">Tu sesion ha expirado. Inicia sesion de nuevo</div>
             <% }%>
 
         </div>

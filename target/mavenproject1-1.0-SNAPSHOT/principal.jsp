@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // Proxies.
+%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -19,6 +24,8 @@
         <link rel="stylesheet" href="css/stylesprincipal.css">
         <!-- DataTables CSS -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+        <!-- Flatpickr CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     </head>
 
     <body>
@@ -76,7 +83,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="PrincipalServlet?menu=Servicios" class="sidebar-link">
+                            <a href="PrincipalServlet?menu=Servicios&accion=listar" class="sidebar-link">
                                 <i class="fa-solid fa-users pe-2"></i>
                                 Servicios
                             </a>
@@ -116,7 +123,10 @@
         <script src="js/scriptPrincipal.js"></script>
         <!-- DataTables JS -->
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <!-- Flatpickr JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <!-- Detalle Cotizacion JS -->
         <script src="js/scriptDetallesCotizacion.js"></script>
+        <script src="js/scriptServicios.js"></script>
     </body>
 </html>

@@ -6,6 +6,7 @@ import Modelo.administrador;
 import Modelo.cliente;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,8 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
             session.setAttribute("rol", rol);
+            String sessionId = UUID.randomUUID().toString();
+            session.setAttribute("sessionId", sessionId);
             if (rol.equals("administrador")) {
                 response.sendRedirect("principal.jsp"); // Redirecciona al panel del administrador
                 session.setAttribute("usuario", usuario);

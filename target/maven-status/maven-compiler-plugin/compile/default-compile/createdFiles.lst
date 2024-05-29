@@ -26,7 +26,9 @@ DAO\cotizacionDAO.class
 Controlador\LoginServlet.class
 Controlador\CotizacionServlet.class
 Modelo\conexion.class
+Modelo\PasswordHasher.class
 Controlador\PerfilClienteServlet.class
 Modelo\comprobar.class
 test\test.class
 Controlador\PrincipalServlet.class
+Modelo\SessionValidationFilter.class

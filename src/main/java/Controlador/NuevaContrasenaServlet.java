@@ -1,5 +1,6 @@
 package Controlador;
 
+import Modelo.PasswordHasher;
 import Modelo.conexion;
 import java.io.IOException;
 import java.sql.Connection;
@@ -27,7 +28,10 @@ public class NuevaContrasenaServlet extends HttpServlet {
             try {
                 Connection con = new conexion().conectar();
                 PreparedStatement pst = con.prepareStatement("UPDATE cliente set Contraseña_Cliente = ? WHERE Correo_cotizante= ? ");
-                pst.setString(1, newPassword);
+                // Aplicar hash a la nueva contraseña
+                String hashedPassword = PasswordHasher.hashPassword(newPassword);
+
+                pst.setString(1, hashedPassword);
                 pst.setString(2, (String) session.getAttribute("email"));
 
                 int rowCount = pst.executeUpdate();

@@ -39,7 +39,7 @@
                         <div class="block-heading">
                             <h2>Detalles de la Cotización</h2>
                         </div><br>
-                        <form>
+                        <form action="CotizacionServlet" method="POST">
                             <div class="card-details">
                                 <c:forEach var="cotizacion" items="${cotizacion}">
                                     <h3 class="title" style="color: black;">Id de la cotizacion: ${cotizacion[0]}</h3><br>
@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="card-number">Tipo de evento</label>
-                                            <input id="tipoCotizacion" name="telefonoCotizacion" type="text" class="form-control" value="${cotizacion[5]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            <input id="tipoCotizacion" name="tipoCotizacion" type="text" class="form-control" value="${cotizacion[5]}" aria-label="Card Holder" aria-describedby="basic-addon1">
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="cvc">Cantidad de personas</label>
@@ -71,13 +71,15 @@
                                         <div class="form-group col-sm-6">
                                             <label for="">Fecha de la cotizacion</label>
                                             <div class="input-group expiration-date">
-                                                <input id="fechaEvento" name="fechaEvento" type="text" class="form-control" value="${cotizacion[7]}" aria-label="Card Holder" aria-describedby="basic-addon1" readonly>
+                                                <input id="fechaCotizacion" name="fechaCotizacion" type="text" class="form-control" value="${cotizacion[7]}" aria-label="Card Holder" aria-describedby="basic-addon1" readonly>
                                             </div>
                                         </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="">Fecha parcial del evento</label>
-                                            <div class="input-group expiration-date">
-                                                <input id="fechaCotizacion" name="fechaCotizacion" type="date" class="form-control" value="${cotizacion[8]}" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label for="toggle_date">Fecha y hora del evento</label>
+                                                <i id="toggle_date_icon" class="fas fa-calendar-alt" style="cursor: pointer;"></i>
+                                                <input id="fechaEvento" type="text" name="fechaEvento" class="form-control" required="required" value="${cotizacion[8]}">
+                                                <div id="date_container" style="display: none;"></div>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-6">
@@ -132,10 +134,10 @@
                                                                 <div class="col-2">
                                                                     <br>
                                                                     <div class="form-group">
-                                                                        <form action="CotizacionServlet" method="POST" class="delete-form">
+                                                                        <form action="CotizacionServlet?action=deleteService" method="POST" class="delete-form">
                                                                             <input type="hidden" name="serviceIndex" value="${total_iterations}">
                                                                             <input type="hidden" name="idCotizacion" value="${cotizacion[0]}">
-                                                                             <input type="hidden" name="serviceName" value="${servicio[0]}">
+                                                                            <input type="hidden" name="serviceName" value="${servicio[0]}">
                                                                             <button type="submit" class="delete-service-btn">
                                                                                 <i class="fa-solid fa-trash"></i>
                                                                             </button>
@@ -144,6 +146,7 @@
                                                                 </div>
                                                             </div>
                                                         </c:forEach>
+                                                        <input type="hidden" name="total_iterations" value="${total_iterations}" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -151,13 +154,12 @@
 
                                         <div class="form-group col-12 d-flex justify-content-end">
                                             <div class="btn-group">
-                                                <a href="#"><button type="button" class="btn btn-primary">Actualizar cotización</button></a>
+                                                <input type="submit" name="action" value="updateCotizacion" placeholder="Actualizar cotizacion" class="btn btn-primary">
                                                 <a href="#"><button type="button" class="btn btn-primary">Crear evento</button></a>
                                                 <a href="PrincipalServlet?menu=Cotizaciones&accion=listar"><button type="button" class="btn btn-primary">Atrás</button></a>
                                             </div>
                                         </div>
                                     </div>
-
                                 </c:forEach>
                             </div>
                         </form>
@@ -189,5 +191,7 @@
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Flatpickr JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     </body>
 </html>

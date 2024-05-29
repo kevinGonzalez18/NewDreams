@@ -5,6 +5,7 @@ import Modelo.cotizante;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,6 @@ public class cotizanteDAO {
     Connection con = new conexion().conectar();
     PreparedStatement ps;
     ResultSet rs;
-    int agregarCotizante;
 
     public List<cotizante> listar() {
         List<cotizante> lista = new ArrayList<>();
@@ -72,19 +72,24 @@ public class cotizanteDAO {
         return cot;
     }
 
-    public int actualizar(cotizante cot) {
-        String sql = "CALL SP_UPDATE_COTIZANTE (?, ?, ?, ?, ?)";
+    public boolean actualizar(cotizante cot) throws SQLException {
+        String sql = "CALL SP_UPDATE_COTIZANTE (?, ?, ?, ?)";
+        boolean exito = false;
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, cot.getCotizanteCorreo());
             ps.setString(2, cot.getCotizanteNombre());
             ps.setString(3, cot.getCotizanteApellido());
             ps.setString(4, cot.getCotizanteTelefono());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.toString();
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
-        return agregarCotizante;
+        return exito;
     }
 
     public void eliminar(String correo) {
