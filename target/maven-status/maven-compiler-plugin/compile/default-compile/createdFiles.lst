@@ -1,4 +1,5 @@
 DAO\clienteDAO.class
+DAO\pagoDAO.class
 Modelo\cotizacionServicio.class
 Controlador\LogoutServlet.class
 Modelo\eventoServicio.class
@@ -7,6 +8,7 @@ DAO\administradorDAO.class
 Modelo\cliente.class
 Controlador\reestablecerContrasenaServlet$1.class
 Controlador\FormServlet.class
+Modelo\pago.class
 Modelo\administrador.class
 Controlador\CotizacionServlet$AddServicesRequest.class
 Modelo\cotizacion.class
@@ -18,6 +20,7 @@ Controlador\EventoServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
 Controlador\NuevaContrasenaServlet.class
+Controlador\PagoServlet.class
 Controlador\FormServlet$1.class
 DAO\cotizanteDAO.class
 Controlador\ValidarOtpServlet.class

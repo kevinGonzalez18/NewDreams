@@ -6,6 +6,7 @@ package Controlador;
 
 import DAO.eventoDAO;
 import DAO.pagoDAO;
+import DAO.servicioDAO;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ public class PagoServlet extends HttpServlet {
 
         String menu = request.getParameter("menu");
         String action = request.getParameter("action");
-        
+
         if (menu != null && menu.equals("listaPagos")) {
             String idCliente = request.getParameter("idCliente");
             int idEvento = Integer.parseInt(request.getParameter("idEvento"));
@@ -62,6 +63,16 @@ public class PagoServlet extends HttpServlet {
                 System.out.println("Error al registrar el pago");
                 request.setAttribute("error", "Error al registrar el pago.");
                 request.getRequestDispatcher("pagos.jsp").forward(request, response);
+            }
+        }
+        if ("EliminarServicio".equals(action)) {
+            String idServicio = request.getParameter("idServicio");
+            pagoDAO pagoDAODeleted = new pagoDAO();
+            exito = pagoDAODeleted.EliminarServicio(idServicio);
+            if (exito) {
+                request.setAttribute("mensajeExito", "Servicio eliminado exitosamente");
+            } else {
+                request.setAttribute("mensajeError", "Error al eliminar el servicio");
             }
         }
 

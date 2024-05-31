@@ -68,6 +68,7 @@ public class pagoDAO {
         String sql = "CALL SP_INSERT_PAGOS(?, ?, ?, ?, ?, ?)";
         boolean exito = false;
         try {
+
             ps = con.prepareStatement(sql);
             ps.setString(1, Nombre);
             ps.setString(2, Apellido);
@@ -83,6 +84,23 @@ public class pagoDAO {
 
         } catch (SQLException e) {
             e.printStackTrace(); // Imprimir el error
+        }
+        return exito;
+    }
+
+    public boolean EliminarServicio(String idServicio) throws SQLException {
+        String sql = "CALL SP_DELETE_SERVICIO(?)";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, idServicio);
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
         return exito;
     }

@@ -71,6 +71,7 @@
                                             <p class="col-2 col-md-2">Cant</p>
                                             <p class="col-8 col-md-8">Servicio</p>
                                             <p class="col-2 col-md-2">V.Total</p>
+                                            <p class="col-2 col-md-2">Eliminar</p>
                                             <div class="col-2 col-md-2">
                                                 <div class="form-group">
                                                     <input id="service_name_manteleria_${loop.index}" type="number" name="service_name_${loop.index}" class="form-control" value="${servicio[2]}" readonly>
@@ -85,6 +86,9 @@
                                                 <div class="form-group">
                                                     <input id="service_total_price_manteleria_${loop.index}" type="number" name="service_total_price_${loop.index}" class="form-control" value="${servicio[1]}" readonly>
                                                 </div>
+                                            </div>
+                                            <div class="col-2 col-md-2">                                       
+                                                <a href="PagoServlet" target="target"><button class="btn btn-danger">Eliminar</button></a>
                                             </div>
                                         </div>
                                     </c:forEach>

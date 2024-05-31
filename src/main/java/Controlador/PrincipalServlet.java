@@ -138,9 +138,9 @@ public class PrincipalServlet extends HttpServlet {
                             servicioDAO servicioDAOforDeleted = new servicioDAO();
                             exito = servicioDAOforDeleted.eliminar(idServicio);
                             if (exito) {
-                                request.setAttribute("mensajeExito", "Servicio agregado exitosamente");
+                                request.setAttribute("mensajeExito", "Servicio eliminado exitosamente");
                             } else {
-                                request.setAttribute("mensajeError", "Error al agregar el servicio");
+                                request.setAttribute("mensajeError", "Error al eliminar el servicio");
                             }
                         }
 
