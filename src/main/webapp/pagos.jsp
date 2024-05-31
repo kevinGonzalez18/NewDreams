@@ -65,7 +65,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="paymentForm" action="PagoServlet" method="POST">
+                        <form id="paymentForm" action="PagoServlet?accion=insertarPago" method="POST">
                             <input type="text" id="nombre" name="nombre" class="form-control mb-3" placeholder="Nombre">
                             <input type="text" id="apellido" name="apellido" class="form-control mb-3" placeholder="Apellido">
                             <input type="date" id="fecha" name="fecha" class="form-control mb-3" placeholder="Fecha">
