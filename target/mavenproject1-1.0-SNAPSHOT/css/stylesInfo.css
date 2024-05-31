@@ -1,0 +1,11 @@
+.navbar {
+    background: linear-gradient(to bottom, #00009A, #FFFFFF);
+}
+
+.footer{
+    background: linear-gradient(to top, #500CD4, #FFFFFF);
+}
+#myCarousel {
+    width: 1200px; /* El ancho deseado */
+    margin: 0 auto; /* Esto centrará el carrusel horizontalmente */
+}

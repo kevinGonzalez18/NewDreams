@@ -4,18 +4,22 @@ import DAO.clienteDAO;
 import DAO.cotizacionDAO;
 import DAO.cotizanteDAO;
 import DAO.eventoDAO;
+import DAO.servicioDAO;
 import Modelo.cliente;
 import Modelo.cotizante;
 import Modelo.evento;
+import Modelo.servicio;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,9 +33,15 @@ public class PrincipalServlet extends HttpServlet {
     clienteDAO clienteDAO = new clienteDAO();
     cotizacionDAO cotizacionDAO = new cotizacionDAO();
     eventoDAO eventoDAO = new eventoDAO();
+    servicioDAO servicioDAO = new servicioDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("usuario") == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
         request.setCharacterEncoding("UTF-8");
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
@@ -88,7 +98,7 @@ public class PrincipalServlet extends HttpServlet {
                 request.getRequestDispatcher("clientes.jsp").forward(request, response);
             }
             if (menu.equals("Eventos")) {
-                switch (accion){
+                switch (accion) {
                     case "listar":
                         List<Object[]> listaEventos = eventoDAO.listarEventos();
                         request.setAttribute("evento", listaEventos);
@@ -99,6 +109,42 @@ public class PrincipalServlet extends HttpServlet {
                 request.getRequestDispatcher("estados.jsp").forward(request, response);
             }
             if (menu.equals("Servicios")) {
+                switch (accion) {
+                    case "listar":
+                        List<servicio> listaServicios = servicioDAO.consultarTodosServicios();
+                        request.setAttribute("listaServicios", listaServicios);
+                        break;
+                    case "agregar":
+                        String nombre = request.getParameter("nombreServicio");
+                        int valor = Integer.parseInt(request.getParameter("valorServicio"));
+                        String tipo = request.getParameter("tipoServicio");
+                        servicio nuevoServicio = new servicio();
+                        nuevoServicio.setServicioNombre(nombre);
+                        nuevoServicio.setServicioValor(valor);
+                        nuevoServicio.setServicioTipo(tipo);
+                        servicioDAO servicioDAO = new servicioDAO();
+                        boolean exito = servicioDAO.agregar(nuevoServicio);
+                        if (exito) {
+                            request.setAttribute("mensajeExito", "Servicio agregado exitosamente");
+                        } else {
+                            request.setAttribute("mensajeError", "Error al agregar el servicio");
+                        }
+                        RequestDispatcher dispatcherAgregar = request.getRequestDispatcher("resultadoAgregar.jsp");
+                        dispatcherAgregar.forward(request, response);
+                        break;
+                    case "eliminar":
+                        String idServicio = request.getParameter("idServicio");
+                        if (idServicio != null && !idServicio.isEmpty()) {
+                            servicioDAO servicioDAOforDeleted = new servicioDAO();
+                            exito = servicioDAOforDeleted.eliminar(idServicio);
+                            if (exito) {
+                                request.setAttribute("mensajeExito", "Servicio agregado exitosamente");
+                            } else {
+                                request.setAttribute("mensajeError", "Error al agregar el servicio");
+                            }
+                        }
+
+                }
                 request.getRequestDispatcher("servicios.jsp").forward(request, response);
             }
         }

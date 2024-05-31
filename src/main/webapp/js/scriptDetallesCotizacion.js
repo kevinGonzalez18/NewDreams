@@ -45,17 +45,18 @@ function filterServices() {
     var input = document.getElementById("searchInput");
     var filter = input.value.toLowerCase();
     var servicesList = document.getElementById("servicesList");
-    var items = servicesList.getElementsByClassName("list-group-item");
+    var li = servicesList.getElementsByTagName("li");
 
-    for (var i = 0; i < items.length; i++) {
-        var label = items[i].getElementsByTagName("label")[0];
+    for (var i = 0; i < li.length; i++) {
+        var label = li[i].getElementsByTagName("label")[0];
         if (label.innerHTML.toLowerCase().indexOf(filter) > -1) {
-            items[i].style.display = "";
+            li[i].style.display = "";
         } else {
-            items[i].style.display = "none";
+            li[i].style.display = "none";
         }
     }
 }
+
 
 function addSelectedServices() {
     var servicesList = document.getElementById("servicesList");
@@ -74,7 +75,47 @@ function addSelectedServices() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             alert("Servicios agregados correctamente");
             closeModal();
+            location.reload();
         }
     };
     xhr.send(JSON.stringify({eventId: currentEventId, services: selectedServices}));
+}
+
+// Función para calcular el precio total de un servicio
+function calculateTotalDetail(index) {
+    // Obtener la cantidad y el precio unitario del servicio
+    var quantity = parseFloat(document.getElementById('service_quantity_' + index).value);
+    var price = parseFloat(document.getElementById('service_price_' + index).value);
+    // Calcular el precio total
+    var total = quantity * price;
+    // Si el resultado es un número válido
+    if (!isNaN(total)) {
+        // Mostrar el precio total en el campo correspondiente
+        document.getElementById('service_total_price_' + index).value = total;
+        // Actualizar el precio total del pedido
+        updateTotalOrderPrice();
+    } else {
+        // Si no es un número válido, establecer el precio total en 0
+        document.getElementById('service_total_price_' + index).value = 0;
+    }
+}
+
+// Función para actualizar el precio total del pedido
+// Function to update the total order price
+function updateTotalOrderPrice() {
+    var totalOrderPrice = 0;
+    // Get all the input elements with ID starting with "service_total_price_"
+    var totalInputs = document.querySelectorAll('[id^="service_total_price_"]');
+
+    // Iterate over the input elements and sum their values
+    totalInputs.forEach(function (input) {
+        var value = parseFloat(input.value);
+        // If the value is a valid number, add it to the total
+        if (!isNaN(value)) {
+            totalOrderPrice += value;
+        }
+    });
+
+    // Display the total order price
+    document.getElementById('valorCotizacion').value = totalOrderPrice;
 }
