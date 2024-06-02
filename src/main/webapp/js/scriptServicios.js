@@ -85,3 +85,24 @@ function actualizarServicio() {
 
     return false; // Previene el comportamiento predeterminado del formulario
 }
+
+function eliminarServicio(idServicio) {
+    if (confirm('¿Estás seguro de que deseas eliminar el servicio ' + idServicio + '?')) {
+        $.ajax({
+            url: 'PrincipalServlet?menu=Servicios&accion=eliminar',
+            type: 'POST',
+            data: {idServicio: idServicio},
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+                if (response.status === 'success') {
+                    // Recargar el contenido después de eliminar el servicio
+                    loadContent('PrincipalServlet?menu=Servicios&accion=listar');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText);
+            }
+        });
+    }
+}

@@ -54,7 +54,7 @@
                                         <td>${servicio.getServicioTipo()}</td>
                                         <td>
                                             <button class="btn btn-primary" onclick="abrirModal2('${servicio.getServicioId()}', '${servicio.getServicioNombre()}', '${servicio.getServicioValor()}', '${servicio.getServicioTipo()}')">Actualizar</button>
-                                            <a href="PrincipalServlet?menu=Servicios&accion=eliminar&idServicio=${servicio.getServicioId()}" target="target"><button class="btn btn-danger">Eliminar</button></a>
+                                            <button class="btn btn-danger" onclick="eliminarServicio('${servicio.getServicioId()}')">Eliminar</button>
                                         </td>
                                     </tr>
                                 </c:forEach>

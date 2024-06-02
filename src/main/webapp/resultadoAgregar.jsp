@@ -15,21 +15,7 @@
             String mensajeExito = (String) request.getAttribute("mensajeExito");
             String mensajeError = (String) request.getAttribute("mensajeError");
 
-            if (mensajeExito != null && mensajeExito.equals("Servicio agregado exitosamente")) {
-        %>
-        <script>
-            alert("<%= mensajeExito%>");
-            window.location.href = "PrincipalServlet?menu=Inicio"; // Redirigir a la página principal o a la lista de servicios
-        </script>
-        <%
-        } else if (mensajeExito != null && mensajeExito.equals("Servicio actualizado exitosamente")) {
-        %>
-        <script>
-            alert("<%= mensajeExito%>");
-            window.location.href = "PrincipalServlet?menu=Inicio"; // Redirigir a la página principal o a la lista de servicios
-        </script>
-        <%
-        } else if (mensajeExito != null && mensajeExito.equals("Servicio eliminado exitosamente")) {
+            if (mensajeExito != null) {
         %>
         <script>
             alert("<%= mensajeExito%>");
