@@ -30,13 +30,20 @@ window.onload = function () {
     });
 };
 
+$(document).ready(function () {
+    // Inicializar DataTables en la carga inicial de la página
+    initializePlugins();
+});
+
 function loadContent(url) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById('main').innerHTML = this.responseText;
-            initializeDataTables();  // Inicializa DataTables después de cargar el contenido
-            initDatePicker(); // Inicializa el calendarios
+
+            // Inicializa plugins y eventos después de cargar el contenido
+            initializePlugins();
+
             // Reasignar los eventos click a los nuevos enlaces cargados
             var contentLinks = document.querySelectorAll('#main a');
             contentLinks.forEach(function (link) {
@@ -46,7 +53,8 @@ function loadContent(url) {
                     loadContent(url);
                 });
             });
-            //// Cargar script específico para detallesCotizacion.jsp si es la página que se cargó
+
+            // Cargar scripts específicos para páginas específicas
             if (url.includes("detallesCotizacion.jsp")) {
                 loadScript('js/scriptDetallesCotizacion.js', function () {
                     console.log("Script de detallesCotizacion.js cargado.");
@@ -54,7 +62,7 @@ function loadContent(url) {
             }
             if (url.includes("servicios.jsp")) {
                 loadScript('js/scriptServicios.js', function () {
-                    console.log("Script de detallesCotizacion.js cargado.");
+                    console.log("Script de scriptServicios.js cargado.");
                 });
             }
         }
@@ -62,6 +70,27 @@ function loadContent(url) {
     xhttp.open("GET", url, true);
     xhttp.send();
 }
+
+function initializePlugins() {
+    // Inicializar DataTables para todas las tablas
+    if (typeof $.fn.DataTable !== 'undefined') {
+        $('.table').each(function () {
+            if (!$.fn.DataTable.isDataTable(this)) {
+                $(this).DataTable();
+            }
+        });
+    } else {
+        console.error('DataTables no está definido.');
+    }
+
+    // Inicializa otros plugins como date pickers
+    if (typeof initDatePicker === 'function') {
+        initDatePicker();
+    } else {
+        console.error('initDatePicker no está definido.');
+    }
+}
+
 
 function initializeDataTables() {
     $('#Table').DataTable();
@@ -78,37 +107,6 @@ function loadScript(url, callback) {
     };
 
     document.body.appendChild(script);
-}
-
-function initDatePicker() {
-    var today = new Date();
-    var next30days = new Date(today.getTime() + 8 * 24 * 60 * 60 * 1000);
-    flatpickr("#fechaEvento", {
-        enableTime: true, // Activa la selección de hora
-        minDate: next30days, // Establece la seleccion de la fecha mínimo a 30 días adelante de la fecha actual
-        dateFormat: "Y-m-d H:i", // Formato de la fecha
-        appendTo: document.getElementById('date_container'), // Añade el calendario al contenedor
-        inline: true // Muestra el calendario siempre visible
-    });
-
-    var toggleDateIcon = document.getElementById('toggle_date_icon');
-    if (toggleDateIcon) {
-        toggleDateIcon.addEventListener('click', function () {
-            var dateContainer = document.getElementById('date_container');
-            var icon = document.getElementById('toggle_date_icon');
-            if (dateContainer.style.display === 'none') {
-                dateContainer.style.display = 'block';
-                icon.classList.remove('fa-calendar-alt');
-                icon.classList.add('fa-calendar-times'); // Cambia el icono a un icono de cierre
-            } else {
-                dateContainer.style.display = 'none';
-                icon.classList.remove('fa-calendar-times'); // Cambia el icono de nuevo al icono de calendario
-                icon.classList.add('fa-calendar-alt');
-            }
-        });
-    } else {
-        console.error('El elemento con ID "toggle_date_icon" no se encontró en el DOM.');
-    }
 }
 
 document.getElementById('logoutButton').addEventListener('click', function (event) {
