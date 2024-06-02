@@ -34,9 +34,7 @@
                                 <th scope="col">Nombres</th>
                                 <th scope="col">Apellidos</th>
                                 <th scope="col">Telefono</th>
-
-                                <th scope="col">Crear cliente</th>
-                                <th scope="col">Eliminar</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,8 +44,10 @@
                                     <td>${cotizantes.getCotizanteNombre()}</td>
                                     <td>${cotizantes.getCotizanteApellido()}</td>
                                     <td>${cotizantes.getCotizanteTelefono()}</td>
-                                    <td><a href="modal_cotizantes.jsp?correoCot=${cotizantes.getCotizanteCorreo()}" class="crear-cliente-btn" style="cursor: pointer;"><i class="fa-solid fa-user-plus"></i></a></td>
-                                    <td><i class="fa-solid fa-trash"></i></td>
+                                    <td>
+                                        <button class="btn btn-primary" onclick="abrirModal('${cotizantes.getCotizanteCorreo()}')">Crear cliente</button>
+                                        <button class="btn btn-danger" onclick="">Eliminar</button>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -55,5 +55,33 @@
                 </div>
             </div>
         </div>
+
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Crear cotizante</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="formulario-cotizante" onsubmit="return crearCotizante();">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="correo">Correo Cotizante:</label>
+                                <input type="text" class="form-control" id="correoClt" name="correoClt" readonly required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contrasena">Contraseña:</label>
+                                <input type="text" class="form-control" id="contrasenaClt" name="contrasenaClt" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>

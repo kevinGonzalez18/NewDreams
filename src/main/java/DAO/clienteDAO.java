@@ -138,9 +138,9 @@ public class clienteDAO {
         return lista;
     }
 
-    public int agregar(cliente clt) {
+    public boolean agregar(cliente clt) {
         String sql = "CALL SP_INSERT_CLIENTE (?, ?)";
-        int filasAfectadas = 0;
+        boolean exito = false;
 
         try {
             String contraseña = PasswordHasher.hashPassword(clt.getCltContraseña());
@@ -149,7 +149,10 @@ public class clienteDAO {
             ps.setString(1, contraseña);
             ps.setString(2, clt.getCltCorreo());
 
-            filasAfectadas = ps.executeUpdate();
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0){
+                exito = true;
+            }
         } catch (SQLException e) {
             // Manejar la excepción adecuadamente, por ejemplo, imprimir el error
             e.printStackTrace();
@@ -165,7 +168,7 @@ public class clienteDAO {
             }
         }
 
-        return filasAfectadas; // Devolver el número de filas afectadas por la operación de inserción
+        return exito; // Devolver el número de filas afectadas por la operación de inserción
     }
 
     public void covertirCotizanteEnCliente() {
