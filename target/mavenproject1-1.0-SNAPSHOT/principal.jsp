@@ -128,5 +128,6 @@
         <!-- Detalle Cotizacion JS -->
         <script src="js/scriptDetallesCotizacion.js"></script>
         <script src="js/scriptServicios.js"></script>
+        <script src="js/scriptCotizantes.js"></script>
     </body>
 </html>

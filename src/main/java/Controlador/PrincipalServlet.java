@@ -48,6 +48,8 @@ public class PrincipalServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
+        PrintWriter out = response.getWriter();
+        JSONObject jsonResponse = new JSONObject();
         if (menu != null) {
             if (menu.equals("Inicio")) {
                 request.getRequestDispatcher("dashboard.jsp").forward(request, response);
@@ -68,21 +70,40 @@ public class PrincipalServlet extends HttpServlet {
                         request.setAttribute("cotizantes", lista);
                         break;
                     case "Agregar":
-                        String correo = request.getParameter("correoClt");
-                        System.out.println("correo = " + correo);
-                        String contraseña = request.getParameter("contrasenaClt");
-                        System.out.println("contraseña = " + contraseña);
-                        cliente.setCltCorreo(correo);
-                        cliente.setCltContraseña(contraseña);
-                        System.out.println(cliente.toString());
-
-                        // Aquí debes verificar si el correo y la contraseña son válidos antes de agregar el cliente
-                        if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
-                            clienteDAO.agregar(cliente);
-                            clienteDAO.covertirCotizanteEnCliente();
-                            // Redireccionar después de agregar exitosamente
-                            request.getRequestDispatcher("PrincipalServlet?menu=Cotizantes&accion=listar").forward(request, response);
+                        try {
+                            String correo = request.getParameter("correoClt");
+                            System.out.println("correo = " + correo);
+                            String contraseña = request.getParameter("contrasenaClt");
+                            System.out.println("contraseña = " + contraseña);
+                            cliente.setCltCorreo(correo);
+                            cliente.setCltContraseña(contraseña);
+                            System.out.println(cliente.toString());
+                            // Aquí debes verificar si el correo y la contraseña son válidos antes de agregar el cliente
+                            if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
+                                boolean exito = clienteDAO.agregar(cliente);
+                                clienteDAO.covertirCotizanteEnCliente();
+                                if (exito) {
+                                    jsonResponse.put("status", "success");
+                                    jsonResponse.put("message", "Cliente creado exitosamente");
+                                } else {
+                                    jsonResponse.put("status", "error");
+                                    jsonResponse.put("message", "Error al crear el cliente");
+                                }
+                            } else {
+                                jsonResponse.put("status", "error");
+                                jsonResponse.put("message", "Error al crear el cliente");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            jsonResponse.put("status", "error");
+                            jsonResponse.put("message", "Error interno del servidor");
+                        } finally {
+                            out.print(jsonResponse.toString());
+                            out.flush();
+                            out.close();
                         }
+                        RequestDispatcher dispatcherAgregar = request.getRequestDispatcher("resultadoAgregar.jsp");
+                        dispatcherAgregar.forward(request, response);
                         break;
                     case "Editar":
                         break;
@@ -112,8 +133,6 @@ public class PrincipalServlet extends HttpServlet {
                 request.getRequestDispatcher("estados.jsp").forward(request, response);
             }
             if (menu.equals("Servicios")) {
-                PrintWriter out = response.getWriter();
-                JSONObject jsonResponse = new JSONObject();
                 switch (accion) {
                     case "listar":
                         List<servicio> listaServicios = servicioDAO.consultarTodosServicios();
