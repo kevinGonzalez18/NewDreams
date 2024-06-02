@@ -53,8 +53,8 @@
                                         <td>${servicio.getServicioValor()}</td>
                                         <td>${servicio.getServicioTipo()}</td>
                                         <td>
-                                            <a href="CotizacionServlet?menu=detalleCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-primary">Ver más</button></a>
-                                            <a href="PrincipalServlet?menu=Servicios&accion=eliminar&idServicio=${servicio.getServicioId()}" target="target"><button class="btn btn-danger">Eliminar</button></a>
+                                            <button class="btn btn-primary" onclick="abrirModal2('${servicio.getServicioId()}', '${servicio.getServicioNombre()}', '${servicio.getServicioValor()}', '${servicio.getServicioTipo()}')">Actualizar</button>
+                                            <button class="btn btn-danger" onclick="eliminarServicio('${servicio.getServicioId()}')">Eliminar</button>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -72,7 +72,7 @@
                         <h5 class="modal-title">Agregar Servicio</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="PrincipalServlet?menu=Servicios&accion=agregar" method="POST">
+                    <form id="formulario-servicio" onsubmit="return agregarServicio();">
                         <div class="modal-body">
                             <input type="text" id="nombreServicio" name="nombreServicio" class="form-control mb-3" placeholder="Nombre Servicio">
                             <input type="text" id="valorServicio" name="valorServicio" class="form-control mb-3" placeholder="Valor Servicio">
@@ -84,8 +84,36 @@
                             </select>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button></a>
-                            <button type="submit" class="btn btn-primary" >Agregar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Servicio</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="formulario-servicio-actualizar" onsubmit="return actualizarServicio();">
+                        <div class="modal-body">
+                            <input type="hidden" id="idServicioActualizar" name="idServicioActualizar" class="form-control mb-3">
+                            <input type="text" id="nombreServicioActualizar" name="nombreServicioActualizar" class="form-control mb-3" placeholder="Nombre Servicio">
+                            <input type="text" id="valorServicioActualizar" name="valorServicioActualizar" class="form-control mb-3" placeholder="Valor Servicio">
+                            <select id="tipoServicioActualizar" name="tipoServicioActualizar" class="form-control">
+                                <option value="" selected disabled>Seleccionar</option>
+                                <option value="Manteleria">Manteleria</option>
+                                <option value="Mesas y sillas">Mesas y sillas</option>
+                                <option value="Decoracion">Decoracion</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Actualizar</button>
                         </div>
                     </form>
                 </div>

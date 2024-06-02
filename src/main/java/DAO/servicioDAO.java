@@ -51,7 +51,6 @@ public class servicioDAO {
                 ser.setServicioValor(rs.getInt(2));
                 ser.setServicioNombre(rs.getString(3));
                 ser.setServicioTipo(rs.getString(4));
-                ser.setServicioDescripcion(rs.getString(5));
                 lista.add(ser);
             }
         } catch (Exception e) {
@@ -72,7 +71,6 @@ public class servicioDAO {
                 ser.setServicioValor(rs.getInt(2));
                 ser.setServicioNombre(rs.getString(3));
                 ser.setServicioTipo(rs.getString(4));
-                ser.setServicioDescripcion(rs.getString(5));
                 lista.add(ser);
             }
         } catch (Exception e) {
@@ -93,7 +91,6 @@ public class servicioDAO {
                 ser.setServicioValor(rs.getInt(2));
                 ser.setServicioNombre(rs.getString(3));
                 ser.setServicioTipo(rs.getString(4));
-                ser.setServicioDescripcion(rs.getString(5));
                 lista.add(ser);
             }
             System.out.println(lista);
@@ -130,6 +127,26 @@ public class servicioDAO {
             ps.setString(1, servicio.getServicioNombre());
             ps.setInt(2, servicio.getServicioValor());
             ps.setString(3, servicio.getServicioTipo());
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
+    }
+
+    public boolean actualizar(servicio servicio) throws SQLException {
+        String sql = "CALL SP_UPDATE_SERVICIO (?, ?, ?, ?)";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, servicio.getServicioId());
+            ps.setInt(2, servicio.getServicioValor());
+            ps.setString(4, servicio.getServicioTipo());
+            ps.setString(3, servicio.getServicioNombre());
             int filasAfectadas = ps.executeUpdate();
             if (filasAfectadas > 0) {
                 exito = true;

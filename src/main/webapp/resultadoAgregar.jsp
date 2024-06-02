@@ -18,15 +18,15 @@
             if (mensajeExito != null) {
         %>
         <script>
-            alert("<%= mensajeExito %>");
-            window.location.href = "index.jsp";  // Redirigir a la página principal o a la lista de servicios
+            alert("<%= mensajeExito%>");
+            window.location.href = "PrincipalServlet?menu=Inicio"; // Redirigir a la página principal o a la lista de servicios
         </script>
         <%
-            } else if (mensajeError != null) {
+        } else if (mensajeError != null) {
         %>
         <script>
-            alert("<%= mensajeError %>");
-            window.location.href = "index.jsp";  // Redirigir a la página principal o a la lista de servicios
+            alert("<%= mensajeError%>");
+            window.location.href = "PrincipalServlet?menu=Inicio"; // Redirigir a la página principal o a la lista de servicios
         </script>
         <%
             }
