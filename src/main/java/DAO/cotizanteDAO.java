@@ -92,13 +92,21 @@ public class cotizanteDAO {
         return exito;
     }
 
-    public void eliminar(String correo) {
-        String sql = "CALL SP_DELETE_COTIZANTE('" + correo + "')";
+    public boolean eliminar(String correo) throws SQLException {
+        String sql = "CALL SP_DELETE_COTIZANTE(?)";
+        boolean exito = false;
         try {
             ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
             ps.executeUpdate();
-        } catch (Exception e) {
-            e.toString();
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
         }
+        return exito;
     }
 }

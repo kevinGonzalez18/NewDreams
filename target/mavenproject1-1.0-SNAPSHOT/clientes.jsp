@@ -36,9 +36,7 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellido</th>
                                 <th scope="col">Telefono</th>
-                                <th scope="col">Contraseña</th>
-                                <th scope="col">Editar</th>
-                                <th scope="col">Eliminar</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,13 +48,12 @@
                                     <td>${cliente[1]}</td>
                                     <td>${cliente[2]}</td>
                                     <td>${cliente[3]}</td>
-                                    <td>${cliente[5]}</td>
                                     <td>
                                         <a href="ClienteServlet?menu=updateClientes&clientEmail=${cliente[0]}">
-                                            <i class="fa-solid fa-user-plus crear-cliente-btn" style="cursor: pointer;"></i>
+                                            <button class="btn btn-primary">Crear cliente</button>
                                         </a>
+                                        <button class="btn btn-danger" onclick="">Eliminar</button>
                                     </td>
-                                    <td><i class="fa-solid fa-trash"></i></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

@@ -25,7 +25,7 @@
     <body id="body-pd">
         <div class="container">
             <h2>Formulario Simple</h2>
-            <form action="ClienteServlet?accion2=update" method="POST">
+            <form id="formulario-datos-cliente" onsubmit="return actualizarCliente()">
                 <c:forEach var="datos" items="${datos}">
                     <p>El id del cliente es: ${datos[4]}</p>
                     <div class="form-group">

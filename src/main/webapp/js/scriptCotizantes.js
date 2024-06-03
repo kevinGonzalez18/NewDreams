@@ -7,7 +7,7 @@ function abrirModal(correo) {
     bootstrapModal.hide();
 }
 
-function crearCotizante (){
+function crearCotizante() {
     $.ajax({
         url: 'PrincipalServlet?menu=Cotizantes&accion=Agregar',
         type: 'POST',
@@ -31,6 +31,27 @@ function crearCotizante (){
     });
 
     return false; // Previene el comportamiento predeterminado del formulario
+}
+
+function eliminarCotizante(correo) {
+    if (confirm('¿Estás seguro de que deseas eliminar el cotizante ' + correo + '?')) {
+        $.ajax({
+            url: 'PrincipalServlet?menu=Cotizantes&accion=eliminar',
+            type: 'POST',
+            data: {correoClt: correo},
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+                if (response.status === 'success') {
+                    // Recargar el contenido después de eliminar el servicio
+                    loadContent('PrincipalServlet?menu=Cotizantes&accion=listar');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText);
+            }
+        });
+    }
 }
 
 function closeModal() {

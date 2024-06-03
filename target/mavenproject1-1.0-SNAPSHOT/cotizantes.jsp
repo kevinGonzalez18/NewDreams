@@ -46,7 +46,7 @@
                                     <td>${cotizantes.getCotizanteTelefono()}</td>
                                     <td>
                                         <button class="btn btn-primary" onclick="abrirModal('${cotizantes.getCotizanteCorreo()}')">Crear cliente</button>
-                                        <button class="btn btn-danger" onclick="">Eliminar</button>
+                                        <button class="btn btn-danger" onclick="eliminarCotizante('${cotizantes.getCotizanteCorreo()}')">Eliminar</button>
                                     </td>
                                 </tr>
                             </c:forEach>

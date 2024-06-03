@@ -81,7 +81,25 @@ function initializePlugins() {
     if (typeof $.fn.DataTable !== 'undefined') {
         $('.table').each(function () {
             if (!$.fn.DataTable.isDataTable(this)) {
-                $(this).DataTable();
+                var table = $(this).DataTable();
+
+                // Asignar eventos de clic a los enlaces de la DataTable
+                table.on('draw', function () {
+                    // Agregar eventos click a los botones de acción dentro de la DataTable
+                    $('#Table').off('click', 'a'); // Quitar eventos anteriores para evitar duplicados
+                    $('#Table').on('click', 'a', function (event) {
+                        event.preventDefault();
+                        var url = $(this).attr('href');
+                        loadContent(url);
+                    });
+                });
+
+                // Asignar eventos de clic a los enlaces de la DataTable en la carga inicial
+                $('#Table').on('click', 'a', function (event) {
+                    event.preventDefault();
+                    var url = $(this).attr('href');
+                    loadContent(url);
+                });
             }
         });
     } else {
