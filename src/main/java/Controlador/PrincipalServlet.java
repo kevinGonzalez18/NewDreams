@@ -7,7 +7,6 @@ import DAO.eventoDAO;
 import DAO.servicioDAO;
 import Modelo.cliente;
 import Modelo.cotizante;
-import Modelo.evento;
 import Modelo.servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +28,6 @@ import org.json.JSONObject;
  */
 public class PrincipalServlet extends HttpServlet {
 
-    cotizante cotizante = new cotizante();
     cotizanteDAO cotizanteDAO = new cotizanteDAO();
     cliente cliente = new cliente();
     clienteDAO clienteDAO = new clienteDAO();
@@ -107,7 +105,32 @@ public class PrincipalServlet extends HttpServlet {
                         break;
                     case "Editar":
                         break;
-                    case "Eliminar":
+                    case "eliminar":
+                        try {
+                            String correo = request.getParameter("correoClt");
+                            cotizante cotizanteEliminar = new cotizante();
+                            cotizanteEliminar.setCotizanteCorreo(correo);
+                            if (correo != null && !correo.isEmpty()) {
+                                boolean exito = cotizanteDAO.eliminar(cotizanteEliminar.getCotizanteCorreo());
+                                if (exito) {
+                                    jsonResponse.put("status", "success");
+                                    jsonResponse.put("message", "Cotizante eliminado exitosamente");
+                                } else {
+                                    jsonResponse.put("status", "error");
+                                    jsonResponse.put("message", "Error al eliminar el cotizante");
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            jsonResponse.put("status", "error");
+                            jsonResponse.put("message", "Error interno del servidor");
+                        } finally {
+                            out.print(jsonResponse.toString());
+                            out.flush();
+                            out.close();
+                        }
+                        RequestDispatcher dispatcherEliminarCotizantes = request.getRequestDispatcher("resultadoAgregar.jsp");
+                        dispatcherEliminarCotizantes.forward(request, response);
                         break;
                 }
                 request.getRequestDispatcher("cotizantes.jsp").forward(request, response);
