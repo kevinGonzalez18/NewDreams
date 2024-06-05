@@ -65,16 +65,7 @@ public class PagoServlet extends HttpServlet {
                 request.getRequestDispatcher("pagos.jsp").forward(request, response);
             }
         }
-        if ("EliminarServicio".equals(action)) {
-            String idServicio = request.getParameter("idServicio");
-            pagoDAO pagoDAODeleted = new pagoDAO();
-            exito = pagoDAODeleted.EliminarServicio(idServicio);
-            if (exito) {
-                request.setAttribute("mensajeExito", "Servicio eliminado exitosamente");
-            } else {
-                request.setAttribute("mensajeError", "Error al eliminar el servicio");
-            }
-        }
+        
 
     }
 

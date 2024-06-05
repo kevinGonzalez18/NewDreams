@@ -69,7 +69,7 @@
 
                                         <div class="row">
                                             <p class="col-2 col-md-2">Cant</p>
-                                            <p class="col-8 col-md-8">Servicio</p>
+                                            <p class="col-6 col-md-6">Servicio</p>
                                             <p class="col-2 col-md-2">V.Total</p>
                                             <p class="col-2 col-md-2">Eliminar</p>
                                             <div class="col-2 col-md-2">
@@ -77,7 +77,7 @@
                                                     <input id="service_name_manteleria_${loop.index}" type="number" name="service_name_${loop.index}" class="form-control" value="${servicio[2]}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-8 col-md-8">
+                                            <div class="col-6 col-md-6">
                                                 <div class="form-group">
                                                     <input id="service_total_price_manteleria_${loop.index}" type="text" name="service_total_price_${loop.index}" class="form-control" value="${servicio[0]}" readonly>
                                                 </div>
