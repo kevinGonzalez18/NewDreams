@@ -7,9 +7,9 @@ import DAO.eventoDAO;
 import DAO.servicioDAO;
 import Modelo.cliente;
 import Modelo.cotizante;
-import Modelo.evento;
 import Modelo.servicio;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONObject;
 
 /**
  *
@@ -27,7 +28,6 @@ import javax.servlet.http.HttpSession;
  */
 public class PrincipalServlet extends HttpServlet {
 
-    cotizante cotizante = new cotizante();
     cotizanteDAO cotizanteDAO = new cotizanteDAO();
     cliente cliente = new cliente();
     clienteDAO clienteDAO = new clienteDAO();
@@ -38,13 +38,16 @@ public class PrincipalServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("usuario") == null) {
+        if (session == null || session.getAttribute("usuari o") == null) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
+        response.setContentType("application/json");
         request.setCharacterEncoding("UTF-8");
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
+        PrintWriter out = response.getWriter();
+        JSONObject jsonResponse = new JSONObject();
         if (menu != null) {
             if (menu.equals("Inicio")) {
                 request.getRequestDispatcher("dashboard.jsp").forward(request, response);
@@ -65,25 +68,69 @@ public class PrincipalServlet extends HttpServlet {
                         request.setAttribute("cotizantes", lista);
                         break;
                     case "Agregar":
-                        String correo = request.getParameter("correoClt");
-                        System.out.println("correo = " + correo);
-                        String contraseña = request.getParameter("contrasenaClt");
-                        System.out.println("contraseña = " + contraseña);
-                        cliente.setCltCorreo(correo);
-                        cliente.setCltContraseña(contraseña);
-                        System.out.println(cliente.toString());
-
-                        // Aquí debes verificar si el correo y la contraseña son válidos antes de agregar el cliente
-                        if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
-                            clienteDAO.agregar(cliente);
-                            clienteDAO.covertirCotizanteEnCliente();
-                            // Redireccionar después de agregar exitosamente
-                            request.getRequestDispatcher("PrincipalServlet?menu=Cotizantes&accion=listar").forward(request, response);
+                        try {
+                            String correo = request.getParameter("correoClt");
+                            System.out.println("correo = " + correo);
+                            String contraseña = request.getParameter("contrasenaClt");
+                            System.out.println("contraseña = " + contraseña);
+                            cliente.setCltCorreo(correo);
+                            cliente.setCltContraseña(contraseña);
+                            System.out.println(cliente.toString());
+                            // Aquí debes verificar si el correo y la contraseña son válidos antes de agregar el cliente
+                            if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
+                                boolean exito = clienteDAO.agregar(cliente);
+                                clienteDAO.covertirCotizanteEnCliente();
+                                if (exito) {
+                                    jsonResponse.put("status", "success");
+                                    jsonResponse.put("message", "Cliente creado exitosamente");
+                                } else {
+                                    jsonResponse.put("status", "error");
+                                    jsonResponse.put("message", "Error al crear el cliente");
+                                }
+                            } else {
+                                jsonResponse.put("status", "error");
+                                jsonResponse.put("message", "Error al crear el cliente");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            jsonResponse.put("status", "error");
+                            jsonResponse.put("message", "Error interno del servidor");
+                        } finally {
+                            out.print(jsonResponse.toString());
+                            out.flush();
+                            out.close();
                         }
+                        RequestDispatcher dispatcherAgregar = request.getRequestDispatcher("resultadoAgregar.jsp");
+                        dispatcherAgregar.forward(request, response);
                         break;
                     case "Editar":
                         break;
-                    case "Eliminar":
+                    case "eliminar":
+                        try {
+                            String correo = request.getParameter("correoClt");
+                            cotizante cotizanteEliminar = new cotizante();
+                            cotizanteEliminar.setCotizanteCorreo(correo);
+                            if (correo != null && !correo.isEmpty()) {
+                                boolean exito = cotizanteDAO.eliminar(cotizanteEliminar.getCotizanteCorreo());
+                                if (exito) {
+                                    jsonResponse.put("status", "success");
+                                    jsonResponse.put("message", "Cotizante eliminado exitosamente");
+                                } else {
+                                    jsonResponse.put("status", "error");
+                                    jsonResponse.put("message", "Error al eliminar el cotizante");
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            jsonResponse.put("status", "error");
+                            jsonResponse.put("message", "Error interno del servidor");
+                        } finally {
+                            out.print(jsonResponse.toString());
+                            out.flush();
+                            out.close();
+                        }
+                        RequestDispatcher dispatcherEliminarCotizantes = request.getRequestDispatcher("resultadoAgregar.jsp");
+                        dispatcherEliminarCotizantes.forward(request, response);
                         break;
                 }
                 request.getRequestDispatcher("cotizantes.jsp").forward(request, response);
@@ -115,42 +162,116 @@ public class PrincipalServlet extends HttpServlet {
                         request.setAttribute("listaServicios", listaServicios);
                         break;
                     case "agregar":
-                        String nombre = request.getParameter("nombreServicio");
-                        int valor = Integer.parseInt(request.getParameter("valorServicio"));
-                        String tipo = request.getParameter("tipoServicio");
-                        servicio nuevoServicio = new servicio();
-                        nuevoServicio.setServicioNombre(nombre);
-                        nuevoServicio.setServicioValor(valor);
-                        nuevoServicio.setServicioTipo(tipo);
-                        servicioDAO servicioDAO = new servicioDAO();
-                        boolean exito = servicioDAO.agregar(nuevoServicio);
-                        if (exito) {
-                            request.setAttribute("mensajeExito", "Servicio agregado exitosamente");
-                        } else {
-                            request.setAttribute("mensajeError", "Error al agregar el servicio");
+                        try {
+                            String nombre = request.getParameter("nombreServicio");
+                            int valor = Integer.parseInt(request.getParameter("valorServicio"));
+                            String tipo = request.getParameter("tipoServicio");
+                            if (nombre != null && !nombre.isEmpty()
+                                    && tipo != null && !tipo.isEmpty()
+                                    && valor > 0) {
+                                servicio nuevoServicio = new servicio();
+                                nuevoServicio.setServicioNombre(nombre);
+                                nuevoServicio.setServicioValor(valor);
+                                nuevoServicio.setServicioTipo(tipo);
+                                servicioDAO servicioDAO = new servicioDAO();
+                                boolean exito = servicioDAO.agregar(nuevoServicio);
+
+                                if (exito) {
+                                    jsonResponse.put("status", "success");
+                                    jsonResponse.put("message", "Servicio agregado exitosamente");
+                                } else {
+                                    jsonResponse.put("status", "error");
+                                    jsonResponse.put("message", "Error al agregar el servicio");
+                                }
+                            } else {
+                                jsonResponse.put("status", "error");
+                                jsonResponse.put("message", "Error al agregar el servicio");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            jsonResponse.put("status", "error");
+                            jsonResponse.put("message", "Error interno del servidor");
+                        } finally {
+                            out.print(jsonResponse.toString());
+                            out.flush();
+                            out.close();
                         }
                         RequestDispatcher dispatcherAgregar = request.getRequestDispatcher("resultadoAgregar.jsp");
                         dispatcherAgregar.forward(request, response);
                         break;
-                    case "eliminar":
-                        String idServicio = request.getParameter("idServicio");
-                        if (idServicio != null && !idServicio.isEmpty()) {
-                            servicioDAO servicioDAOforDeleted = new servicioDAO();
-                            exito = servicioDAOforDeleted.eliminar(idServicio);
-                            if (exito) {
-                                request.setAttribute("mensajeExito", "Servicio eliminado exitosamente");
+                    case "actualizar":
+                        try {
+                            String idServicioActualizar = request.getParameter("idServicioActualizar");
+                            String nombreServicio = request.getParameter("nombreServicioActualizar");
+                            int valorServicio = Integer.parseInt(request.getParameter("valorServicioActualizar"));
+                            String tipoServicio = request.getParameter("tipoServicioActualizar");
+                            if (idServicioActualizar != null && !idServicioActualizar.isEmpty()
+                                    && nombreServicio != null && !nombreServicio.isEmpty()
+                                    && tipoServicio != null && !tipoServicio.isEmpty()
+                                    && valorServicio > 0) {
+                                servicio actualizarServicio = new servicio(idServicioActualizar, valorServicio, nombreServicio, tipoServicio);
+                                boolean exito = servicioDAO.actualizar(actualizarServicio);
+
+                                if (exito) {
+                                    jsonResponse.put("status", "success");
+                                    jsonResponse.put("message", "Servicio actualizado exitosamente");
+                                } else {
+                                    jsonResponse.put("status", "error");
+                                    jsonResponse.put("message", "Error al actualizar el servicio");
+                                }
                             } else {
-                                request.setAttribute("mensajeError", "Error al eliminar el servicio");
+                                jsonResponse.put("status", "error");
+                                jsonResponse.put("message", "Error al actualizar el servicio");
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            jsonResponse.put("status", "error");
+                            jsonResponse.put("message", "Error interno del servidor");
+                        } finally {
+                            out.print(jsonResponse.toString());
+                            out.flush();
+                            out.close();
+                        }
+                        RequestDispatcher dispatcherActualizar = request.getRequestDispatcher("resultadoAgregar.jsp");
+                        dispatcherActualizar.forward(request, response);
+                        break;
+                    case "eliminar":
+                        try {
+                            String idServicio = request.getParameter("idServicio");
+                            if (idServicio != null && !idServicio.isEmpty()) {
+                                servicioDAO servicioDAOforDeleted = new servicioDAO();
+                                boolean exito = servicioDAOforDeleted.eliminar(idServicio);
+                                if (exito) {
+                                    jsonResponse.put("status", "success");
+                                    jsonResponse.put("message", "Servicio eliminado exitosamente");
+                                } else {
+                                    jsonResponse.put("status", "error");
+                                    jsonResponse.put("message", "Error al actualizar el servicio");
+                                }
+                            } else {
+                                jsonResponse.put("status", "error");
+                                jsonResponse.put("message", "Error al eliminar el servicio");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            jsonResponse.put("status", "error");
+                            jsonResponse.put("message", "Error interno del servidor");
+                        } finally {
+                            out.print(jsonResponse.toString());
+                            out.flush();
+                            out.close();
                         }
 
+                        RequestDispatcher dispatcherEliminar = request.getRequestDispatcher("resultadoAgregar.jsp");
+                        dispatcherEliminar.forward(request, response);
+                        break;
                 }
                 request.getRequestDispatcher("servicios.jsp").forward(request, response);
             }
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -164,8 +285,10 @@ public class PrincipalServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (SQLException ex) {
-            Logger.getLogger(PrincipalServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PrincipalServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -182,8 +305,10 @@ public class PrincipalServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (SQLException ex) {
-            Logger.getLogger(PrincipalServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PrincipalServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

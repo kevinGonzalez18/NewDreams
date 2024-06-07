@@ -35,7 +35,6 @@ public class PagoServlet extends HttpServlet {
             int idEvento = Integer.parseInt(request.getParameter("idEvento"));
             List<Object[]> listarPagos = pagoDAO.ListarPagos(idCliente, idEvento);
             request.setAttribute("Pagos", listarPagos);
-
             request.getRequestDispatcher("pagos.jsp").forward(request, response);
         }
         if ("insertarPago".equals(action)) {
@@ -57,8 +56,8 @@ public class PagoServlet extends HttpServlet {
 
             boolean exito = pagoDAO.RegistrarPago(nombre, apellido, fecha, valor, idEvento, idCliente);
             if (exito) {
-                System.out.println("Pago registrado con éxito");
-                response.sendRedirect("PagoServlet?menu=listaPagos&idCliente=" + idCliente + "&idEvento=" + idEvento);
+                System.out.println("Pago registrado con éxito. Redireccionando...");
+                response.sendRedirect("PagoServlet?menu=listaPagos&idEvento=" + idEvento + "&idCliente=" + idCliente);
             } else {
                 System.out.println("Error al registrar el pago");
                 request.setAttribute("error", "Error al registrar el pago.");

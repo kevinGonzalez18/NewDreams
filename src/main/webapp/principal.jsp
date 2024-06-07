@@ -26,6 +26,8 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
         <!-- Flatpickr CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <!-- SweetAlert CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
 
     <body>
@@ -125,8 +127,11 @@
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <!-- Flatpickr JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <!-- SweetAlert JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
         <!-- Detalle Cotizacion JS -->
         <script src="js/scriptDetallesCotizacion.js"></script>
         <script src="js/scriptServicios.js"></script>
+        <script src="js/scriptCotizantes.js"></script>
     </body>
 </html>

@@ -41,8 +41,8 @@
 
                             </c:forEach>
                             <c:forEach var="Pago" items="${Pagos}">
-                            <input id="card-holder" type="hidden" class="form-control" value="${Pago[6]}" readonly>
-                            <input id="card-holder" type="hidden" class="form-control" value="${Pago[7]}" readonly>
+                            <input type="hidden" class="form-control" value="${Pago[6]}" readonly>
+                            <input type="hidden" class="form-control" value="${Pago[7]}" readonly>
                         </c:forEach>
                         </tbody>
                     </table>

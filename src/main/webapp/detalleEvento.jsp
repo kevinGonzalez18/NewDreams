@@ -24,9 +24,9 @@
                     <div class="block-heading">
                         <h2>Detalles del evento</h2>
                     </div><br>
-                    <form>
-                        <div class="card-details">
-                            <c:forEach var="Detalle" items="${detalles}">
+                    <c:forEach var="Detalle" items="${detalles}">
+                        <form>
+                            <div class="card-details">
                                 <h3 class="title">Id del evento: ${Detalle[4]}</h3><br>
                                 <div class="row">
                                     <div class="form-group col-sm-6">
@@ -88,19 +88,24 @@
                                                 </div>
                                             </div>
                                             <div class="col-2 col-md-2">                                       
-                                                <a href="PagoServlet" target="target"><button class="btn btn-danger">Eliminar</button></a>
+                                                <form action="EventoServlet?menu=detalleEvento&action=eliminarServicio" method="POST" class="delete-form">
+                                                    <input type="hidden" name="idEvento" value="${Detalle[4]}">
+                                                    <input type="hidden" name="idServicio" value="${servicio[3]}"> <!-- Asegúrate de que este índice contiene el id del servicio -->
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                </form>
                                             </div>
+
                                         </div>
                                     </c:forEach>
-                                    <div class="form-group col-sm-4">
+                                    <div class="form-group col-sm-6">
                                         <a href="PagoServlet?menu=listaPagos&idEvento=${Detalle[4]}&idCliente=${Detalle[11]}"><button type="button" class="btn btn-primary btn-block">historial de pagos</button></a>
                                     </div>
-                                    <div class="form-group col-sm-4">
+                                    <div class="form-group col-sm-6">
                                         <a href="PrincipalServlet?menu=Eventos&accion=listar"><button type="button" class="btn btn-primary btn-block">Atras</button></a>
                                     </div>
                                 </div>
-                            </c:forEach>
-                    </form>
+                        </form>
+                    </c:forEach>
                 </div>
             </section>
         </main>

@@ -12,6 +12,7 @@ import Modelo.servicio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,18 +80,21 @@ public class eventoDAO {
                 String[] cantidad = rs.getString("Cantidad").split(", ");
                 String[] valorUnitario = rs.getString("Valor_Unitario").split(", ");
                 String[] tipoServicio = rs.getString("Tipo_Servicio").split(", ");
+                String[] idServicio = rs.getString("idServicio").split(", ");
                 cliente.setCltId(rs.getString("idCliente"));
 
                 if (nombresServicios.length == valorUnitario.length
                         && nombresServicios.length == cantidad.length
                         && nombresServicios.length == valoresServicios.length
-                        && nombresServicios.length == tipoServicio.length) {
+                        && nombresServicios.length == tipoServicio.length
+                        && nombresServicios.length == idServicio.length) {
 
                     List<Object[]> listaServicios = new ArrayList<>();
 
                     // Agregar cada servicio a la lista de servicios
                     for (int i = 0; i < nombresServicios.length; i++) {
                         servicio serv = new servicio();
+                        serv.setServicioId(idServicio[i]);
                         serv.setServicioNombre(nombresServicios[i]);
                         serv.setServicioValor(Integer.parseInt(valoresServicios[i]));
 
@@ -101,7 +105,8 @@ public class eventoDAO {
                         Object[] servicioArray = {
                             serv.getServicioNombre(),
                             serv.getServicioValor(),
-                            eventoServicio.getCantidad()
+                            eventoServicio.getCantidad(),
+                            serv.getServicioId()
                         };
                         listaServicios.add(servicioArray);
                     }
@@ -129,6 +134,31 @@ public class eventoDAO {
         return lista;
     }
 
-}
+    public void EliminarServicioEvento(int idEvento, String idServicio) throws SQLException {
+        String sql = "DELETE FROM evento_servicio WHERE Servicio_idServicio = ? AND Evento_idEvento = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idEvento);
+            ps.setString(2, idServicio);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Imprimir el error
+        } finally {
+            cerrarRecursos();
+        }
+    }
 
+    private void cerrarRecursos() {
+        try {
+            if (ps != null) {
+                ps.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 

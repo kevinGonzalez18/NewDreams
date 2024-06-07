@@ -1,8 +1,8 @@
 package Controlador;
 
 import DAO.eventoDAO;
-import DAO.pagoDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,24 +18,36 @@ public class EventoServlet extends HttpServlet {
 
         String menu = request.getParameter("menu");
         String action = request.getParameter("action");
-        
+
         if (menu != null && menu.equals("detalleEvento")) {
-            int idEvento = Integer.parseInt(request.getParameter("idEvento"));
-            List<Object[]> detallesEvento = eventoDAO.DetallesEvento(idEvento);
-            request.setAttribute("detalles", detallesEvento );
-            
-            request.getRequestDispatcher("detalleEvento.jsp").forward(request, response);
-            
-        }/*if ("EliminarServicio".equals(action)) {
-            String idServicio = request.getParameter("idServicio");
-            pagoDAO pagoDAODeleted = new pagoDAO();
-            boolean exito = pagoDAODeleted.EliminarServicio(idServicio);
-            if (exito) {
-                request.setAttribute("mensajeExito", "Servicio eliminado exitosamente");
+            if (action != null && action.equals("EliminarServicio")) {
+                eliminarServicio(request, response);
             } else {
-                request.setAttribute("mensajeError", "Error al eliminar el servicio");
+                mostrarDetallesEvento(request, response);
             }
-        }*/
+        }
+    }
+
+    private void mostrarDetallesEvento(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int idEvento = Integer.parseInt(request.getParameter("idEvento"));
+        List<Object[]> detallesEvento = eventoDAO.DetallesEvento(idEvento);
+        request.setAttribute("detalles", detallesEvento);
+        request.getRequestDispatcher("detalleEvento.jsp").forward(request, response);
+    }
+
+    private void eliminarServicio(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int idEvento = Integer.parseInt(request.getParameter("idEvento"));
+        String idServicio = request.getParameter("idServicio");
+        try {
+            eventoDAO.EliminarServicioEvento(idEvento, idServicio);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Error al eliminar el servicio: " + e.getMessage());
+        }
+
+        mostrarDetallesEvento(request, response);
     }
 
     @Override

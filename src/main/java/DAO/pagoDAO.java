@@ -58,8 +58,10 @@ public class pagoDAO {
                 lista.add(pagoArray);
 
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // Imprimir el error
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarRecursos();
         }
         return lista;
     }
@@ -83,26 +85,27 @@ public class pagoDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Imprimir el error
+            e.printStackTrace();
+        } finally {
+            cerrarRecursos();
         }
         return exito;
     }
 
-    public boolean EliminarServicio(String idServicio) throws SQLException {
-        String sql = "CALL SP_DELETE_SERVICIO(?)";
-        boolean exito = false;
+    private void cerrarRecursos() {
         try {
-            ps = con.prepareStatement(sql);
-            ps.setString(1, idServicio);
-            int filasAfectadas = ps.executeUpdate();
-            if (filasAfectadas > 0) {
-                exito = true;
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (con != null) {
+                con.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw e;
         }
-        return exito;
     }
 
 }
