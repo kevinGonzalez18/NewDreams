@@ -20,7 +20,7 @@ public class EventoServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if (menu != null && menu.equals("detalleEvento")) {
-            if (action != null && action.equals("EliminarServicio")) {
+            if (action != null && action.equals("eliminarServicio")) {
                 eliminarServicio(request, response);
             } else {
                 mostrarDetallesEvento(request, response);

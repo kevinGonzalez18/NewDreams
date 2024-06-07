@@ -90,7 +90,7 @@
                                             <div class="col-2 col-md-2">                                       
                                                 <form action="EventoServlet?menu=detalleEvento&action=eliminarServicio" method="POST" class="delete-form">
                                                     <input type="hidden" name="idEvento" value="${Detalle[4]}">
-                                                    <input type="hidden" name="idServicio" value="${servicio[3]}"> <!-- Asegúrate de que este índice contiene el id del servicio -->
+                                                    <input type="hidden" name="idServicio" value="${servicio[3]}">
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                                 </form>
                                             </div>

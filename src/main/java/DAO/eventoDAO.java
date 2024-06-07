@@ -143,8 +143,6 @@ public class eventoDAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace(); // Imprimir el error
-        } finally {
-            cerrarRecursos();
         }
     }
 
