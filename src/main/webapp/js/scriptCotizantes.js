@@ -14,19 +14,42 @@ function crearCotizante() {
         data: $('#formulario-cotizante').serialize(),
         dataType: 'json',
         success: function (response) {
-            alert(response.message);
+            console.log(response); // Para depuración
             if (response.status === 'success') {
-                // Cerrar el modal
-                $('#myModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: response.message,
+                    showConfirmButton: true,
+                    timer: 3000
+                }).then(() => {
+                    // Cerrar el modal
+                    $('#myModal').modal('hide');
 
-                // Esperar a que el modal se cierre completamente antes de recargar el contenido
-                $('#myModal').on('hidden.bs.modal', function () {
-                    loadContent('PrincipalServlet?menu=Cotizantes&accion=listar');
+                    // Esperar a que el modal se cierre completamente antes de recargar el contenido
+                    $('#myModal').on('hidden.bs.modal', function () {
+                        loadContent('PrincipalServlet?menu=Cotizantes&accion=listar');
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message,
+                    showConfirmButton: true,
+                    timer: 3000
                 });
             }
         },
         error: function (xhr, status, error) {
-            alert('Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText);
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
+                showConfirmButton: true,
+                timer: 3000
+            });
         }
     });
 
@@ -34,25 +57,60 @@ function crearCotizante() {
 }
 
 function eliminarCotizante(correo) {
-    if (confirm('¿Estás seguro de que deseas eliminar el cotizante ' + correo + '?')) {
-        $.ajax({
-            url: 'PrincipalServlet?menu=Cotizantes&accion=eliminar',
-            type: 'POST',
-            data: {correoClt: correo},
-            dataType: 'json',
-            success: function (response) {
-                alert(response.message);
-                if (response.status === 'success') {
-                    // Recargar el contenido después de eliminar el servicio
-                    loadContent('PrincipalServlet?menu=Cotizantes&accion=listar');
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Deseas eliminar el cotizante ' + correo + '?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'PrincipalServlet?menu=Cotizantes&accion=eliminar',
+                type: 'POST',
+                data: {correoClt: correo},
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response); // Para depuración
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: response.message,
+                            showConfirmButton: true,
+                            timer: 3000
+                        }).then(() => {
+                            // Recargar el contenido después de eliminar el servicio
+                            loadContent('PrincipalServlet?menu=Cotizantes&accion=listar');
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                            showConfirmButton: true,
+                            timer: 3000
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
+                        showConfirmButton: true,
+                        timer: 3000
+                    });
                 }
-            },
-            error: function (xhr, status, error) {
-                alert('Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText);
-            }
-        });
-    }
+            });
+        }
+    });
 }
+
 
 function closeModal() {
     var modal = document.getElementById("myModal");

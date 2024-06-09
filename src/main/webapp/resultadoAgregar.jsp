@@ -13,37 +13,35 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
         <%
             String mensajeExito = (String) request.getAttribute("mensajeExito");
             String mensajeError = (String) request.getAttribute("mensajeError");
         %>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
             <% if (mensajeExito != null) { %>
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: '<c:out value="${mensajeExito}" />',
-                    showConfirmButton: true,
-                    timer: 3000,
-                    didClose: () => {
-                        window.location.href = "PrincipalServlet?menu=Inicio";
-                    }
-                });
-            <% } else if (mensajeError != null) { %>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: '<c:out value="${mensajeError}" />',
-                    showConfirmButton: true,
-                    timer: 3000,
-                    didClose: () => {
-                        window.location.href = "PrincipalServlet?menu=Inicio";
-                    }
-                });
-            <% }%>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '${mensajeExito}',
+                showConfirmButton: true,
+                timer: 3000,
+                didClose: () => {
+                    window.location.href = "PrincipalServlet?menu=Inicio";
+                }
             });
+            <% } else if (mensajeError != null) { %>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<c:out value="${mensajeError}" />',
+                showConfirmButton: true,
+                timer: 3000,
+                didClose: () => {
+                    window.location.href = "PrincipalServlet?menu=Inicio";
+                }
+            });
+            <% }%>
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     </body>
 </html>

@@ -1,9 +1,11 @@
 package DAO;
 
+import Modelo.administrador;
 import Modelo.conexion;
 import java.sql.*;
 
 public class administradorDAO {
+
     // Método para validar las credenciales del administrador mediante correo y contraseña
     public boolean validarCredenciales(String correo, String contraseña) {
         boolean resultado = false; // Variable para almacenar el resultado de la validación
@@ -11,24 +13,24 @@ public class administradorDAO {
         try {
             // Se establece la conexión a la base de datos utilizando la clase 'conexion'
             Connection con = new conexion().conectar();
-            
+
             // Se define la consulta SQL para verificar las credenciales del administrador
             String query = "SELECT COUNT(*) FROM Administrador WHERE Correo_Admin = ? AND Contraseña_Admin = ?";
-            
+
             // Se prepara la consulta SQL
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, correo); // Se establece el primer parámetro (correo) en la consulta
             pst.setString(2, contraseña); // Se establece el segundo parámetro (contraseña) en la consulta
-            
+
             // Se ejecuta la consulta y se obtiene el resultado
             ResultSet rs = pst.executeQuery();
-            
+
             // Si la consulta devuelve algún resultado
             if (rs.next()) {
                 int count = rs.getInt(1); // Se obtiene el valor de la primera columna del resultado
                 resultado = count == 1; // Si count es igual a 1, las credenciales son válidas y se establece 'resultado' como true
             }
-            
+
             // Se cierran los recursos de base de datos para liberar memoria y conexiones
             rs.close();
             pst.close();
@@ -36,8 +38,31 @@ public class administradorDAO {
         } catch (SQLException ex) { // Se capturan las excepciones de SQL en caso de algún error
             ex.printStackTrace(); // Se imprime el rastreo de la pila de excepciones en la consola
         }
-        
+
         // Se devuelve el resultado de la validación de las credenciales del administrador
         return resultado;
+    }
+
+    public administrador obtenerAdminPorCorreoYContraseña(String correo, String contraseña) {
+        administrador admin = null;
+        String sql = "SELECT * FROM administrador WHERE Correo_Admin = ? AND Contraseña_admin = ?";
+        try {
+            Connection con = new conexion().conectar();
+            PreparedStatement ps;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
+            ps.setString(2, contraseña);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    admin = new administrador();
+                    admin.setAdminId(rs.getInt("idAdministrador"));
+                    admin.setAdminCorreo(rs.getString("Correo_Admin"));
+                    // Rellenar otros campos del administrador según sea necesario
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return admin;
     }
 }

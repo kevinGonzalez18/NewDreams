@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ public class evento {
     private int eventoId;
     private String tipoEvento;
     private int valorEvento;
-    private Date fechaEvento;
+    private Timestamp fechaEvento;
     private String estadoEvento;
     private String tematicaEvento;
     private String descripcionEvento;
@@ -23,7 +24,7 @@ public class evento {
     public evento() {
     }
 
-    public evento(int eventoId, String tipoEvento, int valorEvento, Date fechaEvento, String estadoEvento, String tematicaEvento, String descripcionEvento) {
+    public evento(int eventoId, String tipoEvento, int valorEvento, Timestamp fechaEvento, String estadoEvento, String tematicaEvento, String descripcionEvento) {
         this.eventoId = eventoId;
         this.tipoEvento = tipoEvento;
         this.valorEvento = valorEvento;
@@ -61,7 +62,7 @@ public class evento {
         return fechaEvento;
     }
 
-    public void setFechaEvento(Date fechaEvento) {
+    public void setFechaEvento(Timestamp fechaEvento) {
         this.fechaEvento = fechaEvento;
     }
 

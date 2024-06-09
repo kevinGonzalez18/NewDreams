@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2024 a las 19:43:57
+-- Tiempo de generación: 05-06-2024 a las 19:59:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -46,7 +46,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DELETE_COTIZANCION` (IN `p_No_Co
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DELETE_COTIZANTE` (IN `p_Correo_Cotizante` VARCHAR(45))   BEGIN
-    DELETE FROM Cotizante
+    UPDATE Cotizante
+    SET Deleted = 1
     WHERE Correo_Cotizante = p_Correo_Cotizante;
 END$$
 
@@ -66,7 +67,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DELETE_PAGOS` (IN `p_No_Pagos` C
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DELETE_SERVICIO` (IN `p_idServicio` CHAR(4))   BEGIN
-    DELETE FROM Servicio
+    UPDATE Servicio
+    SET Deleted = 1
     WHERE idServicio = p_idServicio;
 END$$
 
@@ -75,7 +77,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_INSERT_ADMINISTRADOR` (IN `p_idA
     VALUES (p_idAdministrador, p_Correo_Admin, p_Contraseña_admin);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_INSERT_CLIENTE` (IN `p_Contraseña_Cliente` VARCHAR(45), IN `p_Correo_cotizante` VARCHAR(45))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_INSERT_CLIENTE` (IN `p_Contraseña_Cliente` VARCHAR(60), IN `p_Correo_cotizante` VARCHAR(45))   BEGIN
     INSERT INTO Cliente (Contraseña_Cliente, Correo_cotizante)
     VALUES (p_Contraseña_Cliente, p_Correo_cotizante);
 END$$
@@ -120,9 +122,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_INSERT_PAGOS` (IN `p_No_Pagos` C
     VALUES (p_No_Pagos, p_Nombre_Pagos, p_Apellido_Pagos, p_Dia_hora_pagos, p_Valor_pagos, p_Evento_idEvento, p_Evento_Cliente_idCliente);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_INSERT_SERVICIO` (IN `p_idServicio` CHAR(4), IN `p_Valor_servicio` INT, IN `p_Tipo_servicio` VARCHAR(45), IN `p_Descripcion_servicio` VARCHAR(200))   BEGIN
-    INSERT INTO Servicio (idServicio, Valor_servicio, Tipo_servicio, Descripcion_servicio)
-    VALUES (p_idServicio, p_Valor_servicio, p_Tipo_servicio, p_Descripcion_servicio);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_INSERT_SERVICIO` (IN `p_Nombre_servicio` VARCHAR(100), IN `p_Valor_servicio` INT, IN `p_Tipo_servicio` VARCHAR(45))   BEGIN
+    INSERT INTO Servicio (Valor_Servicio, Tipo_Servicio, Nombre_Servicio)
+    VALUES (p_Valor_servicio, p_Tipo_servicio, p_Nombre_servicio);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READLIST_ADMINISTRADOR` ()   BEGIN
@@ -148,7 +150,7 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READLIST_COTIZANTE` ()   BEGIN
     SELECT * 
     FROM cotizante 
-    WHERE cliente = 0;
+    WHERE cliente = 0 AND Deleted = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READLIST_ENCUESTA` ()   BEGIN
@@ -168,7 +170,9 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READLIST_SERVICIO` ()   BEGIN
     SELECT *
-    FROM Servicio;
+    FROM Servicio
+    WHERE Deleted = 0
+    ORDER BY idServicio;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_READ_ADMINISTRADOR` (IN `p_idAdministrador` INT)   BEGIN
@@ -266,11 +270,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_COMPROBANTE` (IN `p_No_Co
     WHERE No_Comprobante = p_No_Comprobante;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_COTIZACION` (IN `p_No_Cotizacion` CHAR(7), IN `p_Ubicacion` VARCHAR(45), IN `p_Fecha_Parcial_Evento_Cotizacion` DATETIME, IN `p_Fecha_Hora_Cotizacion` DATETIME, IN `p_Valor_Cotizacion` INT, IN `p_Cantidad_Personas_Cotizacion` SMALLINT, IN `p_Cotizante_Correo` VARCHAR(45))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_COTIZACION` (IN `p_No_Cotizacion` CHAR(7), IN `p_Tipo_Cotizacion` VARCHAR(40), IN `p_Ubicacion` VARCHAR(45), IN `p_Fecha_Parcial_Evento_Cotizacion` DATETIME, IN `p_Valor_Cotizacion` INT, IN `p_Cantidad_Personas_Cotizacion` SMALLINT, IN `p_Cotizante_Correo` VARCHAR(45))   BEGIN
     UPDATE Cotización
-    SET Ubicacion = p_Ubicacion,
+    SET Tipo_Cotizacion = p_Tipo_Cotizacion,
+    	Ubicacion = p_Ubicacion,
         Fecha_Parcial_Evento_Cotización = p_Fecha_Parcial_Evento_Cotizacion,
-        Fecha_Hora_Cotizacion = p_Fecha_Hora_Cotizacion,
         Valor_Cotización = p_Valor_Cotizacion,
         Cantidad_Personas_Cotización = p_Cantidad_Personas_Cotizacion,
         Cotizante_Correo = p_Cotizante_Correo
@@ -315,11 +319,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_PAGOS` (IN `p_No_Pagos` C
     WHERE No_Pagos = p_No_Pagos;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_SERVICIO` (IN `p_idServicio` CHAR(4), IN `p_Valor_servicio` INT, IN `p_Tipo_servicio` VARCHAR(45), IN `p_Descripcion_servicio` VARCHAR(200))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UPDATE_SERVICIO` (IN `p_idServicio` CHAR(4), IN `p_Valor_servicio` INT, IN `p_Tipo_servicio` VARCHAR(45), IN `p_Nombre_servicio` VARCHAR(100))   BEGIN
     UPDATE Servicio
     SET Valor_servicio = p_Valor_servicio,
-        Tipo_servicio = p_Tipo_servicio,
-        Descripcion_servicio = p_Descripcion_servicio
+    	Nombre_servicio = p_Nombre_servicio,
+        Tipo_servicio = p_Tipo_servicio
     WHERE idServicio = p_idServicio;
 END$$
 
@@ -353,7 +357,7 @@ INSERT INTO `administrador` (`idAdministrador`, `Correo_Admin`, `Contraseña_adm
 CREATE TABLE `cliente` (
   `idCliente` char(5) NOT NULL,
   `Estado_Cliente` varchar(20) NOT NULL,
-  `Contraseña_Cliente` varchar(45) NOT NULL,
+  `Contraseña_Cliente` varchar(60) NOT NULL,
   `Correo_cotizante` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -368,7 +372,7 @@ INSERT INTO `cliente` (`idCliente`, `Estado_Cliente`, `Contraseña_Cliente`, `Co
 ('CL004', 'Inhabilitado', 'd2fg6f9d8Ee', 'valentinapaez@gmail.com'),
 ('CL005', 'Habilitado', 'EFrfg3548eD54', 'santiagocastellanos@gmail.com'),
 ('CL014', 'Habilitado', '1345', 'mariamartinez2@gmail.com'),
-('CL015', 'Habilitado', 'contraseÃ±a1', 'dfelipebr737@gmail.com'),
+('CL015', 'Habilitado', '$2a$10$gYV1SDZZnKNJlHYjZ5TMzuPh6UWnZd9wNYNiklHUX.aBtvZL4X726', 'dfelipebr737@gmail.com'),
 ('CL016', 'Inhabilitado', '123asc', 'andresmartinez@gmail.com'),
 ('CL017', 'Habilitado', 'hol12', 'alfrecas@mail.com'),
 ('CL018', 'Habilitado', 'cba321', 'Angelica@mail.com'),
@@ -377,7 +381,12 @@ INSERT INTO `cliente` (`idCliente`, `Estado_Cliente`, `Contraseña_Cliente`, `Co
 ('CL021', 'Habilitado', 'holajiji1', 'franro@gmail.com'),
 ('CL022', 'Habilitado', 'harry32', 'harrilo@mail.com'),
 ('CL023', 'Habilitado', 'gua32', 'Dana@mail.com'),
-('CL024', 'Habilitado', '123', 'estefania@mail.com');
+('CL024', 'Habilitado', '123', 'estefania@mail.com'),
+('CL025', 'Habilitado', '$2a$10$RL1gAnCh/B8ntu9t0YIfeu.2bFnbn5K7/Pu68Z4xmunWMxxcTFOBy', 'Kevinsa@mail.com'),
+('CL026', 'Habilitado', '$2a$10$WCuL7tvaxoDnIG5qK2hREeyvc0oTA0NqjN/2LS8r3Wvebq3JhseqO', 'Juliomar@mail.com'),
+('CL027', 'Habilitado', '$2a$10$NzuHfnAZU9HDbgq.Mur0HO84v8GG45Rkbap70cA4DoSqeLNRMLyjy', 'kevinsanty@mail.com'),
+('CL028', 'Habilitado', '$2a$10$D.Uc4R.x5Z2FkIefagqNiuuLVxrvAwUVEOECTYs7TtbZYfUReKgHm', 'Alfonso@mail.com'),
+('CL029', 'Habilitado', '$2a$10$Vfx7cuBlIQvSQANiMzvAd.hpssSodwWDZ1IHTreklgE/oyZQiqnli', 'alfsan@gmail.com');
 
 --
 -- Disparadores `cliente`
@@ -488,7 +497,7 @@ INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServi
 ('COT1001', 'S01', 0, 0),
 ('COT1001', 'S02', 0, 0),
 ('COT1001', 'S03', 0, 0),
-('COT1001', 'S04', 0, 0),
+('COT1001', 'S04', 10, 120000),
 ('COT1006', 'S06', 10, 12000),
 ('COT1006', 'S05', 10, 1200),
 ('COT1016', 'S01', 10, 70000),
@@ -500,7 +509,6 @@ INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServi
 ('COT1017', 'S03', 10, 35000),
 ('COT1017', 'S05', 10, 100000),
 ('COT1017', 'S07', 10, 12000),
-('COT1017', 'S15', 10, 600000),
 ('COT1017', 'S20', 100, 100000),
 ('COT1018', 'S01', 3, 21000),
 ('COT1018', 'S03', 30, 105000),
@@ -513,9 +521,6 @@ INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServi
 ('COT1019', 'S07', 20, 24000),
 ('COT1019', 'S13', 2, 90000),
 ('COT1019', 'S20', 30, 30000),
-('COT1020', 'S01', 3, 21000),
-('COT1020', 'S03', 30, 105000),
-('COT1020', 'S05', 3, 30000),
 ('COT1020', 'S07', 30, 36000),
 ('COT1020', 'S20', 30, 30000),
 ('COT1021', 'S01', 10, 70000),
@@ -552,19 +557,32 @@ INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServi
 ('COT1026', 'S07', 10, 12000),
 ('COT1026', 'S20', 30, 30000),
 ('COT1019', 'S09', 0, 0),
-('COT1019', 'S15', 0, 0),
 ('COT1019', 'S16', 0, 0),
-('COT1019', 'S17', 0, 0),
 ('COT1020', 'S09', 0, 0),
 ('COT1020', 'S10', 0, 0),
 ('COT1022', 'S13', 0, 0),
 ('COT1022', 'S16', 0, 0),
-('COT1023', 'S18', 0, 0),
 ('COT1023', 'S04', 0, 0),
 ('COT1022', 'S18', 0, 0),
-('COT1019', 'S15', 0, 0),
 ('COT1022', 'S15', 0, 0),
-('COT1019', 'S18', 0, 0);
+('COT1021', 'S12', 2, 90000),
+('COT1021', 'S13', 5, 225000),
+('COT1021', 'S16', 1, 2000),
+('COT1021', 'S04', 10, 120000),
+('COT1020', 'S11', 0, 0),
+('COT1020', 'S18', 0, 0),
+('COT1020', 'S20', 0, 0),
+('COT1016', 'S12', 0, 0),
+('COT1016', 'S20', 30, 30000),
+('COT1019', 'S12', 0, 0),
+('COT1027', 'S01', 10, 70000),
+('COT1027', 'S03', 10, 35000),
+('COT1027', 'S05', 10, 100000),
+('COT1027', 'S07', 10, 12000),
+('COT1028', 'S01', 10, 70000),
+('COT1028', 'S03', 10, 35000),
+('COT1028', 'S05', 10, 100000),
+('COT1028', 'S07', 10, 12000);
 
 -- --------------------------------------------------------
 
@@ -580,31 +598,34 @@ CREATE TABLE `cotización` (
   `Fecha_Hora_Cotizacion` datetime NOT NULL,
   `Valor_Cotización` int(11) NOT NULL,
   `Cantidad_Personas_Cotización` smallint(6) NOT NULL,
-  `Cotizante_Correo` varchar(45) NOT NULL
+  `Cotizante_Correo` varchar(45) NOT NULL,
+  `Deleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cotización`
 --
 
-INSERT INTO `cotización` (`No_Cotizacion`, `Tipo_Cotizacion`, `Ubicacion`, `Fecha_Parcial_Evento_Cotización`, `Fecha_Hora_Cotizacion`, `Valor_Cotización`, `Cantidad_Personas_Cotización`, `Cotizante_Correo`) VALUES
-('COT1001', 'Xv años', 'Salon comunal kennedy', '2023-10-20 08:00:00', '2023-06-15 02:54:00', 5000000, 100, 'mauriciotorres@gmail.com'),
-('COT1002', 'Grado', 'Salon comunal bella vista', '2024-06-23 06:00:00', '2023-04-18 03:35:00', 7000000, 150, 'pepitoperez@gmail.com'),
-('COT1003', 'Boda', 'Salon comunal perseverancia', '2024-02-03 02:00:00', '2023-05-01 08:00:00', 3500000, 80, 'valentinapaez@gmail.com'),
-('COT1004', 'Bautizo', 'Salon comunal puente aranda', '2023-07-15 07:30:00', '2023-07-28 10:15:00', 2500000, 70, 'santiagocastellanos@gmail.com'),
-('COT1005', 'Xv años', 'Salon comunal bosa', '2023-12-30 12:45:00', '2023-08-02 02:30:00', 4500000, 80, 'mauriciotorres@gmail.com'),
-('COT1006', '', 'santa rosa', '2024-06-27 16:32:52', '2024-05-16 16:32:52', 5000000, 30, 'alfsan@gmail.com'),
-('COT1016', '', 'La empresa buscará el lugar del evento', '2024-06-21 17:30:00', '2024-05-08 16:33:00', 817000, 30, 'loreber@mail.com'),
-('COT1017', '', 'La empresa buscará el lugar del evento', '2024-07-31 17:30:00', '2024-05-08 16:50:00', 917000, 70, 'Zharick@mail.com'),
-('COT1018', '', 'Kennedy, Carrera 30 calle 19, Roma', '2024-06-21 16:00:00', '2024-05-08 16:55:00', 222000, 30, 'DanielGa@mail.com'),
-('COT1019', 'Bautizo', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-11 18:30:00', '2024-05-08 17:07:00', 248000, 20, 'alfrecas@mail.com'),
-('COT1020', 'Comunion', 'La empresa buscará el lugar del evento', '2024-07-20 16:00:00', '2024-05-09 18:19:00', 222000, 30, 'Dana@mail.com'),
-('COT1021', 'Bautizo', 'La empresa buscará el lugar del evento', '2024-06-21 14:00:00', '2024-05-09 18:31:00', 247000, 30, 'Oreo@mail.com'),
-('COT1022', 'Boda', 'La empresa buscará el lugar del evento', '2024-08-20 17:30:00', '2024-05-09 18:32:00', 697000, 30, 'tom@mail.com'),
-('COT1023', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-27 20:30:00', '2024-05-09 19:00:00', 247000, 100, 'reamm@mail.com'),
-('COT1024', 'Grado', 'La empresa buscará el lugar del evento', '2024-06-20 20:30:00', '2024-05-09 19:07:00', 247000, 100, 'weekend@mail.co'),
-('COT1025', 'XVaÃ±os', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-27 18:30:00', '2024-05-15 12:19:00', 621000, 100, 'guillermoisa@mail.com'),
-('COT1026', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-20 20:30:00', '2024-05-20 12:53:00', 247000, 30, 'estefania@mail.com');
+INSERT INTO `cotización` (`No_Cotizacion`, `Tipo_Cotizacion`, `Ubicacion`, `Fecha_Parcial_Evento_Cotización`, `Fecha_Hora_Cotizacion`, `Valor_Cotización`, `Cantidad_Personas_Cotización`, `Cotizante_Correo`, `Deleted`) VALUES
+('COT1001', 'Xv años', 'Salon comunal kennedy', '2023-10-20 08:00:00', '2023-06-15 02:54:00', 5000000, 100, 'mauriciotorres@gmail.com', 1),
+('COT1002', 'Grado', 'Salon comunal bella vista', '2024-06-23 06:00:00', '2023-04-18 03:35:00', 7000000, 150, 'pepitoperez@gmail.com', 0),
+('COT1003', 'Boda', 'Salon comunal perseverancia', '2024-02-03 02:00:00', '2023-05-01 08:00:00', 3500000, 80, 'valentinapaez@gmail.com', 0),
+('COT1004', 'Bautizo', 'Salon comunal puente aranda', '2023-07-15 07:30:00', '2023-07-28 10:15:00', 2500000, 70, 'santiagocastellanos@gmail.com', 0),
+('COT1005', 'Xv años', 'Salon comunal bosa', '2023-12-30 12:45:00', '2023-08-02 02:30:00', 4500000, 80, 'mauriciotorres@gmail.com', 0),
+('COT1006', 'Reunion Empresarial', 'Centro empresarial', '2024-06-27 16:30:00', '2024-05-16 16:32:52', 5000000, 30, 'alfsan@gmail.com', 0),
+('COT1016', 'Comunion', 'La empresa buscarÃÂÃÂ¡ el lugar del evento', '2024-07-07 17:30:00', '2024-05-08 16:33:00', 937000, 30, 'loreber@mail.com', 0),
+('COT1017', 'XV aÃ±os', 'La empresa buscarÃ¡ el lugar del evento', '2024-07-31 17:30:00', '2024-05-08 16:50:00', 1162000, 70, 'Zharick@mail.com', 1),
+('COT1018', '', 'Kennedy, Carrera 30 calle 19, Roma', '2024-06-21 16:00:00', '2024-05-08 16:55:00', 222000, 30, 'DanielGa@mail.com', 0),
+('COT1019', 'Bautizo', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-11 18:30:00', '2024-05-08 17:07:00', 248000, 20, 'alfrecas@mail.com', 0),
+('COT1020', 'Comunion', 'Mi casita', '2024-07-20 16:00:00', '2024-05-09 18:19:00', 566000, 50, 'Dana@mail.com', 0),
+('COT1021', 'Bautizo', 'La empresa buscarÃÂÃÂ¡ el lugar del evento', '2024-06-21 14:00:00', '2024-05-09 18:31:00', 684000, 30, 'Oreo@mail.com', 0),
+('COT1022', 'Boda', 'Salon comunal soacha', '2024-08-20 17:30:00', '2024-05-09 18:32:00', 1147000, 30, 'tom@mail.com', 0),
+('COT1023', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-27 20:30:00', '2024-05-09 19:00:00', 247000, 100, 'reamm@mail.com', 0),
+('COT1024', 'Grado', 'La empresa buscará el lugar del evento', '2024-06-20 20:30:00', '2024-05-09 19:07:00', 247000, 100, 'weekend@mail.co', 0),
+('COT1025', 'XVaÃ±os', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-27 18:30:00', '2024-05-15 12:19:00', 621000, 100, 'guillermoisa@mail.com', 0),
+('COT1026', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-20 20:30:00', '2024-05-20 12:53:00', 247000, 30, 'estefania@mail.com', 0),
+('COT1027', 'Grado', 'La empresa buscará el lugar del evento', '2025-01-05 17:30:00', '2024-05-27 15:52:00', 442000, 100, 'Yolgei@mail.com', 0),
+('COT1028', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-06-26 17:30:00', '2024-05-27 16:01:00', 442000, 30, 'edwin@mail.com', 0);
 
 --
 -- Disparadores `cotización`
@@ -644,48 +665,51 @@ CREATE TABLE `cotizante` (
   `Nombre_Cotizante` varchar(45) NOT NULL,
   `Apellido_Cotizante` varchar(45) NOT NULL,
   `Telefono_Cotizante` varchar(45) NOT NULL,
-  `Cliente` tinyint(1) NOT NULL
+  `Cliente` tinyint(1) NOT NULL,
+  `Deleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cotizante`
 --
 
-INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotizante`, `Telefono_Cotizante`, `Cliente`) VALUES
-('Alfonso@mail.com', 'Alfonso', 'Lopez', '874512', 0),
-('alfrecas@mail.com', 'Alfredo', 'Castro', '875421', 1),
-('alfsan@gmail.com', 'Alfonso', 'Snachez', '0759485', 0),
-('andresmartinez@gmail.com', 'Andres', 'Martinez', '3112104578', 1),
-('Angelica@mail.com', 'Angelica', 'Martinez', '9884512', 1),
-('angesu@mail.com', 'Angelica', 'Suarez', '120354', 0),
-('Dana@mail.com', 'Dana', 'Cespedes', '216598', 1),
-('DanielGa@mail.com', 'Daniel Mauricio', 'Chambo Gaviria', '3202114578', 1),
-('dfelipebr737@gmail.com', 'Felipe', 'Bernal Rodriguez', '3112711553', 1),
-('edilson@mail.com', 'Edilson', 'Maecha', '986532', 1),
-('estefania@mail.com', 'Estefania', 'Gavaria', '3112065487', 1),
-('Felipe@mail.com', 'Felipe', 'Rodriguez', '895623', 0),
-('franro@gmail.com', 'Francisco', 'Rojas Rey', '012345', 1),
-('franro@htomail.com', 'Francisco', 'Rojas', '0321457', 0),
-('Guillermo@mail.com', 'Guillermo', 'Camacho', '789632', 0),
-('guillermoisa@mail.com', 'Guillermo', 'Izasa', '875432', 0),
-('harrilo@mail.com', 'Harrison ', 'Lopez', '985421', 1),
-('Javier@mail.com', 'Javier', 'Rodriguez', '78523', 0),
-('Juliomar@mail.com', 'Julio', 'Martinez', '1230', 0),
-('Kevinsa@mail.com', 'Kevin', 'Salazar', '784512', 0),
-('kevinsanty@mail.com', 'Kevin Santiago', 'Gonzalez Romero', '3112458975', 0),
-('loreber@mail.com', 'Lorena', 'Berrio', '87653212', 0),
-('mariamartinez2@gmail.com', 'maria', 'martinez', '12345', 1),
-('mariamartinez@gmail.com', 'Maria', 'Martinez', '3224532545', 1),
-('mauriciotorres@gmail.com', 'Mauricio', 'Torres', '3229851236', 1),
-('Oreo@mail.com', 'Oreo', 'Rodriguez', '875432', 0),
-('pepitoperez@gmail.com', 'Pepito', 'Perez', '3224569875', 1),
-('reamm@mail.com', 'Ramm', 'Einstein', '10325', 0),
-('santiagocastellanos@gmail.com', 'Santiago', 'Castellanos', '3112365478', 1),
-('tom@mail.com', 'tom', 'holland', '876532', 0),
-('valentinapaez@gmail.com', 'Valentina', 'Paez', '3102548965', 1),
-('vivian@mail.com', 'Vivian', 'Hincapie', '87541', 0),
-('weekend@mail.co', 'Weekend', 'Testaye', '876532', 0),
-('Zharick@mail.com', 'Zharick', 'Serna', '875421', 0);
+INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotizante`, `Telefono_Cotizante`, `Cliente`, `Deleted`) VALUES
+('Alfonso@mail.com', 'Alfonso', 'Lopez', '874512', 1, 0),
+('alfrecas@mail.com', 'Alfredo', 'Castro', '875421', 1, 0),
+('alfsan@gmail.com', 'Alfonso', 'Sanchez Morales', '3213950191', 1, 0),
+('andresmartinez@gmail.com', 'Andres', 'Martinez', '3112104578', 1, 0),
+('Angelica@mail.com', 'Angelica', 'Martinez', '9884512', 1, 0),
+('angesu@mail.com', 'Angelica', 'Suarez', '120354', 0, 0),
+('Dana@mail.com', 'Dana Marcela', 'Cespedes Triana', '4505', 1, 0),
+('DanielGa@mail.com', 'Daniel Mauricio', 'Chambo Gaviria', '3202114578', 1, 0),
+('dfelipebr737@gmail.com', 'Felipe', 'Bernal Rodriguez', '3112711553', 1, 0),
+('edilson@mail.com', 'Edilson', 'Maecha', '986532', 1, 0),
+('edwin@mail.com', 'Edwin', 'Santos', '98653214', 0, 1),
+('estefania@mail.com', 'Estefania', 'Gavaria', '3112065487', 1, 0),
+('Felipe@mail.com', 'Felipe', 'Rodriguez', '895623', 0, 0),
+('franro@gmail.com', 'Francisco', 'Rojas Rey', '012345', 1, 0),
+('franro@htomail.com', 'Francisco', 'Rojas', '0321457', 0, 0),
+('Guillermo@mail.com', 'Guillermo', 'Camacho', '789632', 0, 0),
+('guillermoisa@mail.com', 'Guillermo', 'Izasa', '875432', 0, 0),
+('harrilo@mail.com', 'Harrison ', 'Lopez', '985421', 1, 0),
+('Javier@mail.com', 'Javier', 'Rodriguez', '78523', 0, 0),
+('Juliomar@mail.com', 'Julio', 'Martinez', '1230', 1, 0),
+('Kevinsa@mail.com', 'Kevin', 'Salazar', '784512', 1, 0),
+('kevinsanty@mail.com', 'Kevin Santiago', 'Gonzalez Romero', '3112458975', 1, 0),
+('loreber@mail.com', 'Daiyan Lorena', 'Berrio', '3112754521', 0, 0),
+('mariamartinez2@gmail.com', 'maria', 'martinez', '12345', 1, 0),
+('mariamartinez@gmail.com', 'Maria', 'Martinez', '3224532545', 1, 0),
+('mauriciotorres@gmail.com', 'Mauricio', 'Torres', '3229851236', 1, 0),
+('Oreo@mail.com', 'Oreo', 'Rodriguez', '875432', 0, 0),
+('pepitoperez@gmail.com', 'Pepito', 'Perez', '3224569875', 1, 0),
+('reamm@mail.com', 'Ramm', 'Einstein', '10325', 0, 0),
+('santiagocastellanos@gmail.com', 'Santiago', 'Castellanos', '3112365478', 1, 0),
+('tom@mail.com', 'tom marvolo', 'holland', '3114758965', 0, 0),
+('valentinapaez@gmail.com', 'Valentina', 'Paez', '3102548965', 1, 0),
+('vivian@mail.com', 'Vivian', 'Hincapie', '87541', 0, 0),
+('weekend@mail.co', 'Weekend', 'Testaye', '876532', 0, 0),
+('Yolgei@mail.com', 'Yolgei', 'Bacca', '3112547470', 0, 0),
+('Zharick@mail.com', 'Zharick', 'Serna', '875421', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -861,34 +885,38 @@ CREATE TABLE `servicio` (
   `Valor_Servicio` int(11) NOT NULL,
   `Nombre_Servicio` varchar(45) NOT NULL,
   `Tipo_Servicio` varchar(40) NOT NULL,
-  `Descripcion_servicio` varchar(200) NOT NULL
+  `Deleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `servicio`
 --
 
-INSERT INTO `servicio` (`idServicio`, `Valor_Servicio`, `Nombre_Servicio`, `Tipo_Servicio`, `Descripcion_servicio`) VALUES
-('S01', 7000, 'Mantel y Tapa Mesa Rectangular', 'Manteleria', '???'),
-('S02', 15000, 'Mantel y Tapa Mesa Redonda', 'Manteleria', '???'),
-('S03', 3500, 'Forro y Cinta silla', 'Manteleria', '?????'),
-('S04', 12000, 'Faldón', 'Manteleria', '??'),
-('S05', 10000, 'Mesa Rectangular ', 'Mesas y sillas', '???'),
-('S06', 15000, 'Mesa Redonda', 'Mesas y Sillas', '???'),
-('S07', 1200, 'Silla Rimax', 'Mesas y Sillas', '???'),
-('S08', 5000, 'Silla Tiffani', 'Mesas y Sillas', '???'),
-('S09', 50000, 'Backing redondo', 'Decoracion', '???'),
-('S10', 80000, 'Mesas decorativas x3', 'Decoracion', '???'),
-('S11', 40000, 'Arco de madera cuadrado', 'Decoracion', '???'),
-('S12', 45000, 'Arco diseño blanco', 'Decoracion', '???'),
-('S13', 45000, 'Mamparas x3', 'Decoracion', '???'),
-('S14', 35000, 'Mampara de madera semiredonda', 'Decoracion', '???'),
-('S15', 60000, 'Cilindros x3', 'Decoracion', '???'),
-('S16', 2000, 'Base de cristal', 'Decoracion', '???'),
-('S17', 10000, 'Base dorada de madera', 'Decoracion', '???'),
-('S18', 12000, 'Base metalica dorada', 'Decoracion', '???'),
-('S19', 7000, 'Base de metalicos blanca', 'Decoracion', '???'),
-('S20', 1000, 'Servilleta de tela', 'Decoracion', '???');
+INSERT INTO `servicio` (`idServicio`, `Valor_Servicio`, `Nombre_Servicio`, `Tipo_Servicio`, `Deleted`) VALUES
+('S01', 7000, 'Mantel y Tapa Mesa Rectangular', 'Manteleria', 0),
+('S02', 15000, 'Mantel y Tapa Mesa Redonda', 'Manteleria', 0),
+('S021', 10000, 'Vasos de plastico x30', 'Decoracion', 1),
+('S022', 10000, 'Mesa de metal', 'Mesas y sillas', 1),
+('S023', 15000, 'Sillas de metal', 'Mesas y sillas', 1),
+('S024', 10000, 'Silla de metal', 'Mesas y sillas', 1),
+('S03', 3500, 'Forro y Cinta silla', 'Manteleria', 0),
+('S04', 12000, 'Faldon', 'Manteleria', 0),
+('S05', 10000, 'Mesa Rectangular ', 'Mesas y sillas', 0),
+('S06', 15000, 'Mesa Redonda', 'Mesas y Sillas', 0),
+('S07', 1200, 'Silla Rimax', 'Mesas y Sillas', 0),
+('S08', 5000, 'Silla Tiffani', 'Mesas y Sillas', 0),
+('S09', 50000, 'Backing redondo', 'Decoracion', 0),
+('S10', 80000, 'Mesas decorativas x3', 'Decoracion', 0),
+('S11', 40000, 'Arco de madera cuadrado', 'Decoracion', 0),
+('S12', 45000, 'Arco diseno blanco', 'Decoracion', 0),
+('S13', 45000, 'Mamparas x3', 'Decoracion', 0),
+('S14', 35000, 'Mampara de madera semiredonda', 'Decoracion', 0),
+('S15', 60000, 'Cilindros x3', 'Decoracion', 0),
+('S16', 2000, 'Base de cristal', 'Decoracion', 0),
+('S17', 10000, 'Base dorada de madera', 'Decoracion', 0),
+('S18', 12000, 'Base metalica dorada', 'Decoracion', 0),
+('S19', 7000, 'Base de metalicos blanca', 'Decoracion', 0),
+('S20', 2000, 'Servilleta de tela', 'Decoracion', 0);
 
 --
 -- Disparadores `servicio`
@@ -899,17 +927,12 @@ CREATE TRIGGER `trg_generate_idServicio` BEFORE INSERT ON `servicio` FOR EACH RO
     DECLARE new_id INT;
 
     -- Obtiene el último número de servicio insertado
-    SELECT SUBSTRING(idServicio, 2) INTO last_id
-    FROM servicio
-    ORDER BY idServicio DESC
-    LIMIT 1;
+    SELECT COALESCE(MAX(CAST(SUBSTRING(idServicio, 2) AS UNSIGNED)), 0)
+    INTO last_id
+    FROM servicio;
 
-    -- Si no hay registros, asigna el valor inicial
-    IF last_id IS NULL THEN
-        SET new_id = 1;
-    ELSE
-        SET new_id = last_id + 1;
-    END IF;
+    -- Incrementa el último ID obtenido
+    SET new_id = last_id + 1;
 
     -- Formatea el nuevo número de servicio con el prefijo "S" y el número incrementado
     SET NEW.idServicio = CONCAT('S', LPAD(new_id, 3, '0'));
@@ -935,6 +958,7 @@ CREATE TABLE `vista_cotizaciones` (
 ,`Fecha_Parcial_Evento_Cotización` datetime
 ,`Fecha_Hora_Cotizacion` datetime
 ,`Valor_Cotización` int(11)
+,`Deleted` tinyint(1)
 ,`Servicios` mediumtext
 ,`Valor_Unitario` mediumtext
 ,`Cantidad` mediumtext
@@ -964,6 +988,7 @@ CREATE TABLE `vista_evento` (
 ,`Cantidad` mediumtext
 ,`Valor_Unitario` mediumtext
 ,`Tipo_Servicio` mediumtext
+,`idCliente` char(5)
 );
 
 -- --------------------------------------------------------
@@ -973,7 +998,7 @@ CREATE TABLE `vista_evento` (
 --
 DROP TABLE IF EXISTS `vista_cotizaciones`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_cotizaciones`  AS SELECT `cot`.`No_Cotizacion` AS `No_Cotizacion`, `co`.`Nombre_Cotizante` AS `Nombre_Cotizante`, `co`.`Apellido_Cotizante` AS `Apellido_Cotizante`, `co`.`Telefono_Cotizante` AS `Telefono_Cotizante`, `co`.`Correo_Cotizante` AS `Correo_Cotizante`, `cot`.`Tipo_Cotizacion` AS `Tipo_Cotizacion`, `cot`.`Cantidad_Personas_Cotización` AS `Cantidad_Personas_Cotización`, `cot`.`Ubicacion` AS `Ubicacion`, `cot`.`Fecha_Parcial_Evento_Cotización` AS `Fecha_Parcial_Evento_Cotización`, `cot`.`Fecha_Hora_Cotizacion` AS `Fecha_Hora_Cotizacion`, `cot`.`Valor_Cotización` AS `Valor_Cotización`, group_concat(`s`.`Nombre_Servicio` separator ', ') AS `Servicios`, group_concat(`s`.`Valor_Servicio` separator ', ') AS `Valor_Unitario`, group_concat(`cots`.`Cantidad_Servicios` separator ', ') AS `Cantidad`, group_concat(`cots`.`Valor_Servicio` separator ', ') AS `Valor_Total`, group_concat(`s`.`Tipo_Servicio` separator ', ') AS `Tipo_Servicio` FROM (((`cotización` `cot` join `cotizacion_servicio` `cots` on(`cot`.`No_Cotizacion` = `cots`.`Cotizacion_No_Cotizacion`)) join `cotizante` `co` on(`co`.`Correo_Cotizante` = `cot`.`Cotizante_Correo`)) join `servicio` `s` on(`s`.`idServicio` = `cots`.`Servicio_idServicio`)) GROUP BY `cot`.`No_Cotizacion` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_cotizaciones`  AS SELECT `cot`.`No_Cotizacion` AS `No_Cotizacion`, `co`.`Nombre_Cotizante` AS `Nombre_Cotizante`, `co`.`Apellido_Cotizante` AS `Apellido_Cotizante`, `co`.`Telefono_Cotizante` AS `Telefono_Cotizante`, `co`.`Correo_Cotizante` AS `Correo_Cotizante`, `cot`.`Tipo_Cotizacion` AS `Tipo_Cotizacion`, `cot`.`Cantidad_Personas_Cotización` AS `Cantidad_Personas_Cotización`, `cot`.`Ubicacion` AS `Ubicacion`, `cot`.`Fecha_Parcial_Evento_Cotización` AS `Fecha_Parcial_Evento_Cotización`, `cot`.`Fecha_Hora_Cotizacion` AS `Fecha_Hora_Cotizacion`, `cot`.`Valor_Cotización` AS `Valor_Cotización`, `cot`.`Deleted` AS `Deleted`, group_concat(`s`.`Nombre_Servicio` separator ', ') AS `Servicios`, group_concat(`s`.`Valor_Servicio` separator ', ') AS `Valor_Unitario`, group_concat(`cots`.`Cantidad_Servicios` separator ', ') AS `Cantidad`, group_concat(`cots`.`Valor_Servicio` separator ', ') AS `Valor_Total`, group_concat(`s`.`Tipo_Servicio` separator ', ') AS `Tipo_Servicio` FROM (((`cotización` `cot` join `cotizacion_servicio` `cots` on(`cot`.`No_Cotizacion` = `cots`.`Cotizacion_No_Cotizacion`)) join `cotizante` `co` on(`co`.`Correo_Cotizante` = `cot`.`Cotizante_Correo`)) join `servicio` `s` on(`s`.`idServicio` = `cots`.`Servicio_idServicio`)) GROUP BY `cot`.`No_Cotizacion` ;
 
 -- --------------------------------------------------------
 
@@ -982,7 +1007,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vista_evento`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_evento`  AS SELECT `c`.`Nombre_Cotizante` AS `Nombre_Cotizante`, `c`.`Apellido_Cotizante` AS `Apellido_Cotizante`, `c`.`Correo_Cotizante` AS `Correo_Cotizante`, `c`.`Telefono_Cotizante` AS `Telefono_Cotizante`, `e`.`idEvento` AS `idEvento`, `e`.`Tipo_evento` AS `Tipo_evento`, `e`.`Fecha_evento` AS `Fecha_evento`, `e`.`Estado_evento` AS `Estado_evento`, `e`.`Descripcion_evento` AS `Descripcion_evento`, `ct`.`Cantidad_Personas_Cotización` AS `Cantidad_Personas_Cotización`, group_concat(`s`.`Nombre_Servicio` separator ', ') AS `Nombres_Servicios`, group_concat(`es`.`Valor_Total` separator ', ') AS `Valor_Servicios`, group_concat(`es`.`Cantidad_Servicios` separator ', ') AS `Cantidad`, group_concat(`s`.`Valor_Servicio` separator ', ') AS `Valor_Unitario`, group_concat(`s`.`Tipo_Servicio` separator ', ') AS `Tipo_Servicio` FROM (((((`evento` `e` join `cliente` `cl` on(`cl`.`idCliente` = `e`.`Cliente_idCliente`)) join `cotizante` `c` on(`c`.`Correo_Cotizante` = `cl`.`Correo_cotizante`)) join `cotización` `ct` on(`ct`.`No_Cotizacion` = `e`.`Cotizacion_No_Cotizacion`)) join `evento_servicio` `es` on(`es`.`Evento_idEvento` = `e`.`idEvento`)) join `servicio` `s` on(`s`.`idServicio` = `es`.`Servicio_idServicio`)) GROUP BY `e`.`idEvento` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_evento`  AS SELECT `c`.`Nombre_Cotizante` AS `Nombre_Cotizante`, `c`.`Apellido_Cotizante` AS `Apellido_Cotizante`, `c`.`Correo_Cotizante` AS `Correo_Cotizante`, `c`.`Telefono_Cotizante` AS `Telefono_Cotizante`, `e`.`idEvento` AS `idEvento`, `e`.`Tipo_evento` AS `Tipo_evento`, `e`.`Fecha_evento` AS `Fecha_evento`, `e`.`Estado_evento` AS `Estado_evento`, `e`.`Descripcion_evento` AS `Descripcion_evento`, `ct`.`Cantidad_Personas_Cotización` AS `Cantidad_Personas_Cotización`, group_concat(`s`.`Nombre_Servicio` separator ', ') AS `Nombres_Servicios`, group_concat(`es`.`Valor_Total` separator ', ') AS `Valor_Servicios`, group_concat(`es`.`Cantidad_Servicios` separator ', ') AS `Cantidad`, group_concat(`s`.`Valor_Servicio` separator ', ') AS `Valor_Unitario`, group_concat(`s`.`Tipo_Servicio` separator ', ') AS `Tipo_Servicio`, `cl`.`idCliente` AS `idCliente` FROM (((((`evento` `e` join `cliente` `cl` on(`cl`.`idCliente` = `e`.`Cliente_idCliente`)) join `cotizante` `c` on(`c`.`Correo_Cotizante` = `cl`.`Correo_cotizante`)) join `cotización` `ct` on(`ct`.`No_Cotizacion` = `e`.`Cotizacion_No_Cotizacion`)) join `evento_servicio` `es` on(`es`.`Evento_idEvento` = `e`.`idEvento`)) join `servicio` `s` on(`s`.`idServicio` = `es`.`Servicio_idServicio`)) GROUP BY `e`.`idEvento` ;
 
 --
 -- Índices para tablas volcadas
