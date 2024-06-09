@@ -23,7 +23,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <!-- Flatpickr CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
+        <!-- SweetAlert CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         <link href="css/styles.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/stylesform.css">
     </head>
@@ -71,7 +72,7 @@
         </nav>
 
         <div class="container">
-            <form action="FormServlet?crearcotizacion=crearcotizacion" method="POST">
+            <form id="formulario-cotizacion" onsubmit="return crearCotizacion()">
                 <div class="row">
                     <div class="col7 col-md-7 col-xl-7">
                         <div class="container">
@@ -105,7 +106,7 @@
                                                                 <label for="event_location">Lugar del evento</label>
                                                                 <select name="event_location" id="event_location" class="form-control">
                                                                     <option value="" selected disabled>Seleccione una opción</option>
-                                                                    <option value="buscar">La empresa buscará el lugar del evento</option>
+                                                                    <option value="buscar">La empresa buscara el lugar del evento</option>
                                                                     <option value="tengo">Tengo el lugar del evento</option>
                                                                 </select>
                                                             </div>
@@ -285,7 +286,7 @@
                                 <input name="total_order_price" id="total_order_price" type="number" class="input-text js-input" placeholder="0" readonly>
                             </div>
                             <div class="form-field col-lg-12">
-                                <input class="submit-btn" type="submit" value="Submit">
+                                <button class="btn btn-success" type="submit">Enviar</button>
                             </div>
                         </div>
                     </div>
@@ -318,8 +319,11 @@
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <!-- Flatpickr JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <!-- SweetAlert JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
     </body>

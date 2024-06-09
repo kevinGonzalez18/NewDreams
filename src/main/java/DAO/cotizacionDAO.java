@@ -210,19 +210,22 @@ public class cotizacionDAO {
         return exito;
     }
 
-    public void deletedCotizacion(String idCotizacion) throws SQLException {
+    public boolean deletedCotizacion(String idCotizacion) throws SQLException {
         String sql = "UPDATE cotización SET Deleted = 1 WHERE No_Cotizacion = ?";
+        boolean exito = false;
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, idCotizacion);
             int rowsAffected = ps.executeUpdate();
-            System.out.println("Filas actualizadas: " + rowsAffected);
-
+            if (rowsAffected > 0){
+                exito = true;
+            }
             ps.close();
         } catch (SQLException e) {
             System.out.println("Error al actualizar: " + e.getMessage());
             throw e; // Lanza la excepción para indicar que la actualización falló
         }
+        return exito;
     }
 
     public boolean checkIfClienteExists(String correo) throws SQLException {
@@ -264,5 +267,14 @@ public class cotizacionDAO {
             throw e;
         }
         return exito;
+    }
+    
+    public void covertirCotizacionEnEvento() {
+        String procedureCall = "{CALL SP_UPDATE_EVENTO_INTO_COTIZACION()}";
+        try (CallableStatement cs = con.prepareCall(procedureCall)) {
+            cs.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -32,6 +32,10 @@
     </head>
 
     <body id="body-pd">
+        <div class="container text-center mt-4">
+            <h4 class="mb-4 fs-1">Cotizaciones</h4>
+        </div>
+
         <!--Container Main start-->
         <div class="container mt-5">
             <div class="row">
@@ -57,7 +61,7 @@
                                     <td>${cotizacion[5]}</td>
                                     <td>
                                         <a href="CotizacionServlet?menu=detalleCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-primary">Ver más</button></a>
-                                        <a href="CotizacionServlet?menu=deletedCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-danger">Eliminar</button></a>
+                                        <button class="btn btn-danger" onclick="eliminarCotizacion('${cotizacion[0]}')">Eliminar</button>
                                     </td>
                                 </tr>
                             </c:forEach>
