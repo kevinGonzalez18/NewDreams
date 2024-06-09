@@ -22,8 +22,10 @@ public class LoginServlet extends HttpServlet {
         String usuario = request.getParameter("userName");
         String contraseña = request.getParameter("password");
 
-        //Asigna el resultado del metodo a la variable rol
-        String rol = validarCredenciales(usuario, contraseña);
+        // Obtener el rol y el ID del administrador
+        Object[] resultado = validarCredenciales(usuario, contraseña);
+        String rol = (String) resultado[0];
+        administrador admin = (administrador) resultado[1];
 
         //Si rol es distinto de nulo y si es igual a alguno de los parametros redirecciona
         if (rol != null) {
@@ -31,16 +33,15 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
             session.setAttribute("rol", rol);
+            if (admin != null) {
+                session.setAttribute("adminId", admin.getAdminId());
+            }
             String sessionId = UUID.randomUUID().toString();
             session.setAttribute("sessionId", sessionId);
             if (rol.equals("administrador")) {
                 response.sendRedirect("principal.jsp"); // Redirecciona al panel del administrador
-                session.setAttribute("usuario", usuario);
-                session.setAttribute("rol", rol);
             } else if (rol.equals("cliente")) {
                 response.sendRedirect("perfilCliente.jsp"); // Redirecciona al perfil del cliente
-                session.setAttribute("usuario", usuario);
-                session.setAttribute("rol", rol);
             } else {
                 response.sendRedirect("login.jsp?error=inhabilitado");
             }
@@ -50,35 +51,25 @@ public class LoginServlet extends HttpServlet {
     }
 
     //Obtenemos los valores de las clases
-    private String validarCredenciales(String usuario, String contraseña) {
-
-        //Se instancian las clases y se envian los parametros que recibe el metodo de la peticion en el formulario
-        administrador admin = new administrador();
-        admin.setAdminCorreo(usuario); // Establece el correo proporcionado por el usuario
-        admin.setAdminContraseña(contraseña); // Establece la contraseña proporcionada por el usuario
-        cliente cli = new cliente();
-        cli.setCltCorreo(usuario);
-        cli.setCltContraseña(contraseña);
-
-        //Si el los metodos devuelven true asigna a cada uno administrador o usuario, en caso contrario devuelve null
+    private Object[] validarCredenciales(String usuario, String contraseña) {
         administradorDAO adminDAO = new administradorDAO();
         clienteDAO cliDAO = new clienteDAO();
-        if (adminDAO.validarCredenciales(usuario, contraseña)) {
-            return "administrador";
-        } else if (cliDAO.validarCrendenciales(usuario, contraseña)) {
-            // Obtener el estado del cliente
-            String estadoCliente = cliDAO.obtenerEstadoCliente(usuario);
 
-            // Verificar si el estado del cliente es habilitado
-            if (estadoCliente.equals("Habilitado")) {
-                return "cliente";
-            } else {
-                // Si el cliente no está habilitado, devolver null
-                return null;
-            }
-        } else {
-            return null;
+        // Verificar credenciales del administrador
+        administrador admin = adminDAO.obtenerAdminPorCorreoYContraseña(usuario, contraseña);
+        if (admin != null) {
+            return new Object[]{"administrador", admin};
         }
 
+        // Verificar credenciales del cliente
+        cliente cli = cliDAO.obtenerClientePorCorreoYContraseña(usuario, contraseña);
+        if (cli != null) {
+            String estadoCliente = cliDAO.obtenerEstadoCliente(usuario);
+            if ("Habilitado".equals(estadoCliente)) {
+                return new Object[]{"cliente", null};
+            }
+        }
+
+        return new Object[]{null, null};
     }
 }

@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // Proxies.
+%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +55,7 @@
                                     <td>${cliente[3]}</td>
                                     <td>
                                         <a href="ClienteServlet?menu=updateClientes&clientEmail=${cliente[0]}">
-                                            <button class="btn btn-primary">Crear cliente</button>
+                                            <button class="btn btn-primary">Editar cliente</button>
                                         </a>
                                         <button class="btn btn-danger" onclick="">Eliminar</button>
                                     </td>

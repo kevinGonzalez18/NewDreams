@@ -45,6 +45,32 @@ public class clienteDAO {
         return resultado;
     }
 
+    public cliente obtenerClientePorCorreoYContraseña(String correo, String contraseña) {
+        cliente cli = null;
+        String sql = "SELECT * FROM cliente WHERE Correo_cotizante = ?";
+        try {
+            Connection con = new conexion().conectar();
+            PreparedStatement ps;
+            ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String hashedPassword = rs.getString("Contraseña_Cliente");
+                    // Verificar si la contraseña proporcionada coincide con la contraseña encriptada
+                    if (PasswordHasher.checkPassword(contraseña, hashedPassword)) {
+                        cli = new cliente();
+                        cli.setCltId(rs.getString("idCliente"));
+                        cli.setCltCorreo(rs.getString("Correo_cotizante"));
+                        // Rellenar otros campos del cliente según sea necesario
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cli;
+    }
+
     public String obtenerEstadoCliente(String correo) {
         String estadoCliente = "";
 
@@ -150,7 +176,7 @@ public class clienteDAO {
             ps.setString(2, clt.getCltCorreo());
 
             int filasAfectadas = ps.executeUpdate();
-            if (filasAfectadas > 0){
+            if (filasAfectadas > 0) {
                 exito = true;
             }
         } catch (SQLException e) {
@@ -181,9 +207,10 @@ public class clienteDAO {
     }
 
     //Metoodo que permite actualizar los datos del cliente, desde el apartado de cliente
-    public void update(String correo, String nombre, String apellido, String telefono) throws SQLException {
+    public boolean update(String correo, String nombre, String apellido, String telefono) throws SQLException {
         String sql = "UPDATE cotizante SET Nombre_Cotizante = ?, Apellido_Cotizante = ?, "
                 + "Telefono_Cotizante = ? WHERE Correo_Cotizante = ? ";
+        boolean exito = false;
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, nombre);
@@ -191,28 +218,49 @@ public class clienteDAO {
             ps.setString(3, telefono);
             ps.setString(4, correo);
             int rowsAffected = ps.executeUpdate();
-            System.out.println("Filas actualizadas: " + rowsAffected);
-
+            if (rowsAffected > 0) {
+                exito = true;
+            }
             ps.close();
         } catch (SQLException e) {
             System.out.println("Error al actualizar: " + e.getMessage());
             throw e; // Lanza la excepción para indicar que la actualización falló
         }
+        return exito;
     }
 
-    public void updateCliente(String correo, String estado) throws SQLException {
+    public boolean updateCliente(String correo, String estado) throws SQLException {
         String sql = "UPDATE cliente SET Estado_Cliente = ? WHERE Correo_Cotizante = ?";
+        boolean exito = false;
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, estado);
             ps.setString(2, correo);
             int rowsAffected = ps.executeUpdate();
-            System.out.println("Filas actualizadas: " + rowsAffected);
-
+            if (rowsAffected > 0) {
+                exito = true;
+            }
             ps.close();
         } catch (SQLException e) {
             System.out.println("Error al actualizar: " + e.getMessage());
             throw e; // Lanza la excepción para indicar que la actualización falló
         }
+        return exito;
+    }
+    
+    public String obtenerIdCliente (String correo) throws SQLException{
+        String sql = "SELECT idCliente FROM cliente WHERE Correo_cotizante = ?";
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                correo = rs.getString("idCliente");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+        return correo;
     }
 }

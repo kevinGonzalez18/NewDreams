@@ -150,3 +150,114 @@ function initDatePicker() {
         console.error('El elemento con ID "toggle_date_icon" no se encontró en el DOM.');
     }
 }
+
+function validarCliente() {
+    const correo = document.getElementById('correoCotizacion').value;
+
+    fetch(`CotizacionServlet?action=checkCliente&correo=${correo}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    // Si el cliente existe, proceder a crear el evento
+                    crearEvento();
+                } else {
+                    // Si el cliente no existe, mostrar un mensaje de alerta
+                    Swal.fire({
+                        title: "Advertencia",
+                        text: "El cliente no está registrado. Por favor, registre al cliente antes de crear el evento.",
+                        icon: "warning"
+                    }).then(() => {
+                        loadContent('PrincipalServlet?menu=Cotizantes&accion=listar');
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+}
+
+
+
+function actualizarCotizacion() {
+    $.ajax({
+        url: 'CotizacionServlet?action=updateCotizacion',
+        type: 'POST',
+        data: $('#cotizacionForm').serialize(),
+        dataType: 'json',
+        success: function (response) {
+            console.log(response); // Para depuración
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: response.message,
+                    showConfirmButton: true,
+                    timer: 3000
+                }).then(() => {
+                    loadContent('PrincipalServlet?menu=Cotizaciones&accion=listar');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message,
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
+                showConfirmButton: true,
+                timer: 3000
+            });
+        }
+    });
+    return false; // Previene el comportamiento predeterminado del formulario
+}
+
+function crearEvento() {
+    $.ajax({
+        url: 'CotizacionServlet?action=crearEvento',
+        type: 'POST',
+        data: $('#cotizacionForm').serialize(),
+        dataType: 'json',
+        success: function (response) {
+            console.log(response); // Para depuración
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: response.message,
+                    showConfirmButton: true,
+                    timer: 3000
+                }).then(() => {
+                    loadContent('PrincipalServlet?menu=Eventos&accion=listar');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message,
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
+                showConfirmButton: true,
+                timer: 3000
+            });
+        }
+    });
+
+    return false; // Previene el comportamiento predeterminado del formulario
+}
+

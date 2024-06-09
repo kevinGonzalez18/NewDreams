@@ -133,5 +133,7 @@
         <script src="js/scriptDetallesCotizacion.js"></script>
         <script src="js/scriptServicios.js"></script>
         <script src="js/scriptCotizantes.js"></script>
+        <script src="js/scriptsClienteInAdmin.js"></script>
+
     </body>
 </html>

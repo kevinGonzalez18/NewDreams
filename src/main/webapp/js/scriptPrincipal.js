@@ -70,6 +70,11 @@ function loadContent(url) {
                     console.log("Script de scriptCotizantes.js cargado.");
                 });
             }
+            if (url.includes("clientes.jsp")) {
+                loadScript('js/scriptsClienteInAdmin.js', function () {
+                    console.log("Script de scriptCotizantes.js cargado.");
+                });
+            }
         }
     };
     xhttp.open("GET", url, true);
