@@ -57,10 +57,28 @@ public class CotizacionServlet extends HttpServlet {
         }
 
         if (menu != null && !menu.isEmpty() && menu.equals("deletedCotizacion")) {
-            String idCotizacion = request.getParameter("idCotizacion");
-            cotizacion cotizacion = new cotizacion();
-            cotizacion.setCodigoCotizacion(idCotizacion);
-            cotizacionDAO.deletedCotizacion(cotizacion.getCodigoCotizacion());
+            try {
+                String idCotizacion = request.getParameter("idCotizacion");
+                cotizacion cotizacion = new cotizacion();
+                cotizacion.setCodigoCotizacion(idCotizacion);
+                boolean exito = cotizacionDAO.deletedCotizacion(cotizacion.getCodigoCotizacion());
+                if (exito) {
+                    jsonResponse.put("status", "success");
+                    jsonResponse.put("message", "Cotizacion eliminada exitosamente");
+                } else {
+                    jsonResponse.put("status", "error");
+                    jsonResponse.put("message", "Error al intentar eliminar la cotizacion");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                jsonResponse.put("status", "error");
+                jsonResponse.put("message", "Error interno del servidor");
+            } finally {
+                out.write(jsonResponse.toString());
+                out.flush();
+                out.close();
+            }
+
         }
 
         if ("addServices".equals(action)) {
@@ -297,6 +315,7 @@ public class CotizacionServlet extends HttpServlet {
                             System.out.println("exitoActualizacion = " + exitoServicios);
                         }
                     }
+                    cotizacionDAO.covertirCotizacionEnEvento();
                     if (exitoEvento && exitoServicios) {
                         jsonResponse.put("status", "success");
                         jsonResponse.put("message", "Evento creado exitosamente");

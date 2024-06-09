@@ -261,3 +261,57 @@ function crearEvento() {
     return false; // Previene el comportamiento predeterminado del formulario
 }
 
+function eliminarCotizacion(idCotizacion) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Deseas eliminar la cotizacion ' + idCotizacion + '?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'CotizacionServlet?menu=deletedCotizacion',
+                type: 'POST',
+                data: {idCotizacion: idCotizacion},
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response); // Para depuración
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: response.message,
+                            showConfirmButton: true,
+                            timer: 3000
+                        }).then(() => {
+                            loadContent('PrincipalServlet?menu=Cotizaciones&accion=listar');
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                            showConfirmButton: true,
+                            timer: 3000
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
+                        showConfirmButton: true,
+                        timer: 3000
+                    });
+                }
+            });
+        }
+    });
+}
+

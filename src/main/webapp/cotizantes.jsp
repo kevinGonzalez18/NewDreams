@@ -28,6 +28,10 @@
     </head>
 
     <body id="body-pd">
+        <div class="container text-center mt-4">
+            <h4 class="mb-4 fs-1">Cotizantes</h4>
+        </div>
+
         <!--Container Main start-->
         <div class="container mt-5">
             <div class="row">
