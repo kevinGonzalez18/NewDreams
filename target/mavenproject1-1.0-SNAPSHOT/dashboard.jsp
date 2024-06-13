@@ -85,7 +85,7 @@
                             
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-center">
-                            <a class="small text-black stretched-link" onclick="loadContent('PrincipalServlet?menu=Estados'); return false;">Estados</a>
+                            <a class="small text-black stretched-link" onclick="loadContent('PrincipalServlet?menu=Estadosaccion=listar'); return false;">Estados</a>
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

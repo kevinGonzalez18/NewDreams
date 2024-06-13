@@ -160,7 +160,7 @@
                                         <div class="form-group col-12 d-flex justify-content-end">
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-primary" onclick="actualizarCotizacion()">Actualizar cotización</button>
-                                                <button type="button" class="btn btn-primary" onclick="validarCliente()">Crear evento</button>
+                                                <button type="button" class="btn btn-primary" onclick="crearEvento()">Aprobar cotización</button>
                                                 <a href="PrincipalServlet?menu=Cotizaciones&accion=listar"><button type="button" class="btn btn-primary">Atrás</button></a>
                                             </div>
                                         </div>
