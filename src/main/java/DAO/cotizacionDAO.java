@@ -279,7 +279,7 @@ public class cotizacionDAO {
     }
 
     public boolean rechazarCotizacion (String idCotizacion) throws SQLException {
-        String sql = "UPDATE cotizacion SET No_Aprobado = 1 WHERE No_Cotizacion = ?";
+        String sql = "UPDATE cotización SET No_Aprobado = 1 WHERE No_Cotizacion = ?";
         boolean exito = false;
         try {
             ps = con.prepareStatement(sql);

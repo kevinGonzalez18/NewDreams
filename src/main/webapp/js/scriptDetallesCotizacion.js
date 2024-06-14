@@ -282,7 +282,7 @@ function crearEvento() {
                             showConfirmButton: true,
                             timer: 3000
                         }).then(() => {
-                            loadContent('PrincipalServlet?menu=Cotizaciones&accion=listar');
+                            loadContent('PrincipalServlet?menu=Estados&accion=listar');
                         });
                     } else {
                         Swal.fire({
