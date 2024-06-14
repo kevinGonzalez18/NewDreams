@@ -30,14 +30,16 @@ public class eventoDAO {
     Connection con = new conexion().conectar();
     PreparedStatement ps;
     ResultSet rs;
-
+    private static final String ESTADO_ACTIVO = "Activo";
+    
     public List<Object[]> listarEventos() {
         List<Object[]> lista = new ArrayList<>();
         String sql = "SELECT e.idEvento, c.Nombre_Cotizante, c.Apellido_Cotizante, e.Tipo_evento, e.Estado_evento FROM evento e "
                 + "JOIN cliente cl ON e.Cliente_idCliente = cl.idCliente "
-                + "JOIN cotizante c ON cl.Correo_cotizante = c.Correo_Cotizante";
+                + "JOIN cotizante c ON cl.Correo_cotizante = c.Correo_Cotizante WHERE e.Estado_evento = ?";
         try {
             ps = con.prepareStatement(sql);
+            ps.setString(1, ESTADO_ACTIVO);
             rs = ps.executeQuery();
             while (rs.next()) {
                 evento.setEventoId(rs.getInt("idEvento"));
@@ -82,6 +84,7 @@ public class eventoDAO {
                 String[] tipoServicio = rs.getString("Tipo_Servicio").split(", ");
                 String[] idServicio = rs.getString("idServicio").split(", ");
                 cliente.setCltId(rs.getString("idCliente"));
+                evento.setValorFinal(rs.getInt("Precio_Final"));
 
                 if (nombresServicios.length == valorUnitario.length
                         && nombresServicios.length == cantidad.length
@@ -122,7 +125,8 @@ public class eventoDAO {
                         evento.getDescripcionEvento(),
                         cotizacion.getCantidadPersonas(),
                         listaServicios, // Agregar la lista de servicios al array
-                        cliente.getCltId()
+                        cliente.getCltId(),
+                        evento.getValorFinal()
                     };
                     lista.add(eventoArray);
                 }
@@ -134,18 +138,28 @@ public class eventoDAO {
         return lista;
     }
 
-    public void EliminarServicioEvento(int idEvento, String idServicio) throws SQLException {
-        String sql = "DELETE FROM evento_servicio WHERE Servicio_idServicio = ? AND Evento_idEvento = ?";
+    private static final String ESTADO_REALIZADO = "Realizado";
+
+    public List<Object[]> listarEventosRealizados() {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = "SELECT * FROM vista_evento WHERE Estado_evento = ?";
         try {
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idEvento);
-            ps.setString(2, idServicio);
-            ps.executeUpdate();
-        } catch (SQLException e) {
+            ps.setString(1, ESTADO_REALIZADO);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                evento.setEventoId(rs.getInt("idEvento"));
+                cotizante.setCotizanteNombre(rs.getString("Nombre_Cotizante"));
+                cotizante.setCotizanteApellido(rs.getString("Apellido_Cotizante"));
+                evento.setTipoEvento(rs.getString("Tipo_evento"));
+                evento.setEstadoEvento(rs.getString("Estado_evento"));
+                Object[] eventoArray = {evento.getEventoId(), cotizante.getCotizanteNombre(), cotizante.getCotizanteApellido(), evento.getTipoEvento(), evento.getEstadoEvento()};
+                lista.add(eventoArray);
+            }
+        } catch (Exception e) {
             e.printStackTrace(); // Imprimir el error
-        } finally {
-            cerrarRecursos();
         }
+        return lista;
     }
 
     private void cerrarRecursos() {
@@ -160,5 +174,8 @@ public class eventoDAO {
             e.printStackTrace();
         }
     }
+
 }
+    
+
 

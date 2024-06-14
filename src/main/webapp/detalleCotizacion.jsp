@@ -109,7 +109,7 @@
                                                             <button type="button" class="btn btn-success" onclick="openModal('${cotizacion[0]}')">Agregar Servicio</button>
                                                         </div>
                                                         <c:set var="total_iterations" value="${0}" />
-                                                        <c:forEach var="servicio" items="${cotizacion[11]}" varStatus="loop">
+                                                        <c:forEach var="servicio" items="${cotizacion[11]}">
                                                             <c:set var="total_iterations" value="${loop.count}" />
                                                             <div class="row mb-2 service-item">
                                                                 <div class="col-1">
@@ -160,7 +160,7 @@
                                         <div class="form-group col-12 d-flex justify-content-end">
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-primary" onclick="actualizarCotizacion()">Actualizar cotización</button>
-                                                <button type="button" class="btn btn-primary" onclick="validarCliente()">Crear evento</button>
+                                                <button type="button" class="btn btn-primary" onclick="crearEvento()">Aprobar cotización</button>
                                                 <a href="PrincipalServlet?menu=Cotizaciones&accion=listar"><button type="button" class="btn btn-primary">Atrás</button></a>
                                             </div>
                                         </div>

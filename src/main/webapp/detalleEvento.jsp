@@ -56,17 +56,22 @@
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label for="cvc">Estado del evento</label>
-                                        <input id="estado-evento" type="text" class="form-control" value="${Detalle[7]}" readonly>
+                                        <select class="estado-cliente" id="estadoCliente" name="estadoCliente">
+                                            <option value="Habilitado" ${Detalle[7] == 'Activo' ? 'selected' : ''}>Activo</option>
+                                            <option value="Inhabilitado" ${Detalle[7] == 'Realizado' ? 'selected' : ''}>Realizado</option>
+                                        </select>
+
                                     </div>
                                     <div class="form-group col-sm-10">
                                         <label for="cvc">Descipcion del evento</label>
-                                        <input id="descripcion-evento" type="text" class="form-control" value="${Detalle[8]}" readonly>
+                                        <input id="descripcion-evento" type="text" class="form-control" value="${Detalle[8]}">
                                     </div>
                                     <div class="block-heading">
                                         <h2>Servicios del evento</h2>
                                     </div><br>
+                                    <c:set var="total_iterations" value="${0}" />
                                     <c:forEach var="servicio" items="${Detalle[10]}">
-
+                                        <c:set var="total_iterations" value="${loop.count}" />
                                         <div class="row">
                                             <p class="col-2 col-md-2">Cant</p>
                                             <p class="col-6 col-md-6">Servicio</p>
@@ -88,20 +93,32 @@
                                                 </div>
                                             </div>
                                             <div class="col-2 col-md-2">                                       
-                                                <form action="EventoServlet?menu=detalleEvento&action=eliminarServicio" method="POST" class="delete-form">
+                                                <form action="EventoServlet?action=eliminarServicio" method="POST" class="delete-form">
+                                                    <input type="hidden" name="serviceIndex" value="${total_iterations}">
                                                     <input type="hidden" name="idEvento" value="${Detalle[4]}">
                                                     <input type="hidden" name="idServicio" value="${servicio[3]}"> <!-- Asegúrate de que este índice contiene el id del servicio -->
+                                                    <input type="hidden" name="serviceName" value="${servicio[0]}">
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                                 </form>
                                             </div>
 
                                         </div>
                                     </c:forEach>
-                                    <div class="form-group col-sm-6">
-                                        <a href="PagoServlet?menu=listaPagos&idEvento=${Detalle[4]}&idCliente=${Detalle[11]}"><button type="button" class="btn btn-primary btn-block">historial de pagos</button></a>
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <a href="PrincipalServlet?menu=Eventos&accion=listar"><button type="button" class="btn btn-primary btn-block">Atras</button></a>
+                                    <input type="hidden" name="total_iterations" value="${total_iterations}" />
+                                    <div class="form-group col-sm-4">
+                                        <label>Valor del evento</label>
+                                        <input id="valor-evento" type="number" class="form-control" value="${Detalle[12]}" readonly>
+                                    </div><br><br>
+                                    <div class="form-group">
+                                        <div class="form-group col-sm-6">
+                                            <a href="PagoServlet?menu=listaPagos&idEvento=${Detalle[4]}&idCliente=${Detalle[11]}"><button type="button" class="btn btn-primary btn-block">historial de pagos</button></a>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <a href="PrincipalServlet?menu=Eventos&accion=listar"><button type="button" class="btn btn-primary btn-block">Atras</button></a>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <a href="PrincipalServlet?menu=Eventos&accion=listar"><button type="button" class="btn btn-primary btn-block">Actualizar evento</button></a>
+                                        </div>
                                     </div>
                                 </div>
                         </form>

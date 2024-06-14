@@ -21,7 +21,7 @@ public class cotizacionDAO {
         cotizacion cotizacion = new cotizacion();
         cotizante cotizante = new cotizante();
         List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT * FROM vista_cotizaciones WHERE Deleted = 0";
+        String sql = "SELECT * FROM vista_cotizaciones WHERE Deleted = 0 AND No_Aprobado = 0";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -217,7 +217,7 @@ public class cotizacionDAO {
             ps = con.prepareStatement(sql);
             ps.setString(1, idCotizacion);
             int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0){
+            if (rowsAffected > 0) {
                 exito = true;
             }
             ps.close();
@@ -245,30 +245,30 @@ public class cotizacionDAO {
         }
         return existe;
     }
-    
-    public boolean crearEvento(evento evento, int idAdmin, String idCot, String idCli) throws SQLException{
+
+    public boolean crearEvento(evento evento, int idAdmin, String idCot, String idCli) throws SQLException {
         String sql = "CALL SP_INSERT_EVENTO (?, ?, ?, ?, ?, ?, ?)";
         boolean exito = false;
-        try{
+        try {
             ps = con.prepareStatement(sql);
             ps.setString(1, evento.getTipoEvento());
             ps.setInt(2, evento.getValorEvento());
             ps.setTimestamp(3, (Timestamp) evento.getFechaEvento());
             ps.setString(4, evento.getDescripcionEvento());
-            ps.setInt (5, idAdmin);
+            ps.setInt(5, idAdmin);
             ps.setString(6, idCot);
             ps.setString(7, idCli);
             int filasAfectadas = ps.executeUpdate();
-            if (filasAfectadas > 0){
+            if (filasAfectadas > 0) {
                 exito = true;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         }
         return exito;
     }
-    
+
     public void covertirCotizacionEnEvento() {
         String procedureCall = "{CALL SP_UPDATE_EVENTO_INTO_COTIZACION()}";
         try (CallableStatement cs = con.prepareCall(procedureCall)) {
@@ -276,5 +276,46 @@ public class cotizacionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean rechazarCotizacion (String idCotizacion) throws SQLException {
+        String sql = "UPDATE cotizacion SET No_Aprobado = 1 WHERE No_Cotizacion = ?";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, idCotizacion);
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                exito = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
+    }
+
+    public List<Object[]> listarCotizacionesNoAprobadas() {
+        cotizacion cotizacion = new cotizacion();
+        cotizante cotizante = new cotizante();
+        List<Object[]> lista = new ArrayList<>();
+        String sql = "SELECT * FROM vista_cotizaciones WHERE No_Aprobado = 1";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                cotizacion.setCodigoCotizacion(rs.getString("No_Cotizacion"));
+                cotizante.setCotizanteNombre(rs.getString("Nombre_Cotizante"));
+                cotizante.setCotizanteApellido(rs.getString("Apellido_Cotizante"));
+                cotizante.setCotizanteTelefono(rs.getString("Telefono_Cotizante"));
+                cotizante.setCotizanteCorreo(rs.getString("Correo_Cotizante"));
+                cotizacion.setTipoCotizacion(rs.getString("Tipo_Cotizacion"));
+                Object[] cotizacionArray = {cotizacion.getCodigoCotizacion(), cotizante.getCotizanteNombre(), cotizante.getCotizanteApellido(), cotizante.getCotizanteTelefono(), cotizante.getCotizanteCorreo(), cotizacion.getTipoCotizacion()};
+                lista.add(cotizacionArray);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Imprimir el error
+        }
+        return lista;
     }
 }

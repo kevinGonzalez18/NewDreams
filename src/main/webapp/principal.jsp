@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="PrincipalServlet?menu=Estados" class="sidebar-link">
+                            <a href="PrincipalServlet?menu=Estados&accion=listar" class="sidebar-link">
                                 <i class="fa-solid fa-users pe-2"></i>
                                 Estados
                             </a>
@@ -134,6 +134,7 @@
         <script src="js/scriptServicios.js"></script>
         <script src="js/scriptCotizantes.js"></script>
         <script src="js/scriptsClienteInAdmin.js"></script>
+        <script src="js/scriptPagos.js"></script>
 
     </body>
 </html>

@@ -60,13 +60,11 @@ public class pagoDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            cerrarRecursos();
-        }
+        } 
         return lista;
     }
 
-    public boolean RegistrarPago(String Nombre, String Apellido, Date fecha, int Valor, int idEvento, String idCliente) {
+    public boolean RegistrarPago(String Nombre, String Apellido, Date fecha, int Valor, int idEvento, String idCliente) throws SQLException {
         String sql = "CALL SP_INSERT_PAGOS(?, ?, ?, ?, ?, ?)";
         boolean exito = false;
         try {
@@ -85,9 +83,9 @@ public class pagoDAO {
             }
 
         } catch (SQLException e) {
+            
             e.printStackTrace();
-        } finally {
-            cerrarRecursos();
+            throw e;
         }
         return exito;
     }
