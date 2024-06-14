@@ -75,6 +75,12 @@ function loadContent(url) {
                     console.log("Script de scriptCotizantes.js cargado.");
                 });
             }
+            if (url.includes("pagos.jsp")) {
+                loadScript('js/scriptPagos.js', function () {
+                    console.log("Script de scriptPagos.js cargado.");
+                });
+            }
+            
         }
     };
     xhttp.open("GET", url, true);

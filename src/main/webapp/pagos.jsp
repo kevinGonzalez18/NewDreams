@@ -41,8 +41,8 @@
 
                             </c:forEach>
                             <c:forEach var="Pago" items="${Pagos}">
-                            <input id="card-holder" type="hidden" class="form-control" value="${Pago[6]}" readonly>
-                            <input id="card-holder" type="hidden" class="form-control" value="${Pago[7]}" readonly>
+                            <input type="hidden" class="form-control" value="${Pago[6]}" readonly>
+                            <input type="hidden" class="form-control" value="${Pago[7]}" readonly>
                         </c:forEach>
                         </tbody>
                     </table>
@@ -65,7 +65,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="paymentForm" action="PagoServlet?accion=insertarPago" method="POST">
+                        <form id="paymentForm" onsubmit="return agregarPago()">
                             <input type="text" id="nombre" name="nombre" class="form-control mb-3" placeholder="Nombre">
                             <input type="text" id="apellido" name="apellido" class="form-control mb-3" placeholder="Apellido">
                             <input type="date" id="fecha" name="fecha" class="form-control mb-3" placeholder="Fecha">

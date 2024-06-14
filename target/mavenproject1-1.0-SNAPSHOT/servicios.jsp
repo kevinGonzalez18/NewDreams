@@ -1,8 +1,3 @@
-<%-- 
-    Document   : dashboard
-    Created on : 10/02/2024, 6:35:56 p. m.
-    Author     : Felipe Rodriguez
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

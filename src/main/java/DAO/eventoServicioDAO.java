@@ -62,4 +62,16 @@ public class eventoServicioDAO {
         }
         return null;
     }
+    
+    public int eliminarServicioEvento(String idServicio, int idEvento) throws SQLException {
+        String sql = "DELETE FROM evento_servicio WHERE Servicio_idServicio = ? AND Evento_idEvento = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, idServicio);
+            ps.setInt(2, idEvento);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Consider logging this instead of printing the stack trace
+            throw e; // Re-throw the exception to let the caller handle it
+        }
+    }
 }
