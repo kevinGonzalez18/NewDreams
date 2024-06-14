@@ -20,6 +20,7 @@ public class evento {
     private String estadoEvento;
     private String tematicaEvento;
     private String descripcionEvento;
+    private int valorFinal;
     
     public evento() {
     }
@@ -32,7 +33,9 @@ public class evento {
         this.estadoEvento = estadoEvento;
         this.tematicaEvento = tematicaEvento;
         this.descripcionEvento = descripcionEvento;
+        this.valorFinal = valorFinal;
     }
+    
 
     public int getEventoId() {
         return eventoId;
@@ -89,6 +92,15 @@ public class evento {
     public void setDescripcionEvento(String descripccionEvento) {
         this.descripcionEvento = descripccionEvento;
     }
+
+    public int getValorFinal() {
+        return valorFinal;
+    }
+
+    public void setValorFinal(int valorFinal) {
+        this.valorFinal = valorFinal;
+    }
+    
             
     
 }

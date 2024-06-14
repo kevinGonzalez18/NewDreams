@@ -58,16 +58,17 @@ public class pagoDAO {
                 lista.add(pagoArray);
 
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // Imprimir el error
-        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
         return lista;
     }
 
-    public boolean RegistrarPago(String Nombre, String Apellido, Date fecha, int Valor, int idEvento, String idCliente) {
+    public boolean RegistrarPago(String Nombre, String Apellido, Date fecha, int Valor, int idEvento, String idCliente) throws SQLException {
         String sql = "CALL SP_INSERT_PAGOS(?, ?, ?, ?, ?, ?)";
         boolean exito = false;
         try {
+
             ps = con.prepareStatement(sql);
             ps.setString(1, Nombre);
             ps.setString(2, Apellido);
@@ -82,9 +83,27 @@ public class pagoDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Imprimir el error
+            
+            e.printStackTrace();
+            throw e;
         }
         return exito;
+    }
+
+    private void cerrarRecursos() {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
