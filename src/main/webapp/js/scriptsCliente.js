@@ -49,25 +49,3 @@ document.getElementById('logoutButton').addEventListener('click', function (even
         console.error('Error al cerrar sesión:', error);
     });
 });
-
-//---------------------------------------------------------------Scripts apartado del administrador------------------------------
-function actualizarCliente(correo) {
-    $.ajax({
-        url: 'ClienteServlet?menu=updateClientes',
-        type: 'POST',
-        data: {clientEmail: correo},
-        dataType: 'json',
-        success: function (response) {
-            alert(response.message);
-            if (response.status === 'success') {
-                loadContent('PrincipalServlet?menu=Clientes&accion=listar');
-            }
-        },
-        error: function (xhr, status, error) {
-            alert('Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText);
-        }
-    });
-
-    return false; // Previene el comportamiento predeterminado del formulario
-}
-

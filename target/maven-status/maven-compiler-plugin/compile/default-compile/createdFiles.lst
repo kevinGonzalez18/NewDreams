@@ -4,6 +4,7 @@ Modelo\cotizacionServicio.class
 Controlador\LogoutServlet.class
 Modelo\eventoServicio.class
 DAO\cotizacionServicioDAO.class
+DAO\eventoServicioDAO.class
 DAO\administradorDAO.class
 Modelo\cliente.class
 Controlador\reestablecerContrasenaServlet$1.class

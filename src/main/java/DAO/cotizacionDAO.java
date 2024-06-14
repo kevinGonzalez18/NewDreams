@@ -4,6 +4,7 @@ import Modelo.conexion;
 import Modelo.cotizacion;
 import Modelo.cotizacionServicio;
 import Modelo.cotizante;
+import Modelo.evento;
 import Modelo.servicio;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -209,18 +210,71 @@ public class cotizacionDAO {
         return exito;
     }
 
-    public void deletedCotizacion(String idCotizacion) throws SQLException {
+    public boolean deletedCotizacion(String idCotizacion) throws SQLException {
         String sql = "UPDATE cotización SET Deleted = 1 WHERE No_Cotizacion = ?";
+        boolean exito = false;
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, idCotizacion);
             int rowsAffected = ps.executeUpdate();
-            System.out.println("Filas actualizadas: " + rowsAffected);
-
+            if (rowsAffected > 0){
+                exito = true;
+            }
             ps.close();
         } catch (SQLException e) {
             System.out.println("Error al actualizar: " + e.getMessage());
             throw e; // Lanza la excepción para indicar que la actualización falló
+        }
+        return exito;
+    }
+
+    public boolean checkIfClienteExists(String correo) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM cliente WHERE Correo_cotizante = ?";
+        boolean existe = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return existe;
+    }
+    
+    public boolean crearEvento(evento evento, int idAdmin, String idCot, String idCli) throws SQLException{
+        String sql = "CALL SP_INSERT_EVENTO (?, ?, ?, ?, ?, ?, ?)";
+        boolean exito = false;
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setString(1, evento.getTipoEvento());
+            ps.setInt(2, evento.getValorEvento());
+            ps.setTimestamp(3, (Timestamp) evento.getFechaEvento());
+            ps.setString(4, evento.getDescripcionEvento());
+            ps.setInt (5, idAdmin);
+            ps.setString(6, idCot);
+            ps.setString(7, idCli);
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0){
+                exito = true;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
+    }
+    
+    public void covertirCotizacionEnEvento() {
+        String procedureCall = "{CALL SP_UPDATE_EVENTO_INTO_COTIZACION()}";
+        try (CallableStatement cs = con.prepareCall(procedureCall)) {
+            cs.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

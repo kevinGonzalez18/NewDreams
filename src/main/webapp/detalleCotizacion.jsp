@@ -6,6 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // Proxies.
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,7 +44,7 @@
                         <div class="block-heading">
                             <h2>Detalles de la Cotización</h2>
                         </div><br>
-                        <form action="CotizacionServlet" method="POST">
+                        <form id="cotizacionForm" onsubmit="return false;">
                             <div class="card-details">
                                 <c:forEach var="cotizacion" items="${cotizacion}">
                                     <h3 class="title" style="color: black;">Id de la cotizacion: ${cotizacion[0]}</h3><br>
@@ -154,8 +159,8 @@
 
                                         <div class="form-group col-12 d-flex justify-content-end">
                                             <div class="btn-group">
-                                                <input type="submit" name="action" value="updateCotizacion" placeholder="Actualizar cotizacion" class="btn btn-primary">
-                                                <a href="#"><button type="button" class="btn btn-primary">Crear evento</button></a>
+                                                <button type="button" class="btn btn-primary" onclick="actualizarCotizacion()">Actualizar cotización</button>
+                                                <button type="button" class="btn btn-primary" onclick="validarCliente()">Crear evento</button>
                                                 <a href="PrincipalServlet?menu=Cotizaciones&accion=listar"><button type="button" class="btn btn-primary">Atrás</button></a>
                                             </div>
                                         </div>

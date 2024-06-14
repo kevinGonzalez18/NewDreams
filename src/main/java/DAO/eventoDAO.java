@@ -69,7 +69,7 @@ public class eventoDAO {
                 cotizante.setCotizanteTelefono(rs.getString("Telefono_Cotizante"));
                 evento.setEventoId(rs.getInt("idEvento"));
                 evento.setTipoEvento(rs.getString("Tipo_evento"));
-                evento.setFechaEvento(rs.getDate("Fecha_evento"));
+                evento.setFechaEvento(rs.getTimestamp("Fecha_evento"));
                 evento.setEstadoEvento(rs.getString("Estado_evento"));
                 evento.setDescripcionEvento(rs.getString("Descripcion_evento"));
                 cotizacion.setCantidadPersonas(rs.getInt("Cantidad_Personas_Cotización"));

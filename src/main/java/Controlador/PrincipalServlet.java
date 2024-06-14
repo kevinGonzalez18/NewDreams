@@ -96,12 +96,10 @@ public class PrincipalServlet extends HttpServlet {
                             jsonResponse.put("status", "error");
                             jsonResponse.put("message", "Error interno del servidor");
                         } finally {
-                            out.print(jsonResponse.toString());
+                            out.write(jsonResponse.toString());
                             out.flush();
                             out.close();
                         }
-                        RequestDispatcher dispatcherAgregar = request.getRequestDispatcher("resultadoAgregar.jsp");
-                        dispatcherAgregar.forward(request, response);
                         break;
                     case "Editar":
                         break;
@@ -192,12 +190,10 @@ public class PrincipalServlet extends HttpServlet {
                             jsonResponse.put("status", "error");
                             jsonResponse.put("message", "Error interno del servidor");
                         } finally {
-                            out.print(jsonResponse.toString());
+                            out.write(jsonResponse.toString());
                             out.flush();
                             out.close();
                         }
-                        RequestDispatcher dispatcherAgregar = request.getRequestDispatcher("resultadoAgregar.jsp");
-                        dispatcherAgregar.forward(request, response);
                         break;
                     case "actualizar":
                         try {
@@ -228,12 +224,10 @@ public class PrincipalServlet extends HttpServlet {
                             jsonResponse.put("status", "error");
                             jsonResponse.put("message", "Error interno del servidor");
                         } finally {
-                            out.print(jsonResponse.toString());
+                            out.write(jsonResponse.toString());
                             out.flush();
                             out.close();
                         }
-                        RequestDispatcher dispatcherActualizar = request.getRequestDispatcher("resultadoAgregar.jsp");
-                        dispatcherActualizar.forward(request, response);
                         break;
                     case "eliminar":
                         try {
@@ -257,13 +251,10 @@ public class PrincipalServlet extends HttpServlet {
                             jsonResponse.put("status", "error");
                             jsonResponse.put("message", "Error interno del servidor");
                         } finally {
-                            out.print(jsonResponse.toString());
+                            out.write(jsonResponse.toString());
                             out.flush();
                             out.close();
                         }
-
-                        RequestDispatcher dispatcherEliminar = request.getRequestDispatcher("resultadoAgregar.jsp");
-                        dispatcherEliminar.forward(request, response);
                         break;
                 }
                 request.getRequestDispatcher("servicios.jsp").forward(request, response);

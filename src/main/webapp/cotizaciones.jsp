@@ -6,6 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // Proxies.
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +32,10 @@
     </head>
 
     <body id="body-pd">
+        <div class="container text-center mt-4">
+            <h4 class="mb-4 fs-1">Cotizaciones</h4>
+        </div>
+
         <!--Container Main start-->
         <div class="container mt-5">
             <div class="row">
@@ -52,7 +61,7 @@
                                     <td>${cotizacion[5]}</td>
                                     <td>
                                         <a href="CotizacionServlet?menu=detalleCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-primary">Ver más</button></a>
-                                        <a href="CotizacionServlet?menu=deletedCotizacion&idCotizacion=${cotizacion[0]}" target="target"><button class="btn btn-danger">Eliminar</button></a>
+                                        <button class="btn btn-danger" onclick="eliminarCotizacion('${cotizacion[0]}')">Eliminar</button>
                                     </td>
                                 </tr>
                             </c:forEach>

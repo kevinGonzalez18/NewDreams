@@ -1,6 +1,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    response.setDateHeader("Expires", 0); // Proxies.
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +21,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
-
+    <%
+        String mensajeExito = (String) request.getAttribute("mensajeExito");
+        String mensajeError = (String) request.getAttribute("mensajeError");
+    %>
     <body id="body-pd">
         <!-- Título Principal -->
         <div class="container text-center mt-4">
@@ -114,6 +123,31 @@
                 </div>
             </div>
         </div>
+        <script>
+            <% if (mensajeExito != null) { %>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '${mensajeExito}',
+                showConfirmButton: true,
+                timer: 3000,
+                didClose: () => {
+                    window.location.href = "PrincipalServlet?menu=Inicio";
+                }
+            });
+            <% } else if (mensajeError != null) { %>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<c:out value="${mensajeError}" />',
+                showConfirmButton: true,
+                timer: 3000,
+                didClose: () => {
+                    window.location.href = "PrincipalServlet?menu=Inicio";
+                }
+            });
+            <% }%>
+        </script>
     </body>
 
 </html>
