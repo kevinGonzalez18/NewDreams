@@ -99,6 +99,11 @@ public class CotizacionServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(new Gson().toJson(servicios));
         }
+        
+        if("rechazarCotizacion".equals(action)){
+            String idCotizacion = request.getParameter("idCotizacion");
+            boolean exito = cotizacionDAO.rechazarCotizacion(idCotizacion);
+        }
 
         if ("deleteService".equals(action)) {
             String serviceIndexStr = request.getParameter("serviceIndex");

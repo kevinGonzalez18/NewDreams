@@ -159,7 +159,44 @@ function validarCliente() {
             .then(data => {
                 if (data.exists) {
                     // Si el cliente existe, proceder a crear el evento
-                    crearEvento();
+                    $.ajax({
+                        url: 'CotizacionServlet?action=crearEvento',
+                        type: 'POST',
+                        data: $('#cotizacionForm').serialize(),
+                        dataType: 'json',
+                        success: function (response) {
+                            console.log(response); // Para depuración
+                            if (response.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Éxito',
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                    timer: 3000
+                                }).then(() => {
+                                    loadContent('PrincipalServlet?menu=Eventos&accion=listar');
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                    timer: 3000
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
+                                showConfirmButton: true,
+                                timer: 3000
+                            });
+                        }
+                    });
                 } else {
                     // Si el cliente no existe, mostrar un mensaje de alerta
                     Swal.fire({
@@ -173,8 +210,6 @@ function validarCliente() {
             })
             .catch(error => console.error('Error:', error));
 }
-
-
 
 function actualizarCotizacion() {
     $.ajax({
@@ -219,47 +254,63 @@ function actualizarCotizacion() {
 }
 
 function crearEvento() {
-    $.ajax({
-        url: 'CotizacionServlet?action=crearEvento',
-        type: 'POST',
-        data: $('#cotizacionForm').serialize(),
-        dataType: 'json',
-        success: function (response) {
-            console.log(response); // Para depuración
-            if (response.status === 'success') {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: response.message,
-                    showConfirmButton: true,
-                    timer: 3000
-                }).then(() => {
-                    loadContent('PrincipalServlet?menu=Eventos&accion=listar');
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: response.message,
-                    showConfirmButton: true,
-                    timer: 3000
-                });
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
-                showConfirmButton: true,
-                timer: 3000
+    Swal.fire({
+        title: '¿Estás seguro de aprobar esta cotización y convertirla en un evento?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, aprobar',
+        cancelButtonText: 'No, rechazar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // El usuario confirmó, validar el cliente
+            validarCliente();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // El usuario canceló, redirigir al controlador para rechazar la cotización
+            var idCotizacion = $('#cotizacionForm').find('input[name="idCotizacion"]').val();
+            $.ajax({
+                url: 'CotizacionServlet?action=rechazarCotizacion',
+                type: 'POST',
+                data: {idCotizacion: idCotizacion},
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response); // Para depuración
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Cotización rechazada',
+                            text: response.message,
+                            showConfirmButton: true,
+                            timer: 3000
+                        }).then(() => {
+                            loadContent('PrincipalServlet?menu=Cotizaciones&accion=listar');
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                            showConfirmButton: true,
+                            timer: 3000
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al realizar la solicitud: ' + error + '\nDetalles: ' + xhr.responseText,
+                        showConfirmButton: true,
+                        timer: 3000
+                    });
+                }
             });
         }
     });
 
     return false; // Previene el comportamiento predeterminado del formulario
 }
+
 
 function eliminarCotizacion(idCotizacion) {
     Swal.fire({
