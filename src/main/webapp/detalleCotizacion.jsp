@@ -109,7 +109,7 @@
                                                             <button type="button" class="btn btn-success" onclick="openModal('${cotizacion[0]}')">Agregar Servicio</button>
                                                         </div>
                                                         <c:set var="total_iterations" value="${0}" />
-                                                        <c:forEach var="servicio" items="${cotizacion[11]}">
+                                                        <c:forEach var="servicio" items="${cotizacion[11]}" varStatus="loop">
                                                             <c:set var="total_iterations" value="${loop.count}" />
                                                             <div class="row mb-2 service-item">
                                                                 <div class="col-1">
@@ -151,7 +151,7 @@
                                                                 </div>
                                                             </div>
                                                         </c:forEach>
-                                                        <input type="hidden" name="total_iterations" value="${total_iterations}" />
+                                                        <input type="text" name="total_iterations" value="${total_iterations}" />
                                                     </div>
                                                 </div>
                                             </div>

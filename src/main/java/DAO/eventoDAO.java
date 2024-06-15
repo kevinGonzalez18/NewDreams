@@ -99,16 +99,18 @@ public class eventoDAO {
                         servicio serv = new servicio();
                         serv.setServicioId(idServicio[i]);
                         serv.setServicioNombre(nombresServicios[i]);
-                        serv.setServicioValor(Integer.parseInt(valoresServicios[i]));
+                        serv.setServicioValor(Integer.parseInt(valorUnitario[i]));
 
                         eventoServicio eventoServicio = new eventoServicio();
                         eventoServicio.setCantidad(Integer.parseInt(cantidad[i]));
+                        eventoServicio.setPrecioTotal(Integer.parseInt(valoresServicios[i]));
                         // Agregar más propiedades si es necesario
 
                         Object[] servicioArray = {
                             serv.getServicioNombre(),
-                            serv.getServicioValor(),
+                            eventoServicio.getPrecioTotal(),
                             eventoServicio.getCantidad(),
+                            serv.getServicioValor(),
                             serv.getServicioId()
                         };
                         listaServicios.add(servicioArray);
@@ -162,17 +164,28 @@ public class eventoDAO {
         return lista;
     }
 
-    private void cerrarRecursos() {
+    public boolean actualizarEvento(evento evento) throws SQLException{
+        String sql = "CALL SP_UPDATE_EVENTO (?,?,?,?)";
+        boolean exito = false;
         try {
-            if (ps != null) {
-                ps.close();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, evento.getEventoId());
+            ps.setInt(2, evento.getValorEvento());
+            ps.setString(3, evento.getEstadoEvento());
+            ps.setString(4, evento.getDescripcionEvento());
+            
+            int filasAfectadas = ps.executeUpdate();
+            
+            if(filasAfectadas > 0){
+                exito = true;
+            
             }
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException e) {
+            
+        }catch(SQLException e){
             e.printStackTrace();
+            throw e;
         }
+        return exito;
     }
 
 }

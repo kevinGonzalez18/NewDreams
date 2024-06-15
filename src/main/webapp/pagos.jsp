@@ -49,7 +49,7 @@
                 </div>
                 <br><br>
                 <div class="form-group col-lg-6 col-md-6">
-                    <button type="button" class="btn btn-primary btn-block" onclick="abrirModal()">Registrar comprobante</button>
+                    <button type="button" class="btn btn-primary btn-block" onclick="abrirModal()">Registrar pago</button>
                 </div>
                 <div class="form-group col-lg-6 col-md-6">
                     <a href="PrincipalServlet?menu=Eventos&accion=listar"><button type="button" class="btn btn-primary btn-block">Atras</button></a>
