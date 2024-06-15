@@ -80,6 +80,11 @@ function loadContent(url) {
                     console.log("Script de scriptPagos.js cargado.");
                 });
             }
+            if (url.includes("detalleEvento.jsp")) {
+                loadScript('js/scriptDetallesEvento.js', function () {
+                    console.log("Script de scriptDetallesEvento.js cargado.");
+                });
+            }
             
         }
     };
