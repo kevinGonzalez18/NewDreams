@@ -7,17 +7,24 @@ window.onload = function () {
     // Cargar el dashboard al inicio
     loadContent('dashboardCliente.jsp');
 
-    // Obtener todos los enlaces de la barra lateral
+    // Obtener todos los enlaces de la barra lateral y del contenido cargado
     var sidebarLinks = document.querySelectorAll('.sidebar-link');
+    var contentLinks = document.querySelectorAll('#main a');
 
-    // Agregar un evento click a cada enlace
+    // Agregar un evento click a cada enlace de la barra lateral
     sidebarLinks.forEach(function (link) {
         link.addEventListener('click', function (event) {
-            // Prevenir la acción predeterminada del enlace
             event.preventDefault();
-            // Obtener la URL del enlace
             var url = this.getAttribute('href');
-            // Cargar el contenido correspondiente
+            loadContent(url);
+        });
+    });
+
+    // Agregar un evento click a cada enlace dentro del contenido cargado
+    contentLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            var url = this.getAttribute('href');
             loadContent(url);
         });
     });
@@ -30,10 +37,24 @@ function loadContent(url) {
         if (this.readyState == 4 && this.status == 200) {
             // Actualizar el contenido del main con la respuesta recibida
             document.getElementById('main').innerHTML = this.responseText;
+            // Reasignar los eventos click a los nuevos enlaces cargados
+            var contentLinks = document.querySelectorAll('#main a');
+            contentLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var url = this.getAttribute('href');
+                    loadContent(url);
+                });
+            });
+            initializeDataTables()
         }
     };
     xhttp.open("GET", url, true);
     xhttp.send();
+}
+
+function initializeDataTables() {
+    $('#Table').DataTable();
 }
 
 document.getElementById('logoutButton').addEventListener('click', function (event) {

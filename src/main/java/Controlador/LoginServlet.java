@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
         // Obtener el rol y el ID del administrador
         Object[] resultado = validarCredenciales(usuario, contraseña);
         String rol = (String) resultado[0];
-        administrador admin = (administrador) resultado[1];
+        Object user = resultado[1];
 
         //Si rol es distinto de nulo y si es igual a alguno de los parametros redirecciona
         if (rol != null) {
@@ -33,8 +33,18 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
             session.setAttribute("rol", rol);
-            if (admin != null) {
-                session.setAttribute("adminId", admin.getAdminId());
+            if (rol.equals("administrador")) {
+                administrador admin = (administrador) user;
+                if (admin != null) {
+                    session.setAttribute("adminId", admin.getAdminId());
+                }
+            } else if (rol.equals("cliente")) {
+                cliente cli = (cliente) user;
+                if (cli != null) {
+                    String clienteId = cli.getCltId();
+                    session.setAttribute("clienteId", clienteId);
+                    System.out.println("Cliente ID set in session: " + clienteId); // Depuración
+                }
             }
             String sessionId = UUID.randomUUID().toString();
             session.setAttribute("sessionId", sessionId);
@@ -66,7 +76,7 @@ public class LoginServlet extends HttpServlet {
         if (cli != null) {
             String estadoCliente = cliDAO.obtenerEstadoCliente(usuario);
             if ("Habilitado".equals(estadoCliente)) {
-                return new Object[]{"cliente", null};
+                return new Object[]{"cliente", cli};
             }
         }
 

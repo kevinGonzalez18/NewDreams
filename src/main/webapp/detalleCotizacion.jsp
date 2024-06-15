@@ -151,7 +151,7 @@
                                                                 </div>
                                                             </div>
                                                         </c:forEach>
-                                                        <input type="text" name="total_iterations" value="${total_iterations}" />
+                                                        <input type="hidden" name="total_iterations" value="${total_iterations}" />
                                                     </div>
                                                 </div>
                                             </div>

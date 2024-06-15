@@ -3,6 +3,11 @@ package DAO;
 import Modelo.PasswordHasher;
 import Modelo.cliente;
 import Modelo.conexion;
+import Modelo.cotizacion;
+import Modelo.cotizante;
+import Modelo.evento;
+import Modelo.eventoServicio;
+import Modelo.servicio;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -262,5 +267,93 @@ public class clienteDAO {
             throw e;
         }
         return correo;
+    }
+    
+    public List<Object[]> listarEventosCliente(String idCliente) {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = "SELECT * FROM vista_evento WHERE idCliente = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, idCliente);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                // Obtener los demás campos
+                cotizante cotizante = new cotizante();
+                cotizante.setCotizanteNombre(rs.getString("Nombre_Cotizante"));
+                cotizante.setCotizanteApellido(rs.getString("Apellido_Cotizante"));
+                cotizante.setCotizanteCorreo(rs.getString("Correo_Cotizante"));
+                cotizante.setCotizanteTelefono(rs.getString("Telefono_Cotizante"));
+                evento evento = new evento();
+                evento.setEventoId(rs.getInt("idEvento"));
+                evento.setTipoEvento(rs.getString("Tipo_evento"));
+                evento.setFechaEvento(rs.getTimestamp("Fecha_evento"));
+                evento.setEstadoEvento(rs.getString("Estado_evento"));
+                evento.setDescripcionEvento(rs.getString("Descripcion_evento"));
+                cotizacion cotizacion = new cotizacion();
+                cotizacion.setCantidadPersonas(rs.getInt("Cantidad_Personas_Cotización"));
+
+                // Crear la lista de servicios para este evento
+                String[] nombresServicios = rs.getString("Nombres_Servicios").split(", ");
+                String[] valoresServicios = rs.getString("Valor_Servicios").split(", ");
+                String[] cantidad = rs.getString("Cantidad").split(", ");
+                String[] valorUnitario = rs.getString("Valor_Unitario").split(", ");
+                String[] tipoServicio = rs.getString("Tipo_Servicio").split(", ");
+                String[] idServicio = rs.getString("idServicio").split(", ");
+                cliente cliente = new cliente();
+                cliente.setCltId(rs.getString("idCliente"));
+                evento.setValorFinal(rs.getInt("Precio_Final"));
+
+                if (nombresServicios.length == valorUnitario.length
+                        && nombresServicios.length == cantidad.length
+                        && nombresServicios.length == valoresServicios.length
+                        && nombresServicios.length == tipoServicio.length
+                        && nombresServicios.length == idServicio.length) {
+
+                    List<Object[]> listaServicios = new ArrayList<>();
+
+                    // Agregar cada servicio a la lista de servicios
+                    for (int i = 0; i < nombresServicios.length; i++) {
+                        servicio serv = new servicio();
+                        serv.setServicioId(idServicio[i]);
+                        serv.setServicioNombre(nombresServicios[i]);
+                        serv.setServicioValor(Integer.parseInt(valorUnitario[i]));
+
+                        eventoServicio eventoServicio = new eventoServicio();
+                        eventoServicio.setCantidad(Integer.parseInt(cantidad[i]));
+                        eventoServicio.setPrecioTotal(Integer.parseInt(valoresServicios[i]));
+                        // Agregar más propiedades si es necesario
+
+                        Object[] servicioArray = {
+                            serv.getServicioNombre(),
+                            eventoServicio.getPrecioTotal(),
+                            eventoServicio.getCantidad(),
+                            serv.getServicioValor(),
+                            serv.getServicioId()
+                        };
+                        listaServicios.add(servicioArray);
+                    }
+                    Object[] eventoArray = {
+                        cotizante.getCotizanteNombre(),
+                        cotizante.getCotizanteApellido(),
+                        cotizante.getCotizanteCorreo(),
+                        cotizante.getCotizanteTelefono(),
+                        evento.getEventoId(),
+                        evento.getTipoEvento(),
+                        evento.getFechaEvento(),
+                        evento.getEstadoEvento(),
+                        evento.getDescripcionEvento(),
+                        cotizacion.getCantidadPersonas(),
+                        listaServicios, // Agregar la lista de servicios al array
+                        cliente.getCltId(),
+                        evento.getValorFinal()
+                    };
+                    lista.add(eventoArray);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Imprimir el error
+            // Aquí puedes manejar la excepción de acuerdo a tus necesidades
+        }
+        return lista;
     }
 }
