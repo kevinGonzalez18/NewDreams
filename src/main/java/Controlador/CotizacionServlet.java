@@ -99,10 +99,27 @@ public class CotizacionServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(new Gson().toJson(servicios));
         }
-        
-        if("rechazarCotizacion".equals(action)){
-            String idCotizacion = request.getParameter("idCotizacion");
-            boolean exito = cotizacionDAO.rechazarCotizacion(idCotizacion);
+
+        if ("rechazarCotizacion".equals(action)) {
+            try {
+                String idCotizacion = request.getParameter("idCotizacion");
+                boolean exito = cotizacionDAO.rechazarCotizacion(idCotizacion);
+                if (exito) {
+                    jsonResponse.put("status", "success");
+                    jsonResponse.put("message", "Cotizacion rechazada exitosamente");
+                } else {
+                    jsonResponse.put("status", "error");
+                    jsonResponse.put("message", "Error al intentar rechazar la cotizacion");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                jsonResponse.put("status", "error");
+                jsonResponse.put("message", "Error interno del servidor");
+            } finally {
+                out.write(jsonResponse.toString());
+                out.flush();
+                out.close();
+            }
         }
 
         if ("deleteService".equals(action)) {
@@ -345,7 +362,7 @@ public class CotizacionServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -359,10 +376,14 @@ public class CotizacionServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (SQLException ex) {
-            Logger.getLogger(CotizacionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (ParseException ex) {
-            Logger.getLogger(CotizacionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -379,10 +400,14 @@ public class CotizacionServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (SQLException ex) {
-            Logger.getLogger(CotizacionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (ParseException ex) {
-            Logger.getLogger(CotizacionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CotizacionServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -394,6 +419,7 @@ public class CotizacionServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
+
     }// </editor-fold>
 
     private static class AddServicesRequest {
