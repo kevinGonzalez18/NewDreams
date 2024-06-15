@@ -42,18 +42,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-5">
-                    <div class="card bg-info text-white">
-                        <div class="card-body text-center align-items-center">
-                            <i class="fa-solid fa-handshake"></i>
-                            
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-center">
-                            <a class="small text-black stretched-link" onclick="loadContent('PerfilClienteServlet?menu=historialPagos'); return false;">Historial pagos</a>
-                            <div class="small text-black"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </body>

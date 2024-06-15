@@ -5,6 +5,7 @@
 package Controlador;
 
 import DAO.clienteDAO;
+import DAO.pagoDAO;
 import Modelo.cliente;
 import Modelo.cotizante;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -25,9 +27,12 @@ public class PerfilClienteServlet extends HttpServlet {
     cliente cliente = new cliente();
     clienteDAO clienteDAO = new clienteDAO();
     cotizante cotizante = new cotizante();
+    pagoDAO pagoDAO = new pagoDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String idCliente = (String) session.getAttribute("clienteId");
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
         String actualizarCliente = request.getParameter("actualizarCliente");
@@ -36,10 +41,9 @@ public class PerfilClienteServlet extends HttpServlet {
                 request.getRequestDispatcher("dashboardCliente.jsp").forward(request, response);
             }
             if (menu.equals("historialEventos")) {
+                List<Object[]> detallesEvento = clienteDAO.listarEventosCliente(idCliente);
+                request.setAttribute("detalles", detallesEvento);
                 request.getRequestDispatcher("historialEventosCliente.jsp").forward(request, response);
-            }
-            if (menu.equals("historialPagos")) {
-                request.getRequestDispatcher("historialPagosCliente.jsp").forward(request, response);
             }
             if (menu.equals("misDatos")) {
                 String correo = request.getParameter("correo");
@@ -51,6 +55,17 @@ public class PerfilClienteServlet extends HttpServlet {
                 }
                 request.getRequestDispatcher("datosCliente.jsp").forward(request, response);
             }
+        }
+        if ("detalleEvento".equals(accion)) {
+            List<Object[]> detallesEvento = clienteDAO.listarEventosCliente(idCliente);
+            request.setAttribute("detalles", detallesEvento);
+            request.getRequestDispatcher("detalleEventoCliente.jsp").forward(request, response);
+        }
+        if ("detallePagos".equals(accion)) {
+            int idEvento = Integer.parseInt(request.getParameter("idEvento"));
+            List<Object[]> listarPagos = pagoDAO.ListarPagos(idCliente, idEvento);
+            request.setAttribute("Pagos", listarPagos);
+            request.getRequestDispatcher("historialPagosCliente.jsp").forward(request, response);
         }
 
         if (actualizarCliente != null && actualizarCliente.equals("actualizarCliente")) {
@@ -70,7 +85,7 @@ public class PerfilClienteServlet extends HttpServlet {
                     clienteDAO.update(correo, nombre, apellido, telefono);
                     // Si no se lanzó ninguna excepción, la actualización fue exitosa
                     request.setAttribute("actualizacionExitosa", true);
-                    
+
                 } catch (SQLException e) {
                     // Si se captura una excepción, la actualización falló
                     request.setAttribute("actualizacionExitosa", false);
