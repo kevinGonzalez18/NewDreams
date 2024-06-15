@@ -74,4 +74,25 @@ public class eventoServicioDAO {
             throw e; // Re-throw the exception to let the caller handle it
         }
     }
+    
+    public boolean actualizarServiciosEvento(int idEvento, String servicio, int cantidad, int precio) throws SQLException {
+        String sql = "UPDATE evento_servicio SET Cantidad_Servicios = ?, Valor_Total = ? WHERE Evento_idEvento = ? AND Servicio_idServicio = ?";
+        boolean exito = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setInt(2, precio);
+            ps.setInt(3, idEvento);
+            ps.setString(4, servicio);
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0){
+                exito = true;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+        return exito;
+    }
 }

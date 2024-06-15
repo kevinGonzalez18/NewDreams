@@ -135,6 +135,7 @@
         <script src="js/scriptCotizantes.js"></script>
         <script src="js/scriptsClienteInAdmin.js"></script>
         <script src="js/scriptPagos.js"></script>
+        <script src="js/scriptDetallesEvento.js"></script>
 
     </body>
 </html>
