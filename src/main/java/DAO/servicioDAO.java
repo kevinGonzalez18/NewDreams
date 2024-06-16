@@ -41,7 +41,7 @@ public class servicioDAO {
 
     public List<servicio> consultarServiciosManteleria() {
         List<servicio> lista = new ArrayList<>();
-        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Manteleria'";
+        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Manteleria' AND Deleted = 0";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -61,7 +61,7 @@ public class servicioDAO {
 
     public List<servicio> consultarServiciosMesasSillas() {
         List<servicio> lista = new ArrayList<>();
-        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Mesas y sillas'";
+        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Mesas y sillas' AND Deleted = 0";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -81,7 +81,7 @@ public class servicioDAO {
 
     public List<servicio> consultarServiciosDecoracion() {
         List<servicio> lista = new ArrayList<>();
-        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Decoracion'";
+        String sql = "SELECT * FROM servicio WHERE Tipo_Servicio = 'Decoracion' AND Deleted = 0";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();

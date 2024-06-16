@@ -44,10 +44,8 @@ public class cotizanteDAO {
             ps.setString(2, cot.getCotizanteNombre());
             ps.setString(3, cot.getCotizanteApellido());
             ps.setString(4, cot.getCotizanteTelefono());
-            int filasAfectadas = ps.executeUpdate();
-            if (filasAfectadas > 0) {
-                exito = true;
-            }
+            ps.execute();
+            exito = true;
         } catch (Exception e) {
             e.printStackTrace();
         }

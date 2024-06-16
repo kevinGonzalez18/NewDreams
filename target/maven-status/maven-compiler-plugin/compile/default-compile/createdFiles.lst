@@ -9,6 +9,7 @@ DAO\administradorDAO.class
 Modelo\cliente.class
 Controlador\reestablecerContrasenaServlet$1.class
 Controlador\FormServlet.class
+Controlador\PrincipalServlet$1.class
 Modelo\pago.class
 Modelo\administrador.class
 Controlador\CotizacionServlet$AddServicesRequest.class

@@ -27,6 +27,7 @@
     position: relative;
     margin: 32px 0;
 }
+
 .contact-form .input-text {
     display: block;
     width: 100%;
@@ -36,15 +37,19 @@
     font-size: 18px;
     line-height: 26px;
     font-weight: 400;
+    background: none;
 }
+
 .contact-form .input-text:focus {
     outline: none;
 }
+
 .contact-form .input-text:focus + .label,
-.contact-form .input-text.not-empty + .label {
+.contact-form .input-text:not(:placeholder-shown) + .label {
     -webkit-transform: translateY(-24px);
     transform: translateY(-24px);
 }
+
 .contact-form .label {
     position: absolute;
     left: 20px;
@@ -56,9 +61,9 @@
     cursor: text;
     transition: -webkit-transform .2s ease-in-out;
     transition: transform .2s ease-in-out;
-    transition: transform .2s ease-in-out,
-        -webkit-transform .2s ease-in-out;
+    transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
 }
+
 .contact-form .submit-btn {
     display: inline-block;
     background-color: #000;
