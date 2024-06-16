@@ -1,10 +1,8 @@
-function abrirModal(correo) {
+function abrirModalCotizante(correo) {
     $('#correoClt').val(correo);
     var modal = document.getElementById("myModal");
     var bootstrapModal = new bootstrap.Modal(modal);
     bootstrapModal.show();
-    // Cerrar el modal
-    bootstrapModal.hide();
 }
 
 function crearCotizante() {
@@ -111,6 +109,16 @@ function eliminarCotizante(correo) {
     });
 }
 
+function generarContrasena() {
+    var longitud = 12; // Longitud de la contraseña
+    var caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var contrasena = '';
+    for (var i = 0; i < longitud; i++) {
+        var caracterAleatorio = caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+        contrasena += caracterAleatorio;
+    }
+    document.getElementById('contrasenaClt').value = contrasena;
+}
 
 function closeModal() {
     var modal = document.getElementById("myModal");

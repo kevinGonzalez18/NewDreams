@@ -140,7 +140,7 @@
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
                                                                 <label for="form_email">Cantidad de personas</label>
-                                                                <input id="quantity" type="text" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
+                                                                <input id="quantity" type="number" name="quantity" class="form-control" placeholder="Ingrese la cantidad de personas" required="required">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6">
@@ -278,7 +278,7 @@
                                 <label class="label" for="email">E-mail</label>
                             </div>
                             <div class="form-field col-12 col-md-10 col-lg-10">
-                                <input name="phone" id="phone" class="input-text js-input" type="text" required>
+                                <input name="phone" id="phone" class="input-text js-input" type="number" required>
                                 <label class="label" for="phone">Telefono</label>
                             </div>
                             <div class="form-field col-12 col-md-10 col-lg-10">
@@ -286,7 +286,7 @@
                                 <input name="total_order_price" id="total_order_price" type="number" class="input-text js-input" placeholder="0" readonly>
                             </div>
                             <div class="form-field col-lg-12">
-                                <button class="btn btn-success" type="submit">Enviar</button>
+                                <button class="submit-btn" type="submit">Enviar</button>
                             </div>
                         </div>
                     </div>

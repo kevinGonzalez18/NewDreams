@@ -12,8 +12,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -80,6 +89,11 @@ public class PrincipalServlet extends HttpServlet {
                             if (correo != null && !correo.isEmpty() && contraseña != null && !contraseña.isEmpty()) {
                                 boolean exito = clienteDAO.agregar(cliente);
                                 clienteDAO.covertirCotizanteEnCliente();
+                                // Después de que se haya insertado correctamente el cliente
+                                String destinatario = correo;
+                                String asunto = "Credenciales de acceso a New Dreams";
+                                String mensaje = "Hola," + correo + "\nTus credenciales de acceso a New Dreams son las siguientes\nUsuario: " + correo + "\nContraseña:" + contraseña;
+                                enviarCorreo(destinatario, asunto, mensaje);
                                 if (exito) {
                                     jsonResponse.put("status", "success");
                                     jsonResponse.put("message", "Cliente creado exitosamente");
@@ -267,6 +281,44 @@ public class PrincipalServlet extends HttpServlet {
                 }
                 request.getRequestDispatcher("servicios.jsp").forward(request, response);
             }
+        }
+    }
+
+    public void enviarCorreo(String destinatario, String asunto, String mensaje) throws MessagingException {
+
+        // Configuración del servidor de correo saliente (SMTP)
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com"); // Ejemplo: smtp.gmail.com para Gmail
+        props.put("mail.smtp.port", "587"); // Puerto SMTP (por ejemplo, 587 para Gmail)
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true"); // Para habilitar TLS
+
+        // Credenciales de inicio de sesión del remitente
+        final String username = "gafeli29@gmail.com";
+        final String password = "rsqpprgqsgfgkyny";
+
+        // Crear una sesión de correo electrónico con autenticación
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            // Crear un mensaje de correo electrónico
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username)); // Dirección de correo del remitente
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario)); // Dirección del destinatario
+            message.setSubject(asunto); // Asunto del correo
+            message.setText(mensaje); // Cuerpo del correo
+
+            // Enviar el correo electrónico
+            Transport.send(message);
+
+            System.out.println("Correo electrónico enviado correctamente a: " + destinatario);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 

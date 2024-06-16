@@ -54,7 +54,7 @@
                                     <td>${cotizantes.getCotizanteApellido()}</td>
                                     <td>${cotizantes.getCotizanteTelefono()}</td>
                                     <td>
-                                        <button class="btn btn-primary" onclick="abrirModal('${cotizantes.getCotizanteCorreo()}')">Crear cliente</button>
+                                        <button class="btn btn-primary" onclick="abrirModalCotizante('${cotizantes.getCotizanteCorreo()}')">Crear cliente</button>
                                         <button class="btn btn-danger" onclick="eliminarCotizante('${cotizantes.getCotizanteCorreo()}')">Eliminar</button>
                                     </td>
                                 </tr>
@@ -80,7 +80,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="contrasena">Contraseña:</label>
-                                <input type="text" class="form-control" id="contrasenaClt" name="contrasenaClt" required>
+                                <input type="password" class="form-control" id="contrasenaClt" name="contrasenaClt" required readonly>
+                                <button type="button" class="btn btn-secondary" onclick="generarContrasena()">Generar Contraseña</button>
                             </div>
                         </div>
                         <div class="modal-footer">
