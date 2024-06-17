@@ -6,6 +6,7 @@ Modelo\eventoServicio.class
 DAO\cotizacionServicioDAO.class
 DAO\eventoServicioDAO.class
 DAO\administradorDAO.class
+Modelo\PdfGenerator.class
 Modelo\cliente.class
 Controlador\reestablecerContrasenaServlet$1.class
 Controlador\FormServlet.class
