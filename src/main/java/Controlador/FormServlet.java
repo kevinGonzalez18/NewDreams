@@ -4,6 +4,7 @@ import DAO.cotizacionDAO;
 import DAO.cotizacionServicioDAO;
 import DAO.cotizanteDAO;
 import DAO.servicioDAO;
+import Modelo.PdfGenerator;
 import Modelo.cotizacion;
 import Modelo.cotizante;
 import Modelo.servicio;
@@ -17,14 +18,21 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -212,11 +220,18 @@ public class FormServlet extends HttpServlet {
                                 System.out.println("exitoMesassillas = " + exitoDecoracion);
                             }
                         }
-                        // Después de que se haya insertado correctamente la cotización
-                        String destinatarioAdmin = "dfelipebr737@gmail.com";
-                        String asunto = "Nueva cotización";
-                        String mensaje = "Hola, administrador\nSe ha solicitado una nueva cotización.\n Detalles:\nNombre: " + nombreCotizante;
-                        enviarCorreo(destinatarioAdmin, asunto, mensaje);
+                        if (exitoCotizacion && exitoCotizante) {
+                            // Generar PDF con los detalles de la cotización
+                            List<cotizacionServicio> cotizacionServiciosPDF = cotizacionServicioDAO.consultarServiciosPorCotizacion(IdCotizacion); // Método para obtener los servicios de la cotización
+                            String fileName = "Cotizaciones_PDF.pdf";
+                            String rutaPdf = PdfGenerator.generatePdf(fileName, cotizante, cotizacion, cotizacionServiciosPDF);
+
+                            // Enviar correo con PDF adjunto
+                            String destinatarioAdmin = "dfelipebr737@gmail.com";
+                            String asunto = "Nueva cotización";
+                            String mensaje = "Hola, administrador\nSe ha solicitado una nueva cotización.\n Detalles:\nNombre: " + nombreCotizante;
+                            enviarCorreo(destinatarioAdmin, asunto, mensaje, rutaPdf);
+                        }
                     } else {
                         jsonResponse.put("status", "error");
                         jsonResponse.put("message", "Error al insertar en la base de datos");
@@ -299,7 +314,7 @@ public class FormServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void enviarCorreo(String destinatario, String asunto, String mensaje) throws MessagingException {
+    public void enviarCorreo(String destinatario, String asunto, String mensaje, String rutaPdf) throws MessagingException {
 
         // Configuración del servidor de correo saliente (SMTP)
         Properties props = new Properties();
@@ -325,7 +340,24 @@ public class FormServlet extends HttpServlet {
             message.setFrom(new InternetAddress(username)); // Dirección de correo del remitente
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario)); // Dirección del destinatario
             message.setSubject(asunto); // Asunto del correo
-            message.setText(mensaje); // Cuerpo del correo
+
+            // Crear el cuerpo del mensaje
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(mensaje);
+
+            // Crear una parte para el archivo adjunto
+            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource(rutaPdf);
+            attachmentBodyPart.setDataHandler(new DataHandler(source));
+            attachmentBodyPart.setFileName("cotizacion.pdf");
+
+            // Combinar las partes en un multipart
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(attachmentBodyPart);
+
+            // Configurar el contenido del mensaje
+            message.setContent(multipart);
 
             // Enviar el correo electrónico
             Transport.send(message);
