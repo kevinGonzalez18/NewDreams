@@ -1,0 +1,56 @@
+.navbar {
+    background: linear-gradient(to bottom, #00009A, #FFFFFF);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 350px;
+    /* Elige la altura que desees */
+    object-fit: cover;
+    /* Esto asegura que la imagen mantenga su relación de aspecto */
+}
+#myCarousel {
+    width: 1500px;
+    margin: 0 auto;
+    border-radius: 10px; /* Agrega el radio de borde */
+    margin-top: 30px;
+}
+
+.navbar li{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: larger;
+}
+.card{
+    text-align: center;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border: none;
+    min-height: 100%; /* Establece la altura mínima de las tarjetas al 100% */
+    height: 100%; /* Establece la altura de las tarjetas al 100% */
+    transition: transform 0.3s ease; /* Agrega una transición suave al cambio de tamaño */
+}
+
+.col{
+    margin-bottom: 30px;
+}
+
+.card:hover {
+    transform: scale(1.1); /* Escala la tarjeta al 110% de su tamaño original al hacer hover */
+    margin: 15px; /* Ajusta el margen al hacer hover */
+    margin-top: 15px;
+}
+
+.footer{
+    background: linear-gradient(to top, #500CD4, #FFFFFF);
+}
+
+.contenedor_card {
+    width: 1600px;
+    margin: 0 auto; /* Esto centra el div horizontalmente */
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+#imagen{
+    border-radius: 15px;
+}
