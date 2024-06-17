@@ -1,4 +1,4 @@
-function abrirModal() {
+function abrirModalPagos() {
     var modal = document.getElementById("myModal");
 
     var bootstrapModal = new bootstrap.Modal(modal);
@@ -16,7 +16,7 @@ function closeModal() {
 
 function agregarPago() {
     $.ajax({
-        url: 'PagoServlet?accion=insertarPago',
+        url: 'PagoServlet?action=insertarPago',
         type: 'POST',
         data: $('#paymentForm').serialize(),
         dataType: 'json',

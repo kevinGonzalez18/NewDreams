@@ -37,7 +37,7 @@ public class EventoServlet extends HttpServlet {
                 if (action != null) {
                     switch (action) {
                         case "eliminarServicio":
-                            eliminarServicio(request, response);
+                            eliminarServicio(request, response, jsonResponse, out);
                             break;
                         case "actualizarEvento":
                             actualizarEvento(request, response, jsonResponse, out);
@@ -137,26 +137,58 @@ public class EventoServlet extends HttpServlet {
         request.getRequestDispatcher("detalleEvento.jsp").forward(request, response);
     }
 
-    private void eliminarServicio(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        String serviceIndexStr = request.getParameter("serviceIndex");
-        if (serviceIndexStr != null) {
-            int serviceIndex = Integer.parseInt(serviceIndexStr);
+    private void eliminarServicio(HttpServletRequest request, HttpServletResponse response, JSONObject jsonResponse, PrintWriter out)
+            throws ServletException, IOException {
+        try {
+            String serviceIndexStr = request.getParameter("serviceIndex");
+            System.out.println("serviceIndexStr = " + serviceIndexStr);
             String nombreServicio = request.getParameter("serviceName");
+            System.out.println("nombreServicio = " + nombreServicio);
             String idEventoStr = request.getParameter("idEvento");
-            if (idEventoStr != null) {
-                try {
-                    int idEvento = Integer.parseInt(idEventoStr);
-                    servicioDAO servicioDAO = new servicioDAO();
-                    String idServicio = servicioDAO.consultarIdServicio(nombreServicio);
+            System.out.println("idEventoStr = " + idEventoStr);
+
+            if (serviceIndexStr != null && nombreServicio != null && idEventoStr != null) {
+                int serviceIndex = Integer.parseInt(serviceIndexStr);
+                System.out.println("serviceIndex = " + serviceIndex);
+                int idEvento = Integer.parseInt(idEventoStr);
+
+                servicioDAO servicioDAO = new servicioDAO();
+                String idServicio = servicioDAO.consultarIdServicio(nombreServicio);
+
+                if (idServicio != null) {
                     eventoServicioDAO eventoServicioDAO = new eventoServicioDAO();
-                    eventoServicioDAO.eliminarServicioEvento(idServicio, idEvento);
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: idEvento no es un número válido.");
+                    boolean exito = eventoServicioDAO.eliminarServicioEvento(idServicio, idEvento);
+                    if (exito) {
+                        jsonResponse.put("status", "success");
+                        jsonResponse.put("message", "Servicio del evento eliminado exitosamente");
+                    } else {
+                        jsonResponse.put("status", "error");
+                        jsonResponse.put("message", "Error al eliminar el servicio del evento");
+                    }
+                } else {
+                    jsonResponse.put("status", "error");
+                    jsonResponse.put("message", "Servicio no encontrado");
                 }
+            } else {
+                jsonResponse.put("status", "error");
+                jsonResponse.put("message", "Parámetros faltantes o inválidos");
             }
-        } else {
-            response.sendRedirect("PrincipalServlet?menu=Cotizaciones&accion=error&mensaje=ServicioNoEncontrado");
+        } catch (NumberFormatException e) {
+            jsonResponse.put("status", "error");
+            jsonResponse.put("message", "Formato de número inválido para idEvento o serviceIndex");
+            e.printStackTrace(); // Consider logging this instead of printing the stack trace
+        } catch (SQLException e) {
+            jsonResponse.put("status", "error");
+            jsonResponse.put("message", "Error en la base de datos");
+            e.printStackTrace(); // Consider logging this instead of printing the stack trace
+        } catch (Exception e) {
+            jsonResponse.put("status", "error");
+            jsonResponse.put("message", "Error interno del servidor");
+            e.printStackTrace(); // Consider logging this instead of printing the stack trace
+        } finally {
+            out.write(jsonResponse.toString());
+            out.flush();
+            out.close();
         }
     }
 

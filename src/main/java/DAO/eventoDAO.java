@@ -85,6 +85,7 @@ public class eventoDAO {
                 String[] idServicio = rs.getString("idServicio").split(", ");
                 cliente.setCltId(rs.getString("idCliente"));
                 evento.setValorFinal(rs.getInt("Precio_Final"));
+                
 
                 if (nombresServicios.length == valorUnitario.length
                         && nombresServicios.length == cantidad.length

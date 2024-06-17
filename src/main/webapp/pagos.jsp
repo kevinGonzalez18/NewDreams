@@ -49,7 +49,7 @@
                 </div>
                 <br><br>
                 <div class="form-group col-lg-6 col-md-6">
-                    <button type="button" class="btn btn-primary btn-block" onclick="abrirModal()">Registrar pago</button>
+                    <button type="button" class="btn btn-primary btn-block" onclick="abrirModalPagos()">Registrar pago</button>
                 </div>
                 <div class="form-group col-lg-6 col-md-6">
                     <a href="PrincipalServlet?menu=Eventos&accion=listar"><button type="button" class="btn btn-primary btn-block">Atras</button></a>
@@ -64,20 +64,20 @@
                         <h5 class="modal-title">Agregar pago</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form id="paymentForm" onsubmit="return agregarPago()">
+                    <form id="paymentForm" onsubmit="return agregarPago()">
+                        <div class="modal-body">
                             <input type="text" id="nombre" name="nombre" class="form-control mb-3" placeholder="Nombre">
                             <input type="text" id="apellido" name="apellido" class="form-control mb-3" placeholder="Apellido">
                             <input type="date" id="fecha" name="fecha" class="form-control mb-3" placeholder="Fecha">
                             <input type="number" id="valor" name="valor" class="form-control mb-3" placeholder="Valor">
                             <input type="hidden" id="idEvento" name="idEvento" class="form-control mb-3" value="${param.idEvento}">
                             <input type="hidden" id="idCliente" name="idCliente" class="form-control mb-3" value="${param.idCliente}">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" form="paymentForm" class="btn btn-primary">Agregar</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
