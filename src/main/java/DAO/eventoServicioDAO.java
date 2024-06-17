@@ -62,19 +62,22 @@ public class eventoServicioDAO {
         }
         return null;
     }
-    
-    public int eliminarServicioEvento(String idServicio, int idEvento) throws SQLException {
-        String sql = "DELETE FROM evento_servicio WHERE Servicio_idServicio = ? AND Evento_idEvento = ?";
+
+    public boolean eliminarServicioEvento(String idServicio, int idEvento) throws SQLException {
+        String sql = "UPDATE evento_servicio SET Deleted = 1 WHERE Servicio_idServicio = ? AND Evento_idEvento = ?";
+        boolean exito = false;
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, idServicio);
             ps.setInt(2, idEvento);
-            return ps.executeUpdate();
+            int filasAfectadas = ps.executeUpdate();
+            exito = filasAfectadas > 0;
         } catch (SQLException e) {
             e.printStackTrace(); // Consider logging this instead of printing the stack trace
             throw e; // Re-throw the exception to let the caller handle it
         }
+        return exito;
     }
-    
+
     public boolean actualizarServiciosEvento(int idEvento, String servicio, int cantidad, int precio) throws SQLException {
         String sql = "UPDATE evento_servicio SET Cantidad_Servicios = ?, Valor_Total = ? WHERE Evento_idEvento = ? AND Servicio_idServicio = ?";
         boolean exito = false;
@@ -85,11 +88,11 @@ public class eventoServicioDAO {
             ps.setInt(3, idEvento);
             ps.setString(4, servicio);
             int filasAfectadas = ps.executeUpdate();
-            if (filasAfectadas > 0){
+            if (filasAfectadas > 0) {
                 exito = true;
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         }

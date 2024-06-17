@@ -94,10 +94,10 @@
                                             </div>
 
                                             <div class="col-2 col-md-2">                                       
-                                                <form action="EventoServlet?action=eliminarServicio" method="POST" class="delete-form">
+                                                <form id="formularioEliminarServicioEvento" onsubmit="return eliminarServicioEvento()">
                                                     <input type="hidden" name="serviceIndex" value="${total_iterations}">
                                                     <input type="hidden" name="idEvento" value="${Detalle[4]}">
-                                                    <input type="hidden" name="idServicio" value="${servicio[3]}"> <!-- Asegúrate de que este índice contiene el id del servicio -->
+                                                    <input type="hidden" name="idServicio" value="${servicio[4]}"> <!-- Asegúrate de que este índice contiene el id del servicio -->
                                                     <input type="hidden" name="serviceName" value="${servicio[0]}">
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                                 </form>
