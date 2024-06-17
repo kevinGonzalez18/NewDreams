@@ -13,6 +13,7 @@ Controlador\FormServlet.class
 Controlador\PrincipalServlet$1.class
 Modelo\pago.class
 Modelo\administrador.class
+test\pruebaUnitaria05.class
 Controlador\CotizacionServlet$AddServicesRequest.class
 Modelo\cotizacion.class
 DAO\servicioDAO.class
@@ -35,6 +36,6 @@ Modelo\conexion.class
 Modelo\PasswordHasher.class
 Controlador\PerfilClienteServlet.class
 Modelo\comprobar.class
-test\test.class
+test\pruebaUnitaria01.class
 Controlador\PrincipalServlet.class
 Modelo\SessionValidationFilter.class

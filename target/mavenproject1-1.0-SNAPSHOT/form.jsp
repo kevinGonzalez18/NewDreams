@@ -103,7 +103,7 @@
                                                         </div>
                                                         <div class="col-12 col-md-6">
                                                             <div class="form-group">
-                                                                <label for="event_location">Lugar del evento</label>
+                                                                <label for="event_location" required>Lugar del evento</label>
                                                                 <select name="event_location" id="event_location" class="form-control">
                                                                     <option value="" selected disabled>Seleccione una opción</option>
                                                                     <option value="buscar">La empresa buscara el lugar del evento</option>
@@ -286,7 +286,7 @@
                                 <input name="total_order_price" id="total_order_price" type="number" class="input-text js-input" placeholder="0" readonly>
                             </div>
                             <div class="form-field col-lg-12">
-                                <button class="submit-btn" type="submit">Enviar</button>
+                                <button id="botonEnviar" class="submit-btn" type="submit">Enviar</button>
                             </div>
                         </div>
                     </div>

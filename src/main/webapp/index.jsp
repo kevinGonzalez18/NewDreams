@@ -164,7 +164,7 @@
                             <!-- Texto descriptivo en la tarjeta -->
                             <p class="card-text">"Los XV años: un sueño hecho realidad, un momento para brillar y recordar toda la vida."</p> <br>
                             <!-- Enlace a eventosInfo.html dentro de la tarjeta -->
-                            <a href="infoXV.html" class="btn btn-primary">Más información</a>
+                            <a href="infoXV.html"><button id="botonXV" class="btn btn-primary">Más información</button></a>
                         </div>
                     </div>
                 </div>
