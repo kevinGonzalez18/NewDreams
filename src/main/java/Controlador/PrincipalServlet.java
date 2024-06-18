@@ -160,6 +160,7 @@ public class PrincipalServlet extends HttpServlet {
                 switch (accion) {
                     case "listar":
                         List<Object[]> listaEventos = eventoDAO.listarEventos();
+                        List<Object[]> listaEventosEncuesta = eventoDAO.listarEventosParaEncuesta();
                         request.setAttribute("evento", listaEventos);
                 }
                 request.getRequestDispatcher("eventos.jsp").forward(request, response);
