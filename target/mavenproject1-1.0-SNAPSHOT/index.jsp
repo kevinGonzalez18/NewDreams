@@ -39,7 +39,7 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.jsp">Inicio</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
                                aria-expanded="false">
@@ -54,8 +54,8 @@
                                 <li><a class="dropdown-item" href="infoEmpresarial.html">Empresariales</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Servicios</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="infoServicios.html">Servicios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="infoContacto.html">Contacto</a></li>
                     </ul>
                 </div>
                 <!-- Botón de inicio de sesión -->
