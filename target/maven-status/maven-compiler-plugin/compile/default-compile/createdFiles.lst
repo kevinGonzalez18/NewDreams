@@ -1,5 +1,6 @@
 DAO\clienteDAO.class
 DAO\pagoDAO.class
+DAO\eventoDAO$1.class
 DAO\eventoServicioDAO.class
 DAO\administradorDAO.class
 Modelo\PdfGenerator.class
