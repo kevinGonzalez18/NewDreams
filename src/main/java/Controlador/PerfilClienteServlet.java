@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONObject;
 
 /**
  *
@@ -36,6 +37,9 @@ public class PerfilClienteServlet extends HttpServlet {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
         String actualizarCliente = request.getParameter("actualizarCliente");
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        JSONObject jsonResponse = new JSONObject();
         if (menu != null) {
             if (menu.equals("dashboard")) {
                 request.getRequestDispatcher("dashboardCliente.jsp").forward(request, response);
@@ -69,29 +73,48 @@ public class PerfilClienteServlet extends HttpServlet {
         }
 
         if (actualizarCliente != null && actualizarCliente.equals("actualizarCliente")) {
-            String nombre = request.getParameter("name");
-            String apellido = request.getParameter("last-name");
-            String correo = request.getParameter("email");
-            String telefono = request.getParameter("phone");
-            cotizante.setCotizanteNombre(nombre);
-            cotizante.setCotizanteApellido(apellido);
-            cotizante.setCotizanteCorreo(correo);
-            cotizante.setCotizanteTelefono(telefono);
-            if (nombre != null && !nombre.isEmpty()
-                    && apellido != null && !apellido.isEmpty()
-                    && telefono != null && !telefono.isEmpty()
-                    && correo != null && !correo.isEmpty()) {
-                try {
-                    clienteDAO.update(correo, nombre, apellido, telefono);
-                    // Si no se lanzó ninguna excepción, la actualización fue exitosa
-                    request.setAttribute("actualizacionExitosa", true);
+            boolean exito = false;
+            try {
+                String nombre = request.getParameter("name");
+                String apellido = request.getParameter("last-name");
+                String correo = request.getParameter("email");
+                String telefono = request.getParameter("phone");
+                cotizante.setCotizanteNombre(nombre);
+                cotizante.setCotizanteApellido(apellido);
+                cotizante.setCotizanteCorreo(correo);
+                cotizante.setCotizanteTelefono(telefono);
+                if (nombre != null && !nombre.isEmpty()
+                        && apellido != null && !apellido.isEmpty()
+                        && telefono != null && !telefono.isEmpty()
+                        && correo != null && !correo.isEmpty()) {
+                    try {
+                        clienteDAO.update(correo, nombre, apellido, telefono);
+                        exito = true;
 
-                } catch (SQLException e) {
-                    // Si se captura una excepción, la actualización falló
-                    request.setAttribute("actualizacionExitosa", false);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    if (exito) {
+                        jsonResponse.put("status", "success");
+                        jsonResponse.put("message", "Datos actualizados exitosamente");
+                    } else {
+                        jsonResponse.put("status", "error");
+                        jsonResponse.put("message", "Error al actualizar los datos");
+                    }
+                } else {
+                    jsonResponse.put("status", "error");
+                    jsonResponse.put("message", "Todos los campos deben estar llenos");
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                jsonResponse.put("status", "error");
+                jsonResponse.put("message", "Error interno del servidor");
+            } finally {
+                out.print(jsonResponse.toString());
+                out.flush();
+                out.close();
             }
-            request.getRequestDispatcher("PerfilClienteServlet?menu=dashboard").forward(request, response);
+
         }
     }
 

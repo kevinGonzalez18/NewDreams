@@ -2,6 +2,7 @@ DAO\clienteDAO.class
 DAO\pagoDAO.class
 DAO\eventoDAO$1.class
 DAO\eventoServicioDAO.class
+test\pruebaUnitaria04.class
 DAO\administradorDAO.class
 Modelo\PdfGenerator.class
 Modelo\cliente.class
@@ -10,6 +11,7 @@ Controlador\PrincipalServlet$1.class
 Controlador\CotizacionServlet$AddServicesRequest.class
 Modelo\cotizacion.class
 Modelo\cotizante.class
+test\pruebaUnitaria13.class
 Controlador\EventoServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
@@ -32,6 +34,7 @@ test\pruebaUnitaria05.class
 DAO\servicioDAO.class
 test\pruebaUnitaria02.class
 Controlador\ClienteServlet.class
+test\pruebaUnitaria03.class
 DAO\eventoDAO.class
 DAO\cotizanteDAO.class
 Controlador\ValidarOtpServlet.class
@@ -43,3 +46,4 @@ Modelo\conexion.class
 Controlador\PerfilClienteServlet.class
 Modelo\comprobar.class
 Controlador\PrincipalServlet.class
+test\pruebaUnitaria06.class

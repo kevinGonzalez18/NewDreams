@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-06-2024 a las 04:07:41
+-- Tiempo de generación: 20-06-2024 a las 05:54:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -427,7 +427,8 @@ INSERT INTO `cliente` (`idCliente`, `Estado_Cliente`, `Contraseña_Cliente`, `Co
 ('CL033', 'Habilitado', '$2a$10$neH2cxejwPQycpM1C8VT4.9uT.KyZbYQ6vQ0umfGSYEDiZaOrf2Ey', 'reamm@mail.com'),
 ('CL034', 'Habilitado', '$2a$10$.B48nP3RjktEPU5xr4w85.dcnz7LYlFqloonW6Jd1LXjmmO.kqEOi', 'albarracina@mail.com'),
 ('CL035', 'Habilitado', '$2a$10$sxKEM8GjuPrvVOAZUaxnEuEZ3WgfOhGd49YDtlRYdZocwFUFKY4y.', 'angero@mail.com'),
-('CL036', 'Habilitado', '$2a$10$UEzTPZkVmMU8nHFlAeG9/uww.xONpHYldw0teKv27ybv82nh6HqUm', 'damian.bernal@misena.edu.co');
+('CL037', 'Habilitado', '$2a$10$wTA91btExILneB951JCdKegc2R17VqB.uxWXCqRVjny5LqIHl2w4G', 'weekend@mail.co'),
+('CL038', 'Habilitado', '$2a$10$bDuxUlXOv7r8zjEYddKVreafBa3D3SoFtwOLEzjvfOF0924SGEGTG', 'liann04209@gmail.com');
 
 --
 -- Disparadores `cliente`
@@ -690,9 +691,60 @@ INSERT INTO `cotizacion_servicio` (`Cotizacion_No_Cotizacion`, `Servicio_idServi
 ('COT1040', 'S01', 10, 70000),
 ('COT1040', 'S05', 2, 20000),
 ('COT1040', 'S09', 1, 50000),
-('COT1041', 'S01', 10, 70000),
-('COT1041', 'S05', 10, 100000),
-('COT1041', 'S15', 5, 300000);
+('COT1042', 'S01', 10, 70000),
+('COT1042', 'S03', 10, 35000),
+('COT1042', 'S05', 10, 100000),
+('COT1043', 'S01', 2, 14000),
+('COT1043', 'S04', 11, 132000),
+('COT1043', 'S05', 10, 100000),
+('COT1043', 'S09', 1, 50000),
+('COT1044', 'S01', 10, 70000),
+('COT1044', 'S06', 10, 150000),
+('COT1044', 'S09', 1, 50000),
+('COT1045', 'S02', 10, 150000),
+('COT1045', 'S05', 2, 20000),
+('COT1045', 'S09', 1, 50000),
+('COT1046', 'S01', 10, 70000),
+('COT1046', 'S05', 3, 30000),
+('COT1046', 'S09', 1, 50000),
+('COT1047', 'S01', 10, 70000),
+('COT1047', 'S03', 10, 35000),
+('COT1047', 'S05', 10, 100000),
+('COT1047', 'S07', 10, 12000),
+('COT1047', 'S09', 1, 50000),
+('COT1047', 'S12', 5, 225000),
+('COT1047', 'S16', 2, 4000),
+('COT1047', 'S19', 1, 7000),
+('COT1047', 'S20', 200, 400000),
+('COT1048', 'S01', 10, 70000),
+('COT1048', 'S03', 10, 35000),
+('COT1048', 'S05', 10, 100000),
+('COT1048', 'S07', 3, 3600),
+('COT1048', 'S09', 1, 50000),
+('COT1049', 'S01', 10, 70000),
+('COT1049', 'S02', 10, 150000),
+('COT1049', 'S05', 10, 100000),
+('COT1049', 'S06', 10, 150000),
+('COT1049', 'S09', 10, 500000),
+('COT1049', 'S10', 10, 800000),
+('COT1050', 'S01', 10, 70000),
+('COT1050', 'S02', 10, 150000),
+('COT1050', 'S05', 10, 100000),
+('COT1050', 'S06', 10, 150000),
+('COT1050', 'S09', 10, 500000),
+('COT1050', 'S10', 10, 800000),
+('COT1051', 'S01', 10, 70000),
+('COT1051', 'S03', 10, 35000),
+('COT1051', 'S05', 10, 100000),
+('COT1051', 'S07', 10, 12000),
+('COT1051', 'S09', 1, 50000),
+('COT1051', 'S15', 10, 600000),
+('COT1052', 'S01', 10, 70000),
+('COT1052', 'S02', 10, 150000),
+('COT1052', 'S05', 10, 100000),
+('COT1052', 'S06', 10, 150000),
+('COT1052', 'S09', 10, 500000),
+('COT1052', 'S10', 10, 800000);
 
 -- --------------------------------------------------------
 
@@ -733,8 +785,8 @@ INSERT INTO `cotización` (`No_Cotizacion`, `Tipo_Cotizacion`, `Ubicacion`, `Fec
 ('COT1021', 'Bautizo', 'La empresa buscarÃÂÃÂ¡ el lugar del evento', '2024-06-21 14:00:00', '2024-05-09 18:31:00', 684000, 30, 'Oreo@mail.com', 0, 0, 1),
 ('COT1022', 'Boda', 'Salon comunal soacha', '2024-08-20 17:30:00', '2024-05-09 18:32:00', 1147000, 30, 'tom@mail.com', 0, 1, 0),
 ('COT1023', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-27 20:30:00', '2024-05-09 19:00:00', 247000, 100, 'reamm@mail.com', 0, 0, 1),
-('COT1024', 'Grado', 'La empresa buscará el lugar del evento', '2024-06-20 20:30:00', '2024-05-09 19:07:00', 247000, 100, 'weekend@mail.co', 0, 0, 0),
-('COT1025', 'XVaÃ±os', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-27 18:30:00', '2024-05-15 12:19:00', 621000, 100, 'guillermoisa@mail.com', 0, 0, 0),
+('COT1024', 'Grado', 'La empresa buscará el lugar del evento', '2024-06-20 20:30:00', '2024-05-09 19:07:00', 247000, 100, 'weekend@mail.co', 0, 0, 1),
+('COT1025', 'XVaÃ±os', 'Salon comunal, Cra 81 h 76F 15, Bosa', '2024-07-27 18:30:00', '2024-05-15 12:19:00', 621000, 100, 'guillermoisa@mail.com', 0, 1, 0),
 ('COT1026', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-07-20 20:30:00', '2024-05-20 12:53:00', 247000, 30, 'estefania@mail.com', 0, 0, 0),
 ('COT1027', 'Grado', 'La empresa buscará el lugar del evento', '2025-01-05 17:30:00', '2024-05-27 15:52:00', 442000, 100, 'Yolgei@mail.com', 0, 0, 0),
 ('COT1028', 'XVaÃ±os', 'La empresa buscará el lugar del evento', '2024-06-26 17:30:00', '2024-05-27 16:01:00', 442000, 30, 'edwin@mail.com', 1, 0, 0),
@@ -750,7 +802,17 @@ INSERT INTO `cotización` (`No_Cotizacion`, `Tipo_Cotizacion`, `Ubicacion`, `Fec
 ('COT1038', 'Grado', 'La empresa buscará el lugar del evento', '2025-01-05 12:00:00', '2024-06-15 02:36:00', 135100, 30, 'dfelipebr737@gmail.com', 0, 0, 1),
 ('COT1039', 'Empresarial', 'La empresa buscará el lugar del evento', '2024-08-28 12:00:00', '2024-06-15 19:26:00', 265000, 30, 'Yolgei@mail.com', 0, 0, 0),
 ('COT1040', 'Comunion', 'La empresa buscará el lugar del evento', '2024-07-17 17:30:00', '2024-06-15 20:49:00', 140000, 30, 'angealva@mail.com', 0, 0, 0),
-('COT1041', 'Grado', 'La empresa buscará el lugar del evento', '2024-07-26 20:30:00', '2024-06-15 21:01:00', 470000, 30, 'damian.bernal@misena.edu.co', 0, 0, 0);
+('COT1042', 'Boda', 'La empresa buscará el lugar del evento', '2024-08-15 17:30:00', '2024-06-15 21:29:00', 205000, 100, 'harrilo@gmail.com', 0, 0, 0),
+('COT1043', 'Boda', 'La empresa buscará el lugar del evento', '2024-07-25 17:30:00', '2024-06-16 19:27:00', 296000, 30, 'angela@mail.com', 0, 0, 0),
+('COT1044', 'Comunion', 'La empresa buscará el lugar del evento', '2024-07-31 17:30:00', '2024-06-16 19:30:00', 270000, 100, 'hamilton@mail.com', 0, 0, 0),
+('COT1045', 'Empresarial', 'La empresa buscará el lugar del evento', '2024-08-14 12:00:00', '2024-06-16 19:50:00', 220000, 100, 'ruizh@mail.com', 0, 0, 0),
+('COT1046', 'Boda', 'La empresa buscará el lugar del evento', '2024-08-14 20:00:00', '2024-06-16 19:58:00', 150000, 20, 'Newton@mail.com', 0, 0, 0),
+('COT1047', 'Boda', 'Salon comunal Bella vista, Cra 28 s  # 54 b 25, Bella vista', '2024-09-18 14:30:00', '2024-06-16 20:07:00', 903000, 100, 'Marias@mail.com', 0, 0, 0),
+('COT1048', 'XVaños', 'La empresa buscará el lugar del evento', '2024-07-31 20:30:00', '2024-06-16 20:43:00', 258600, 20, 'Klie@mail.com', 0, 0, 0),
+('COT1049', 'XVaños', 'Salon de Eventos XYZ, Calle 123, Barrio ABC', '2024-07-27 22:30:00', '2024-06-16 23:26:00', 1770000, 50, 'juan.perez@example.com', 0, 0, 0),
+('COT1050', 'XVaños', 'Salon de Eventos XYZ, Calle 123, Barrio ABC', '2024-07-27 22:30:00', '2024-06-16 23:35:00', 1770000, 50, 'juan.perez@example.com', 0, 1, 0),
+('COT1051', 'Bautizo', 'La empresa buscará el lugar del evento', '2024-11-01 14:00:00', '2024-06-17 20:30:00', 867000, 30, 'liann04209@gmail.com', 0, 0, 1),
+('COT1052', 'XVaños', 'Salon de Eventos XYZ, Calle 123, Barrio ABC', '2024-07-27 22:30:00', '2024-06-19 17:36:00', 1770000, 50, 'juan.perez@example.com', 0, 0, 0);
 
 --
 -- Disparadores `cotización`
@@ -805,11 +867,13 @@ INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotiz
 ('alfsan@gmail.com', 'Alfonso Alberto', 'Sanchez Morales', '3213950191', 1, 0),
 ('andresmartinez@gmail.com', 'Andres', 'Martinez', '3112104578', 1, 0),
 ('angealva@mail.com', 'Angelica', 'Alvarez', '12054152', 0, 0),
+('angela@mail.com', 'Angela', 'Aguilar', '3112711549', 0, 0),
 ('Angelica@mail.com', 'Angelica', 'Martinez', '9884512', 1, 0),
 ('angero@mail.com', 'Angelica', 'Rodriguez', '1234567890', 1, 0),
 ('angesu@mail.com', 'Angelica', 'Suarez', '120354', 1, 0),
+('asd@mail.com', 'santiago', 'lopez', '2014', 0, 0),
+('asda@mail.com', 'ola', 'como', '31120', 0, 0),
 ('cristian@mail.com', 'Cristian', 'Cespedes', '3201548798', 0, 0),
-('damian.bernal@misena.edu.co', 'Damian', 'Bernal', '120354', 1, 0),
 ('Dana@mail.com', 'Dana Marcela', 'Cespedes Triana', '4505', 1, 0),
 ('DanielGa@mail.com', 'Daniel Mauricio', 'Chambo Gaviria', '3202114578', 1, 0),
 ('dfelipebr737@gmail.com', 'Damian Felipe', 'Bernal Rodriguez', '3112711553', 1, 0),
@@ -822,24 +886,32 @@ INSERT INTO `cotizante` (`Correo_Cotizante`, `Nombre_Cotizante`, `Apellido_Cotiz
 ('franro@htomail.com', 'Francisco', 'Rojas', '0321457', 0, 0),
 ('Guillermo@mail.com', 'Guillermo', 'Camacho', '789632', 0, 0),
 ('guillermoisa@mail.com', 'Guillermo', 'Izasa', '875432', 0, 0),
+('hamilton@mail.com', 'Hamilton', 'Sena', '3204589878', 0, 0),
+('harrilo@gmail.com', 'Harrison ', 'Berrio', '3124589874', 0, 0),
 ('harrilo@mail.com', 'Harrison ', 'Lopez', '985421', 1, 0),
 ('Javier@mail.com', 'Javier', 'Rodriguez', '78523', 0, 0),
 ('jgalvis@mail.com', 'Julio', 'Galvis', '3213654987', 0, 0),
+('juan.perez@example.com', 'Juan', 'Perez Gomez', '1234567890', 0, 0),
 ('Juliomar@mail.com', 'Julio', 'Martinez', '1230', 1, 0),
 ('Kevinsa@mail.com', 'Kevin', 'Salazar', '784512', 1, 0),
 ('kevinsanty@mail.com', 'Kevin Santiago', 'Gonzalez Romero', '3112458975', 1, 0),
+('Klie@mail.com', 'Kylie', 'Jenner', '3025487854', 0, 0),
+('liann04209@gmail.com', 'Yamile', 'Rodriguez', '3123730728', 1, 0),
 ('loreber@mail.com', 'Daiyan Lorena', 'Berrio Rodriguez', '3112754521', 1, 0),
 ('mariamartinez2@gmail.com', 'maria', 'martinez', '12345', 1, 0),
 ('mariamartinez@gmail.com', 'Maria', 'Martinez', '3224532545', 1, 0),
+('Marias@mail.com', 'Maria', 'Santa', '3012548796', 0, 0),
 ('mauriciotorres@gmail.com', 'Mauricio', 'Torres', '3229851236', 1, 0),
+('Newton@mail.com', 'Isaac', 'Newton', '3021547', 0, 0),
 ('Oreo@mail.com', 'Oreo', 'Rodriguez', '875432', 1, 0),
 ('pepitoperez@gmail.com', 'Pepito', 'Perez', '3224569875', 1, 0),
 ('reamm@mail.com', 'Ramm', 'Einstein', '10325', 1, 0),
+('ruizh@mail.com', 'Hamilto', 'Ruiz', '3112015487', 0, 0),
 ('santiagocastellanos@gmail.com', 'Santiago', 'Castellanos', '3112365478', 1, 0),
 ('tom@mail.com', 'tom marvolo', 'holland', '3114758965', 0, 0),
 ('valentinapaez@gmail.com', 'Valentina', 'Paez', '3102548965', 1, 0),
 ('vivian@mail.com', 'Vivian', 'Hincapie', '87541', 0, 0),
-('weekend@mail.co', 'Abel', 'Testafaye', '876532', 0, 0),
+('weekend@mail.co', 'Abel', 'Testafaye', '876532', 1, 0),
 ('Yolgei@mail.com', 'Yolgei', 'Bacca', '3112547470', 0, 0),
 ('Zharick@mail.com', 'Zharick', 'Serna', '875421', 0, 0);
 
@@ -886,25 +958,28 @@ CREATE TABLE `evento` (
   `Administrador_idAdministrador` int(11) NOT NULL,
   `Cotizacion_No_Cotizacion` char(7) NOT NULL,
   `Cliente_idCliente` char(5) NOT NULL,
-  `Precio_Final` int(11) NOT NULL
+  `Precio_Final` int(11) NOT NULL,
+  `encuesta_enviada` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `evento`
 --
 
-INSERT INTO `evento` (`idEvento`, `Tipo_evento`, `Valor_evento`, `Fecha_evento`, `Estado_evento`, `Descripcion_evento`, `Administrador_idAdministrador`, `Cotizacion_No_Cotizacion`, `Cliente_idCliente`, `Precio_Final`) VALUES
-(1, 'Xv años', 5500000, '2023-10-25 10:30:00', 'Activo', 'Decoración totalmente neón, centros de mesa con ramosde flores fluorecentes, protocolo clasico, mariachis sorpresa\r\n  intervencion del padre, regalo de la madre, comida, hora loca, bebidas, fin', 1, 'COT1001', 'CL001', 0),
-(2, 'Grado', 8000000, '2024-06-23 06:00:00', 'Activo', 'Graduacion ingeniero aeronautico, ubicado en un avion dentro del hangar del aeropuerto, decoracion clasica, comida basica', 1, 'COT1002', 'CL002', 0),
-(3, 'Boda', 3000000, '2024-02-03 02:00:00', 'Activo', 'Decoracion a blanco y negro, protocolo clasico, regal sorpresa de la familiade la novia', 1, 'COT1003', 'CL003', 0),
-(4, 'Bautizo', 2500000, '2023-07-15 07:30:00', 'Activo', 'Bautizo clasico, comida con 3 carnes y 2 bebidas', 1, 'COT1004', 'CL004', 0),
-(5, 'Xv años', 5000000, '2023-12-30 12:45:00', 'Activo', 'Ratatouille con vino añejo', 1, 'COT1005', 'CL005', 0),
-(14, 'Bautizo', 248000, '2024-07-11 18:30:00', 'Activo', NULL, 1, 'COT1019', 'CL017', 248000),
-(15, 'Comunion', 937000, '2024-07-07 17:30:00', 'Activo', NULL, 1, 'COT1016', 'CL031', 937000),
-(16, 'XV años', 222000, '2024-06-21 16:00:00', 'Realizado', NULL, 1, 'COT1018', 'CL020', 222000),
-(17, 'Bautizo', 594000, '2024-06-21 14:00:00', 'Activo', 'Miau', 1, 'COT1021', 'CL032', 594000),
-(18, 'XVaÃ±os', 247000, '2024-07-27 20:30:00', 'Activo', NULL, 1, 'COT1023', 'CL033', 247000),
-(19, 'Grado', 135100, '2025-01-05 12:00:00', 'Activo', NULL, 1, 'COT1038', 'CL015', 135100);
+INSERT INTO `evento` (`idEvento`, `Tipo_evento`, `Valor_evento`, `Fecha_evento`, `Estado_evento`, `Descripcion_evento`, `Administrador_idAdministrador`, `Cotizacion_No_Cotizacion`, `Cliente_idCliente`, `Precio_Final`, `encuesta_enviada`) VALUES
+(1, 'Xv años', 5500000, '2023-10-25 10:30:00', 'Realizado', 'Decoración totalmente neón, centros de mesa con ramosde flores fluorecentes, protocolo clasico, mariachis sorpresa\r\n  intervencion del padre, regalo de la madre, comida, hora loca, bebidas, fin', 1, 'COT1001', 'CL001', 0, 1),
+(2, 'Grado', 0, '2024-06-23 06:00:00', 'Activo', 'Graduacion ingeniero aeronautico, ubicado en un avion dentro del hangar del aeropuerto, decoracion clasica, comida basica', 1, 'COT1002', 'CL002', 0, 0),
+(3, 'Boda', 3000000, '2024-02-03 02:00:00', 'Realizado', 'Decoracion a blanco y negro, protocolo clasico, regal sorpresa de la familiade la novia', 1, 'COT1003', 'CL003', 0, 1),
+(4, 'Bautizo', 2500000, '2023-07-15 07:30:00', 'Realizado', 'Bautizo clasico, comida con 3 carnes y 2 bebidas', 1, 'COT1004', 'CL004', 0, 1),
+(5, 'Xv años', 5000000, '2023-12-30 12:45:00', 'Realizado', 'Ratatouille con vino añejo', 1, 'COT1005', 'CL005', 0, 1),
+(14, 'Bautizo', 248000, '2024-07-11 18:30:00', 'Activo', NULL, 1, 'COT1019', 'CL017', 248000, 0),
+(15, 'Comunion', 937000, '2024-07-07 17:30:00', 'Activo', NULL, 1, 'COT1016', 'CL031', 937000, 0),
+(16, 'XV años', 222000, '2024-06-21 16:00:00', 'Realizado', NULL, 1, 'COT1018', 'CL020', 222000, 1),
+(17, 'Bautizo', 496000, '2024-06-21 14:00:00', 'Activo', 'Miau', 1, 'COT1021', 'CL032', 496000, 0),
+(18, 'XVaÃ±os', 247000, '2024-07-27 20:30:00', 'Activo', NULL, 1, 'COT1023', 'CL033', 247000, 0),
+(19, 'Grado', 112800, '2025-01-05 12:00:00', 'Realizado', 'Descripcion corta', 1, 'COT1038', 'CL015', 112800, 1),
+(20, 'Grado', 247000, '2024-06-20 20:30:00', 'Activo', 'Descripcion corta', 1, 'COT1024', 'CL037', 247000, 0),
+(22, 'Bautizo', 867000, '2024-11-01 14:00:00', 'Realizado', 'Descripcion corta', 1, 'COT1051', 'CL038', 867000, 1);
 
 --
 -- Disparadores `evento`
@@ -964,8 +1039,8 @@ INSERT INTO `evento_servicio` (`Evento_idEvento`, `Servicio_idServicio`, `Cantid
 (16, 'S07', 30, 36000),
 (16, 'S20', 30, 30000),
 (17, 'S01', 10, 70000),
-(17, 'S03', 10, 35000),
-(17, 'S05', 10, 100000),
+(17, 'S03', 2, 7000),
+(17, 'S05', 3, 30000),
 (17, 'S07', 10, 12000),
 (17, 'S20', 30, 30000),
 (17, 'S12', 2, 90000),
@@ -977,12 +1052,23 @@ INSERT INTO `evento_servicio` (`Evento_idEvento`, `Servicio_idServicio`, `Cantid
 (18, 'S05', 10, 100000),
 (18, 'S07', 10, 12000),
 (18, 'S20', 30, 30000),
-(19, 'S01', 3, 21000),
-(19, 'S03', 3, 10500),
+(19, 'S01', 1, 7000),
+(19, 'S03', 2, 7000),
 (19, 'S05', 3, 30000),
-(19, 'S07', 3, 3600),
-(19, 'S021', 1, 10000),
-(19, 'S20', 30, 60000);
+(19, 'S07', 4, 4800),
+(19, 'S021', 5, 50000),
+(19, 'S20', 7, 14000),
+(20, 'S01', 1, 7000),
+(20, 'S03', 2, 7000),
+(20, 'S05', 3, 30000),
+(20, 'S07', 4, 4800),
+(20, 'S20', 5, 10000),
+(22, 'S01', 10, 70000),
+(22, 'S03', 10, 35000),
+(22, 'S05', 10, 100000),
+(22, 'S07', 10, 12000),
+(22, 'S09', 1, 50000),
+(22, 'S15', 10, 600000);
 
 -- --------------------------------------------------------
 
@@ -1013,7 +1099,8 @@ INSERT INTO `pagos` (`No_Pagos`, `Referente`, `Nombre_Pagos`, `Apellido_Pagos`, 
 ('P0005', 2, 'Mauricio', 'Torres', '2023-08-02 02:30:00', 450000, 3, 'CL003'),
 ('P0006', 2, 'Pepito', 'Perez', '2024-05-20 04:52:00', 50000, 1, 'CL001'),
 ('P0007', 3, 'Pepito', 'Perez', '2024-05-19 03:30:00', 50000, 1, 'CL001'),
-('P0008', 4, 'Pepito', 'Perez', '2024-05-18 03:30:00', 500000, 1, 'CL001');
+('P0008', 4, 'Pepito', 'Perez', '2024-05-18 03:30:00', 500000, 1, 'CL001'),
+('P0009', 1, 'Damian', 'Bernal', '2024-06-17 00:00:00', 50000, 19, 'CL015');
 
 --
 -- Disparadores `pagos`
@@ -1082,6 +1169,7 @@ INSERT INTO `servicio` (`idServicio`, `Valor_Servicio`, `Nombre_Servicio`, `Tipo
 ('S021', 10000, 'Vasos de plastico x30', 'Decoracion', 1),
 ('S022', 15000, 'Piñata', 'Decoracion', 1),
 ('S023', 10000, 'Sillas de metal', 'Mesas y sillas', 1),
+('S024', 10000, 'Espuma artificial', 'Decoracion', 0),
 ('S03', 3500, 'Forro y Cinta silla', 'Manteleria', 0),
 ('S04', 12000, 'Faldon', 'Manteleria', 0),
 ('S05', 10000, 'Mesa Rectangular ', 'Mesas y sillas', 0),
@@ -1287,7 +1375,7 @@ ALTER TABLE `servicio`
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `idEvento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idEvento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restricciones para tablas volcadas
@@ -1348,6 +1436,16 @@ ALTER TABLE `evento_servicio`
 ALTER TABLE `pagos`
   ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`Evento_idEvento`) REFERENCES `evento` (`idEvento`),
   ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`Evento_Cliente_idCliente`) REFERENCES `cliente` (`idCliente`);
+
+DELIMITER $$
+--
+-- Eventos
+--
+CREATE DEFINER=`root`@`localhost` EVENT `actualizar_estado_evento` ON SCHEDULE EVERY 1 HOUR STARTS '2024-06-15 21:13:16' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE evento
+  SET Estado_evento = 'Realizado'
+  WHERE Fecha_evento <= NOW() - INTERVAL 24 HOUR$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -78,9 +78,9 @@
                     </div>
                     <form id="formulario-servicio" onsubmit="return agregarServicio();">
                         <div class="modal-body">
-                            <input type="text" id="nombreServicio" name="nombreServicio" class="form-control mb-3" placeholder="Nombre Servicio">
-                            <input type="text" id="valorServicio" name="valorServicio" class="form-control mb-3" placeholder="Valor Servicio">
-                            <select id="tipoServicio" name="tipoServicio" class="form-control">
+                            <input type="text" id="nombreServicio" name="nombreServicio" class="form-control mb-3" placeholder="Nombre Servicio" required>
+                            <input type="text" id="valorServicio" name="valorServicio" class="form-control mb-3" placeholder="Valor Servicio" required>
+                            <select id="tipoServicio" name="tipoServicio" class="form-control" required>
                                 <option value="" selected disabled>Seleccionar</option>
                                 <option value="Manteleria">Manteleria</option>
                                 <option value="Mesas y sillas">Mesas y sillas</option>
