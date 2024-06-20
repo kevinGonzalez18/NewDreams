@@ -80,7 +80,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="contrasena">Contraseña:</label>
-                                <input type="password" class="form-control" id="contrasenaClt" name="contrasenaClt" required readonly>
+                                <input type="password" class="form-control" id="contrasenaClt" name="contrasenaClt" readonly required>
                                 <button type="button" class="btn btn-secondary" onclick="generarContrasena()">Generar Contraseña</button>
                             </div>
                         </div>

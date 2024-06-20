@@ -37,22 +37,22 @@
             <div class="row">
                 <div class="get-in-touch">
                     <h1 class="title">Datos Personales</h1>
-                    <form id="form2" class="contact-form row" action="PerfilClienteServlet?actualizarCliente=actualizarCliente" method="POST">
+                    <form id="form2" class="contact-form row" onsubmit="return actualizarDatos()">
                         <c:forEach var="cliente" items="${datos}">
                             <div class="form-field col-lg-6">
-                                <input name="name" id="name" class="input-text js-input" type="text" value="${cliente[1]}">
+                                <input name="name" id="name" class="input-text js-input" type="text" value="${cliente[1]}" required>
                                 <label class="label" for="name">Nombre</label>
                             </div>
                             <div class="form-field col-lg-6 ">
-                                <input name="last-name" id="last-name" class="input-text js-input" type="text" value="${cliente[2]}">
+                                <input name="last-name" id="last-name" class="input-text js-input" type="text" value="${cliente[2]}" required>
                                 <label class="label" for="last-name">Apellidos</label>
                             </div>
                             <div class="form-field col-lg-6 ">
-                                <input name="email" id="email" class="input-text js-input" type="email" value="${cliente[0]}" readonly >
+                                <input name="email" id="email" class="input-text js-input" type="email" value="${cliente[0]}" readonly>
                                 <label class="label" for="email">E-mail</label>
                             </div>
                             <div class="form-field col-lg-6 ">
-                                <input name="phone" id="phone" class="input-text js-input" type="text" value="${cliente[3]}">
+                                <input name="phone" id="phone" class="input-text js-input" type="text" value="${cliente[3]}" required>
                                 <label class="label" for="phone">Telefono</label>
                             </div>
                         </c:forEach>
