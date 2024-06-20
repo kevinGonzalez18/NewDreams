@@ -15,6 +15,7 @@ test\pruebaUnitaria13.class
 Controlador\EventoServlet.class
 Controlador\reestablecerContrasenaServlet.class
 Modelo\servicio.class
+test\pruebaUnitaria08.class
 Controlador\NuevaContrasenaServlet.class
 Controlador\PagoServlet.class
 Controlador\FormServlet$1.class
@@ -22,6 +23,7 @@ Modelo\PasswordHasher.class
 test\pruebaUnitaria01.class
 Modelo\SessionValidationFilter.class
 Modelo\cotizacionServicio.class
+test\pruebaUnitaria09.class
 Controlador\LogoutServlet.class
 Modelo\eventoServicio.class
 DAO\cotizacionServicioDAO.class

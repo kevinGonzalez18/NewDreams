@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\feli1\OneDrive\Documentos\NetBeansProjects\New_Dreams\src\main\java\test\pruebaUnitaria06.java
 C:\Users\feli1\OneDrive\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\comprobar.java
 C:\Users\feli1\OneDrive\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\PerfilClienteServlet.java
@@ -40,3 +41,45 @@ C:\Users\feli1\OneDrive\Documentos\NetBeansProjects\New_Dreams\src\main\java\Mod
 C:\Users\feli1\OneDrive\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\eventoServicioDAO.java
 C:\Users\feli1\OneDrive\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\NuevaContrasenaServlet.java
 C:\Users\feli1\OneDrive\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\cotizante.java
+=======
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\eventoServicio.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\LoginServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\cotizacionServicioDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\cliente.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\administradorDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\pagoDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\servicio.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\ClienteServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\reestablecerContrasenaServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\test\pruebaUnitaria08.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\EventoServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\comprobar.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\test\pruebaUnitaria05.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\PagoServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\test\pruebaUnitaria02.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\PdfGenerator.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\LogoutServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\pago.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\PerfilClienteServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\servicioDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\PasswordHasher.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\eventoServicioDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\CotizacionServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\conexion.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\test\pruebaUnitaria09.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\cotizacionDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\eventoDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\SessionValidationFilter.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\administrador.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\FormServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\cotizanteDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\ValidarOtpServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\NuevaContrasenaServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Controlador\PrincipalServlet.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\DAO\clienteDAO.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\cotizacionServicio.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\cotizante.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\test\pruebaUnitaria01.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\cotizacion.java
+C:\Users\kevin\OneDrive - SENA\Documentos\NetBeansProjects\New_Dreams\src\main\java\Modelo\evento.java
+>>>>>>> 4173f77741581ab3f0e8235867bf2003784c8055
